@@ -64,11 +64,12 @@ resource "aws_subnet" "private" {
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.default.id
   tags   = merge(var.tags, { "Name" = "${var.stack}-public" })
+}
 
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.default.id
-  }
+resource "aws_route" "public" {
+  route_table_id         = aws_route_table.public.id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = aws_internet_gateway.default.id
 }
 
 resource "aws_route_table_association" "public" {
@@ -84,11 +85,13 @@ resource "aws_route_table" "private" {
   tags = merge(
     var.tags, { "Name" = "${var.stack}-private-${local.az_ids[count.index]}" }
   )
+}
 
-  route {
-    cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.default[count.index].id
-  }
+resource "aws_route" "private" {
+  count                  = local.zones
+  route_table_id         = aws_route_table.private[count.index].id
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = aws_nat_gateway.default[count.index].id
 }
 
 resource "aws_route_table_association" "private" {
