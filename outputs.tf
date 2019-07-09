@@ -3,6 +3,11 @@ output "id" {
   description = "ID of the VPC"
 }
 
+output "cidr_block" {
+  value       = aws_vpc.default.cidr_block
+  description = "CIDR block of the VPC"
+}
+
 output "igw_id" {
   value       = aws_internet_gateway.default.id
   description = "ID of the Internet Gateway"
