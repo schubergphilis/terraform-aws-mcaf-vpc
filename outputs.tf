@@ -23,6 +23,11 @@ output "public_subnet_ids" {
   description = "IDs of the public subnets"
 }
 
+output "public_subnet_arns" {
+  value       = aws_subnet.public[*].arn
+  description = "ARNs of the public subnets"
+}
+
 output "public_subnet_cidr_blocks" {
   value       = aws_subnet.public[*].cidr_block
   description = "CIDR blocks of the public subnets"
@@ -36,6 +41,11 @@ output "public_route_table_id" {
 output "private_subnet_ids" {
   value       = aws_subnet.private[*].id
   description = "IDs of the private subnets"
+}
+
+output "private_subnet_arns" {
+  value       = aws_subnet.private[*].arn
+  description = "ARNs of the private subnets"
 }
 
 output "private_subnet_cidr_blocks" {
