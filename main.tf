@@ -39,7 +39,7 @@ resource "aws_nat_gateway" "default" {
 
 resource "aws_subnet" "public" {
   count                   = local.zones
-  cidr_block              = cidrsubnet(var.cidr_block, 8, count.index)
+  cidr_block              = cidrsubnet(var.cidr_block, var.extra_bits_per_subnet, count.index)
   availability_zone       = var.availability_zones[count.index]
   map_public_ip_on_launch = true
   vpc_id                  = aws_vpc.default.id
@@ -51,7 +51,7 @@ resource "aws_subnet" "public" {
 
 resource "aws_subnet" "private" {
   count                   = local.zones
-  cidr_block              = cidrsubnet(var.cidr_block, 8, count.index + local.zones)
+  cidr_block              = cidrsubnet(var.cidr_block, var.extra_bits_per_subnet, count.index + local.zones)
   availability_zone       = var.availability_zones[count.index]
   map_public_ip_on_launch = false
   vpc_id                  = aws_vpc.default.id
