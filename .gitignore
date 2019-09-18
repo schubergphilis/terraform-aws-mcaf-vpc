@@ -78,16 +78,3 @@ tf2json*
 
 # .tfvars files
 *.tfvars
-.idea/$PRODUCT_WORKSPACE_FILE$
-.idea/$PROJECT_FILE$
-.idea/.gitignore
-.idea/auto_sync.xml
-.idea/dictionaries
-.idea/inspectionProfiles/
-.idea/jsLibraryMappings.xml
-.idea/misc.xml
-.idea/modules.xml
-.idea/sasslintPlugin.xml
-.idea/sonarIssues.xml
-.idea/vagrant.xml
-.idea/vcs.xml
