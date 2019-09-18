@@ -70,8 +70,8 @@ resource "aws_subnet" "private" {
 }
 
 resource "aws_subnet" "lambda" {
-  count                   = local.lambda_subnet_count
-  cidr_block              = cidrsubnet(var.cidr_block, local.lambda_subnet_newbits, count.index + local.zones)
+  count                   = local.lambda_subnets
+  cidr_block              = cidrsubnet(var.cidr_block, local.lambda_subnet_newbits, count.index + (local.zones * 2))
   availability_zone       = var.availability_zones[count.index]
   map_public_ip_on_launch = false
   vpc_id                  = aws_vpc.default.id
