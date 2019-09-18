@@ -1,3 +1,74 @@
+# Packages
+*.egg
+*.egg-info
+/dist/
+/build/
+/eggs/
+/parts/
+/var/
+/sdist/
+/develop-eggs/
+.installed.cfg
+/lib/
+/lib64/
+/_build/Users/ctyfoxylos/tokens.json
+
+*.py[cod]
+
+# C extensions
+*.so
+
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+nosetests.xml
+htmlcov
+test-output
+
+# Translations
+*.mo
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
+
+# Complexity
+output/*.html
+output/*/index.html
+
+# Sphinx
+docs/_build
+
+# pyCharm
+.idea
+
+# terraform
+.terraform
+terraform.tfstate
+terraform.tfstate.backup
+
+# VirtualEnv
+.venv
+
+# Mac
+.DS_Store
+
+#Visual Studio Code
+.vscode
+
+# python env file
+.env
+
+# tf2json binary tool
+tf2json*
+
+# PyEnv
+.python-version
+
 #  Local .terraform directories
 **/.terraform/*
 
@@ -7,3 +78,16 @@
 
 # .tfvars files
 *.tfvars
+.idea/$PRODUCT_WORKSPACE_FILE$
+.idea/$PROJECT_FILE$
+.idea/.gitignore
+.idea/auto_sync.xml
+.idea/dictionaries
+.idea/inspectionProfiles/
+.idea/jsLibraryMappings.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/sasslintPlugin.xml
+.idea/sonarIssues.xml
+.idea/vagrant.xml
+.idea/vcs.xml
