@@ -57,3 +57,23 @@ output "private_route_table_ids" {
   value       = aws_route_table.private[*].id
   description = "IDs of the private route tables"
 }
+
+output "lambda_subnet_ids" {
+  value       = aws_subnet.lambda[*].id
+  description = "IDs of the Lambda subnets"
+}
+
+output "lambda_subnet_arns" {
+  value       = aws_subnet.lambda[*].arn
+  description = "ARNs of the Lambda subnets"
+}
+
+output "lambda_subnet_cidr_blocks" {
+  value       = aws_subnet.lambda[*].cidr_block
+  description = "CIDR blocks of the Lambda subnets"
+}
+
+output "lambda_route_table_ids" {
+  value       = aws_route_table.lambda[*].id
+  description = "IDs of the Lambda route tables"
+}
