@@ -33,7 +33,7 @@ output "public_subnet_cidr_blocks" {
   description = "CIDR blocks of the public subnets"
 }
 
-output "public_route_table_id" {
+output "public_route_table_ids" {
   value       = aws_route_table.public.id
   description = "ID of the public route table"
 }
