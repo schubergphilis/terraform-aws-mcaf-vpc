@@ -19,7 +19,7 @@ variable "tags" {
 }
 
 variable "extra_bits_per_subnet" {
-  type = number
-  default = 8
+  type        = number
+  default     = 8
   description = "The number of additional bits with which to extend the prefix, if given a prefix ending in /16 and a extra_bits_per_subnet value of 4, the resulting subnet address will have length /20"
 }
