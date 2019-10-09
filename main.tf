@@ -16,7 +16,7 @@ locals {
   newbits = concat(
     formatlist("%d", [for zone in var.availability_zones : local.public_newbits]),
     formatlist("%d", [for zone in var.availability_zones : local.private_newbits]),
-    formatlist("%d", [for subnet in local.lambda_subnets : local.lambda_newbits]),
+    formatlist("%d", [for subnet in range(local.lambda_subnets) : local.lambda_newbits]),
   )
 
   cidr_blocks = cidrsubnets(var.cidr_block, local.newbits...)
