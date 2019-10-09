@@ -1,14 +1,22 @@
 locals {
   az_ids          = [for zone in var.availability_zones : substr(zone, length(zone) - 1, 1)]
   lambda_subnets  = var.lambda_subnet ? local.zones : 0
-  vpc_subnet_bits = regex("\\/(\\d{1,2})$", var.cidr_block)[0]
+  vpc_subnet_bits = tonumber(regex("\\/(\\d{1,2})$", var.cidr_block)[0])
   zones           = length(var.availability_zones)
 
-  # Calculate the newbits as used by the cidrsubnet function.
-  # https://www.terraform.io/docs/configuration/functions/cidrsubnet.html
+  # Calculate the newbits as used by the cidrsubnets function.
+  # https://www.terraform.io/docs/configuration/functions/cidrsubnets.html
   private_newbits = var.private_subnet_bits - local.vpc_subnet_bits
   public_newbits  = var.public_subnet_bits - local.vpc_subnet_bits
   lambda_newbits  = var.lambda_subnet_bits - local.vpc_subnet_bits
+
+  # Build the new-bits list of all the subnets used. The "formatlist" is needed to work around a Terraform bug:
+  # https://github.com/hashicorp/terraform/issues/22576 / https://github.com/hashicorp/terraform/issues/22404
+  mandatory_subnets = concat(formatlist("%d", [for az in var.availability_zones: local.public_newbits]), formatlist("%d", [for az in var.availability_zones: local.private_newbits]))
+  # Add Lambda's if specified
+  all_subnets = var.lambda_subnet ? concat(local.mandatory_subnets, formatlist("%d", [for az in var.availability_zones: local.lambda_newbits])) : local.mandatory_subnets
+
+  cidr_subnets = cidrsubnets(var.cidr_block, local.all_subnets...)  
 }
 
 resource "aws_vpc" "default" {
@@ -47,7 +55,7 @@ resource "aws_nat_gateway" "default" {
 
 resource "aws_subnet" "public" {
   count                   = local.zones
-  cidr_block              = cidrsubnet(var.cidr_block, local.public_newbits, count.index)
+  cidr_block              = local.cidr_subnets[count.index]
   availability_zone       = var.availability_zones[count.index]
   map_public_ip_on_launch = true
   vpc_id                  = aws_vpc.default.id
@@ -59,7 +67,7 @@ resource "aws_subnet" "public" {
 
 resource "aws_subnet" "private" {
   count                   = local.zones
-  cidr_block              = cidrsubnet(var.cidr_block, local.private_newbits, count.index + local.zones)
+  cidr_block              = local.cidr_subnets[local.zones + count.index]
   availability_zone       = var.availability_zones[count.index]
   map_public_ip_on_launch = false
   vpc_id                  = aws_vpc.default.id
@@ -71,7 +79,7 @@ resource "aws_subnet" "private" {
 
 resource "aws_subnet" "lambda" {
   count                   = local.lambda_subnets
-  cidr_block              = cidrsubnet(var.cidr_block, local.lambda_newbits, 1 + count.index)
+  cidr_block              = local.cidr_subnets[local.zones + local.zones + count.index]
   availability_zone       = var.availability_zones[count.index]
   map_public_ip_on_launch = false
   vpc_id                  = aws_vpc.default.id
