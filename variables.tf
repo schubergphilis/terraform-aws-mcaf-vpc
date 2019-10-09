@@ -13,7 +13,7 @@ variable "availability_zones" {
   description = "A list of availability zones for the subnets"
 }
 
-variable "lambda_subnet" {
+variable "lambda_subnets" {
   type        = bool
   default     = false
   description = "Whether to create a subnet for Lambda functions running in the VPC"

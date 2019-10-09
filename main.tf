@@ -1,6 +1,6 @@
 locals {
   az_ids          = [for zone in var.availability_zones : substr(zone, length(zone) - 1, 1)]
-  lambda_subnets  = var.lambda_subnet ? local.zones : 0
+  lambda_subnets  = var.lambda_subnets ? local.zones : 0
   vpc_subnet_bits = regex("\\/(\\d{1,2})$", var.cidr_block)[0]
   zones           = length(var.availability_zones)
 
