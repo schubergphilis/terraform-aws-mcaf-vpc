@@ -1,16 +1,11 @@
-variable "stack" {
-  type        = string
-  description = "The stack name for the VPC"
+variable "availability_zones" {
+  type        = list(string)
+  description = "A list of availability zones for the subnets"
 }
 
 variable "cidr_block" {
   type        = string
   description = "The CIDR block for the VPC"
-}
-
-variable "availability_zones" {
-  type        = list(string)
-  description = "A list of availability zones for the subnets"
 }
 
 variable "lambda_subnets" {
@@ -37,7 +32,22 @@ variable "private_subnet_bits" {
   description = "The number of bits used for the subnet mask"
 }
 
+variable "stack" {
+  type        = string
+  description = "The stack name for the VPC"
+}
+
 variable "tags" {
   type        = map(string)
   description = "A mapping of tags to assign to the resources"
+}
+
+variable "transferserver_endpoint" {
+  type = object({
+    security_group_ids  = list(string)
+    subnet_ids          = list(string)
+    private_dns_enabled = bool
+  })
+  default     = null
+  description = "Variables to provision a Transfer Server endpoint to the VPC."
 }
