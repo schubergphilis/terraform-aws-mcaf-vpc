@@ -42,7 +42,7 @@ variable "tags" {
   description = "A mapping of tags to assign to the resources"
 }
 
-variable "transferserver_endpoint" {
+variable "transfer_server_endpoint" {
   type = object({
     security_group_ids  = list(string)
     subnet_ids          = list(string)
