@@ -42,12 +42,12 @@ variable "tags" {
   description = "A mapping of tags to assign to the resources"
 }
 
-variable "transfer_server_endpoint" {
+variable "transfer_endpoint" {
   type = object({
     security_group_ids  = list(string)
     subnet_ids          = list(string)
     private_dns_enabled = bool
   })
   default     = null
-  description = "Variables to provision a Transfer Server endpoint to the VPC."
+  description = "Variables to provision a Transfer Server endpoint to the VPC"
 }
