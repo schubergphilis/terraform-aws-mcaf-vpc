@@ -16,7 +16,7 @@ variable "lambda_subnets" {
 
 variable "lambda_subnet_bits" {
   type        = number
-  default     = 19
+  default     = 24
   description = "The number of bits used for the subnet mask"
 }
 
