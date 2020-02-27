@@ -122,10 +122,10 @@ resource "aws_route_table" "private" {
 }
 
 resource "aws_route" "private" {
-  count                  = local.zones
+  count                  = var.private_only ? 0 : local.zones
   route_table_id         = aws_route_table.private[count.index].id
-  destination_cidr_block = var.private_only ? null : "0.0.0.0/0"
-  nat_gateway_id         = var.private_only ? null : aws_nat_gateway.default[count.index].id
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = aws_nat_gateway.default[count.index].id
 }
 
 resource "aws_route_table_association" "private" {
@@ -144,10 +144,10 @@ resource "aws_route_table" "lambda" {
 }
 
 resource "aws_route" "lambda" {
-  count                  = local.lambda_subnets
+  count                  = var.private_only ? 0 : local.lambda_subnets
   route_table_id         = aws_route_table.lambda[count.index].id
-  destination_cidr_block = var.private_only ? null : "0.0.0.0/0"
-  nat_gateway_id         = var.private_only ? null : aws_nat_gateway.default[count.index].id
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = aws_nat_gateway.default[count.index].id
 }
 
 resource "aws_route_table_association" "lambda" {
