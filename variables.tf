@@ -20,6 +20,12 @@ variable "lambda_subnet_bits" {
   description = "The number of bits used for the subnet mask"
 }
 
+variable "private_only" {
+  type        = bool
+  default     = false
+  description = "Whether we should create or not public facing resources"
+}
+
 variable "public_subnet_bits" {
   type        = number
   default     = 24
