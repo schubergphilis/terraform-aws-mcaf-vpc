@@ -1,8 +1,11 @@
 # mcaf-terraform-aws-vpc
 
-This module creates a VPC layout with private, (optional) public and lambda
+This module creates a VPC layout with private, public and lambda
 subnets. It also sets up by default the necessary networking components like
 gateways and routers.
+
+All subnets are optional so you can decide which ones make sense for your
+environment. See the examples directory for reference material.
 
 ```terraform
 module "full_vpc" {
