@@ -5,14 +5,16 @@ subnets. It also sets up by default the necessary networking components like
 gateways and routers.
 
 ```terraform
-module "private_vpc" {
-  source              = "git::git@github.com:schubergphilis/terraform-aws-mcaf-vpc.git"
+module "full_vpc" {
+  source              = "../../"
   stack               = "test"
-  cidr_block          = "10.0.0.0/8"
+  cidr_block          = "192.168.0.0/24"
   availability_zones  = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
-  private_only        = true
+  private_subnets     = true
+  private_subnet_bits = 28
+  public_subnets      = true
+  public_subnet_bits  = 28
   lambda_subnets      = false
-  private_subnet_bits = 16
 
   tags = {
     environment = "test"
