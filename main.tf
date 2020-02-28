@@ -125,14 +125,14 @@ resource "aws_route_table" "private" {
 }
 
 resource "aws_route" "private" {
-  count                  = local.should_private > 0 && local.should_public > 0 ? local.private_subnets : 0
+  count                  = local.should_private == 1 && local.should_public == 1 ? local.private_subnets : 0
   route_table_id         = aws_route_table.private[count.index].id
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = aws_nat_gateway.default[count.index].id
 }
 
 resource "aws_route_table_association" "private" {
-  count          = local.should_private > 0 && local.should_public > 0 ? local.private_subnets : 0
+  count          = local.private_subnets
   subnet_id      = aws_subnet.private[count.index].id
   route_table_id = aws_route_table.private[count.index].id
 }
@@ -147,14 +147,14 @@ resource "aws_route_table" "lambda" {
 }
 
 resource "aws_route" "lambda" {
-  count                  = local.should_lambda > 0 && local.should_public > 0 ? local.lambda_subnets : 0
+  count                  = local.should_lambda == 1 && local.should_public == 1 ? local.lambda_subnets : 0
   route_table_id         = aws_route_table.lambda[count.index].id
-  destination_cidr_block = local.should_public == 0 ? null : "0.0.0.0/0"
-  nat_gateway_id         = local.should_public == 0 ? null : aws_nat_gateway.default[count.index].id
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = aws_nat_gateway.default[count.index].id
 }
 
 resource "aws_route_table_association" "lambda" {
-  count          = local.should_lambda > 0 && local.should_public > 0 ? local.lambda_subnets : 0
+  count          = local.lambda_subnets
   subnet_id      = aws_subnet.lambda[count.index].id
   route_table_id = aws_route_table.lambda[count.index].id
 }
