@@ -1,24 +1,26 @@
 locals {
   az_ids          = [for zone in var.availability_zones : substr(zone, length(zone) - 1, 1)]
-  should_lambda   = var.lambda_subnets ? 1 : 0
-  should_private  = var.private_subnets ? 1 : 0
-  should_public   = var.public_subnets ? 1 : 0
-  lambda_subnets  = local.should_lambda * local.zones
-  private_subnets = local.should_private * local.zones
-  public_subnets  = local.should_public * local.zones
   vpc_subnet_bits = parseint(regex("\\/(\\d{1,2})$", var.cidr_block)[0], 10)
-  zones           = length(var.availability_zones)
+
+  # Determine how much of each type of subnet we want to create.
+  public_subnets  = var.public_subnet_bits != null ? length(var.availability_zones) : 0
+  private_subnets = var.private_subnet_bits != null ? length(var.availability_zones) : 0
+  lambda_subnets  = var.lambda_subnet_bits != null ? length(var.availability_zones) : 0
 
   # Calculate the newbits as used by the cidrsubnets function.
   # https://www.terraform.io/docs/configuration/functions/cidrsubnets.html
-  private_newbits = local.should_private == 0 ? [] : [for zone in var.availability_zones : var.private_subnet_bits - local.vpc_subnet_bits]
-  public_newbits = local.should_public == 0 ? [] : [for zone in var.availability_zones : var.public_subnet_bits - local.vpc_subnet_bits]
-  lambda_newbits = local.should_lambda == 0 ? [] : [for zone in var.availability_zones : var.lambda_subnet_bits - local.vpc_subnet_bits]
+  public_newbits  = local.public_subnets > 0 ? var.public_subnet_bits - local.vpc_subnet_bits : null
+  private_newbits = local.private_subnets > 0 ? var.private_subnet_bits - local.vpc_subnet_bits : null
+  lambda_newbits  = local.lambda_subnets > 0 ? var.lambda_subnet_bits - local.vpc_subnet_bits : null
 
   # Build a list of newbits for all the needed subnets.
   # The "formatlist" is needed to work around a Terraform bug:
   # https://github.com/hashicorp/terraform/issues/22404
-  newbits = formatlist("%d", concat(local.public_newbits, local.private_newbits, local.lambda_newbits))
+  newbits = concat(
+    formatlist("%d", [for subnet in range(local.public_subnets) : local.public_newbits]),
+    formatlist("%d", [for subnet in range(local.private_subnets) : local.private_newbits]),
+    formatlist("%d", [for subnet in range(local.lambda_subnets) : local.lambda_newbits]),
+  )
 
   # If you have a crash when calculating the subnets, please refer to:
   # https://github.com/hashicorp/terraform/issues/23841
@@ -34,7 +36,7 @@ resource "aws_vpc" "default" {
 }
 
 resource "aws_internet_gateway" "default" {
-  count  = local.should_public
+  count  = min(local.public_subnets, 1)
   vpc_id = aws_vpc.default.id
   tags   = merge(var.tags, { "Name" = "${var.stack}-igw" })
 }
@@ -97,13 +99,13 @@ resource "aws_subnet" "lambda" {
 }
 
 resource "aws_route_table" "public" {
-  count  = local.should_public
+  count  = min(local.public_subnets, 1)
   vpc_id = aws_vpc.default.id
   tags   = merge(var.tags, { "Name" = "${var.stack}-public" })
 }
 
 resource "aws_route" "public" {
-  count                  = local.should_public
+  count                  = min(local.public_subnets, 1)
   route_table_id         = aws_route_table.public[0].id
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = aws_internet_gateway.default[0].id
@@ -125,7 +127,7 @@ resource "aws_route_table" "private" {
 }
 
 resource "aws_route" "private" {
-  count                  = local.should_private == 1 && local.should_public == 1 ? local.private_subnets : 0
+  count                  = local.private_subnets > 0 && local.public_subnets > 0 ? local.private_subnets : 0
   route_table_id         = aws_route_table.private[count.index].id
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = aws_nat_gateway.default[count.index].id
@@ -147,7 +149,7 @@ resource "aws_route_table" "lambda" {
 }
 
 resource "aws_route" "lambda" {
-  count                  = local.should_lambda == 1 && local.should_public == 1 ? local.lambda_subnets : 0
+  count                  = local.lambda_subnets > 0 && local.public_subnets > 0 ? local.lambda_subnets : 0
   route_table_id         = aws_route_table.lambda[count.index].id
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = aws_nat_gateway.default[count.index].id

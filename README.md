@@ -13,11 +13,8 @@ module "full_vpc" {
   stack               = "test"
   cidr_block          = "192.168.0.0/24"
   availability_zones  = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
-  private_subnets     = true
-  private_subnet_bits = 28
-  public_subnets      = true
   public_subnet_bits  = 28
-  lambda_subnets      = false
+  private_subnet_bits = 28
 
   tags = {
     environment = "test"

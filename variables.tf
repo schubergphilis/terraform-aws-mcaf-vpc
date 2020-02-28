@@ -8,39 +8,21 @@ variable "cidr_block" {
   description = "The CIDR block for the VPC"
 }
 
-variable "lambda_subnets" {
-  type        = bool
-  default     = false
-  description = "Whether to create a subnet for Lambda functions running in the VPC"
-}
-
 variable "lambda_subnet_bits" {
   type        = number
-  default     = 24
+  default     = null
   description = "The number of bits used for the subnet mask"
-}
-
-variable "private_subnets" {
-  type        = bool
-  default     = true
-  description = "Whether to create a private subnet in the VPC"
 }
 
 variable "private_subnet_bits" {
   type        = number
-  default     = 24
+  default     = null
   description = "The number of bits used for the subnet mask"
-}
-
-variable "public_subnets" {
-  type        = bool
-  default     = true
-  description = "Whether to create a public subnet in the VPC"
 }
 
 variable "public_subnet_bits" {
   type        = number
-  default     = 24
+  default     = null
   description = "The number of bits used for the subnet mask"
 }
 
