@@ -6,26 +6,28 @@ provider "aws" {
 module "private_vpc" {
   source              = "../../"
   stack               = "test"
-  cidr_block          = "10.10.0.0/19"
+  cidr_block          = "192.168.0.0/24"
   availability_zones  = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
-  private_only        = true
+  private_subnets     = true
+  private_subnet_bits = 26
+  public_subnets      = false
   lambda_subnets      = false
-  private_subnet_bits = 22
 
   tags = {
     environment = "test"
   }
 }
 
-module "private_vpc_with_lambdas" {
+module "private_vpc_with_lambda" {
   source              = "../../"
   stack               = "test"
-  cidr_block          = "10.11.0.0/19"
+  cidr_block          = "192.168.1.0/24"
   availability_zones  = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
-  private_only        = true
+  private_subnets     = true
+  private_subnet_bits = 28
+  public_subnets      = false
   lambda_subnets      = true
-  private_subnet_bits = 22
-  lambda_subnet_bits  = 22
+  lambda_subnet_bits  = 28
 
   tags = {
     environment = "test"
