@@ -9,7 +9,7 @@ output "cidr_block" {
 }
 
 output "igw_id" {
-  value       = aws_internet_gateway.default.id
+  value       = aws_internet_gateway.default[*].id
   description = "ID of the Internet Gateway"
 }
 
@@ -54,7 +54,7 @@ output "public_subnet_cidr_blocks" {
 }
 
 output "public_route_table_id" {
-  value       = aws_route_table.public.id
+  value       = aws_route_table.public[*].id
   description = "ID of the public route table"
 }
 
