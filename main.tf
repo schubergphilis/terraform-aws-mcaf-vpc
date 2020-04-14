@@ -70,7 +70,9 @@ resource "aws_subnet" "public" {
   vpc_id                  = aws_vpc.default.id
 
   tags = merge(
-    var.tags, { "Name" = "${var.stack}-public-${local.az_ids[count.index]}" }
+    { "Name" = "${var.stack}-public-${local.az_ids[count.index]}" },
+    var.public_subnet_tags,
+    var.tags
   )
 }
 
@@ -82,7 +84,9 @@ resource "aws_subnet" "private" {
   vpc_id                  = aws_vpc.default.id
 
   tags = merge(
-    var.tags, { "Name" = "${var.stack}-private-${local.az_ids[count.index]}" }
+    { "Name" = "${var.stack}-private-${local.az_ids[count.index]}" },
+    var.private_subnet_tags,
+    var.tags
   )
 }
 

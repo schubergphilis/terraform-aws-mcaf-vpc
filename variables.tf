@@ -20,10 +20,22 @@ variable "private_subnet_bits" {
   description = "The number of bits used for the subnet mask"
 }
 
+variable "private_subnet_tags" {
+  type        = map(string)
+  default     = {}
+  description = "Additional tags to set on the private subnets"
+}
+
 variable "public_subnet_bits" {
   type        = number
   default     = null
   description = "The number of bits used for the subnet mask"
+}
+
+variable "public_subnet_tags" {
+  type        = map(string)
+  default     = {}
+  description = "Additional tags to set on the public subnets"
 }
 
 variable "stack" {
