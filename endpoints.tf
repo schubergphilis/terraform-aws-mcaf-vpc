@@ -9,7 +9,7 @@ resource "aws_vpc_endpoint" "transfer_server" {
   security_group_ids  = var.transfer_server.security_group_ids
   service_name        = data.aws_vpc_endpoint_service.transfer_server[0].service_name
   subnet_ids          = var.transfer_server.subnet_ids
-  tags                = merge(var.tags, { "Name" = "${var.stack}-transfer-server" })
+  tags                = merge(var.tags, { "Name" = "transfer-server-${var.domain_name}" })
   vpc_endpoint_type   = "Interface"
   vpc_id              = aws_vpc.default.id
 }

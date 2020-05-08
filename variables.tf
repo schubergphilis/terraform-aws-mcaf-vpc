@@ -38,9 +38,9 @@ variable "public_subnet_tags" {
   description = "Additional tags to set on the public subnets"
 }
 
-variable "stack" {
+variable "domain_name" {
   type        = string
-  description = "The stack name for the VPC"
+  description = "The workload name for the VPC if used in a workload context, the environment if used in a shared network context."
 }
 
 variable "tags" {
