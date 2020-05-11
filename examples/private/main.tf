@@ -5,7 +5,7 @@ provider "aws" {
 
 module "private_vpc" {
   source              = "../../"
-  context         = "test"
+  context             = "test"
   cidr_block          = "192.168.0.0/24"
   availability_zones  = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
   private_subnet_bits = 26

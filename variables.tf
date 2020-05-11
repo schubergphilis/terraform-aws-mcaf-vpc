@@ -8,6 +8,11 @@ variable "cidr_block" {
   description = "The CIDR block for the VPC"
 }
 
+variable "context" {
+  type        = string
+  description = "Used as part of the resource names to indicate they are created and used within a specific context"
+}
+
 variable "lambda_subnet_bits" {
   type        = number
   default     = null
@@ -36,11 +41,6 @@ variable "public_subnet_tags" {
   type        = map(string)
   default     = {}
   description = "Additional tags to set on the public subnets"
-}
-
-variable "context" {
-  type        = string
-  description = "The workload name for the VPC if used in a workload context, the environment if used in a shared network context."
 }
 
 variable "tags" {
