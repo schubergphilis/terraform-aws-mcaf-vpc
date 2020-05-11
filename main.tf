@@ -32,13 +32,13 @@ resource "aws_vpc" "default" {
   enable_dns_support   = true
   enable_dns_hostnames = true
   instance_tenancy     = "default"
-  tags                 = merge(var.tags, { "Name" = "vpc-${var.domain_name}" })
+  tags                 = merge(var.tags, { "Name" = "vpc-${var.context}" })
 }
 
 resource "aws_internet_gateway" "default" {
   count  = min(local.public_subnets, 1)
   vpc_id = aws_vpc.default.id
-  tags   = merge(var.tags, { "Name" = "igw-${var.domain_name}" })
+  tags   = merge(var.tags, { "Name" = "igw-${var.context}" })
 }
 
 resource "aws_eip" "nat" {
@@ -46,7 +46,7 @@ resource "aws_eip" "nat" {
   vpc   = true
 
   tags = merge(
-    var.tags, { "Name" = "eip-nat-${var.domain_name}-${local.az_ids[count.index]}" }
+    var.tags, { "Name" = "eip-nat-${var.context}-${local.az_ids[count.index]}" }
   )
 
   depends_on = [aws_internet_gateway.default]
@@ -58,7 +58,7 @@ resource "aws_nat_gateway" "default" {
   subnet_id     = aws_subnet.public[count.index].id
 
   tags = merge(
-    var.tags, { "Name" = "nat-${var.domain_name}-${local.az_ids[count.index]}" }
+    var.tags, { "Name" = "nat-${var.context}-${local.az_ids[count.index]}" }
   )
 }
 
@@ -70,7 +70,7 @@ resource "aws_subnet" "public" {
   vpc_id                  = aws_vpc.default.id
 
   tags = merge(
-    { "Name" = "subnet-${var.domain_name}-public-${local.az_ids[count.index]}" },
+    { "Name" = "subnet-${var.context}-public-${local.az_ids[count.index]}" },
     var.public_subnet_tags,
     var.tags
   )
@@ -84,7 +84,7 @@ resource "aws_subnet" "private" {
   vpc_id                  = aws_vpc.default.id
 
   tags = merge(
-    { "Name" = "subnet-${var.domain_name}-private-${local.az_ids[count.index]}" },
+    { "Name" = "subnet-${var.context}-private-${local.az_ids[count.index]}" },
     var.private_subnet_tags,
     var.tags
   )
@@ -98,14 +98,14 @@ resource "aws_subnet" "lambda" {
   vpc_id                  = aws_vpc.default.id
 
   tags = merge(
-    var.tags, { "Name" = "lambda-${var.domain_name}-${local.az_ids[count.index]}" }
+    var.tags, { "Name" = "lambda-${var.context}-${local.az_ids[count.index]}" }
   )
 }
 
 resource "aws_route_table" "public" {
   count  = min(local.public_subnets, 1)
   vpc_id = aws_vpc.default.id
-  tags   = merge(var.tags, { "Name" = "route-table-${var.domain_name}-public" })
+  tags   = merge(var.tags, { "Name" = "route-table-${var.context}-public" })
 }
 
 resource "aws_route" "public" {
@@ -126,7 +126,7 @@ resource "aws_route_table" "private" {
   vpc_id = aws_vpc.default.id
 
   tags = merge(
-    var.tags, { "Name" = "route-table-${var.domain_name}-private-${local.az_ids[count.index]}" }
+    var.tags, { "Name" = "route-table-${var.context}-private-${local.az_ids[count.index]}" }
   )
 }
 
@@ -148,7 +148,7 @@ resource "aws_route_table" "lambda" {
   vpc_id = aws_vpc.default.id
 
   tags = merge(
-    var.tags, { "Name" = "route-table-${var.domain_name}-lambda-${local.az_ids[count.index]}" }
+    var.tags, { "Name" = "route-table-${var.context}-lambda-${local.az_ids[count.index]}" }
   )
 }
 
