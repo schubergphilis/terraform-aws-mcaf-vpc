@@ -14,6 +14,11 @@ variable "lambda_subnet_bits" {
   description = "The number of bits used for the subnet mask"
 }
 
+variable "name" {
+  type        = string
+  description = "Used as part of the resource names to indicate they are created and used within a specific name"
+}
+
 variable "private_subnet_bits" {
   type        = number
   default     = null
@@ -36,11 +41,6 @@ variable "public_subnet_tags" {
   type        = map(string)
   default     = {}
   description = "Additional tags to set on the public subnets"
-}
-
-variable "stack" {
-  type        = string
-  description = "The stack name for the VPC"
 }
 
 variable "tags" {

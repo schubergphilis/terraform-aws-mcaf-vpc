@@ -5,7 +5,7 @@ provider "aws" {
 
 module "public_only_vpc" {
   source             = "../../"
-  stack              = "test"
+  name               = "test"
   cidr_block         = "192.168.0.0/24"
   availability_zones = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
   public_subnet_bits = 26
@@ -17,7 +17,7 @@ module "public_only_vpc" {
 
 module "public_vpc_with_lambda" {
   source             = "../../"
-  stack              = "test"
+  name               = "test"
   cidr_block         = "192.168.1.0/24"
   availability_zones = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
   public_subnet_bits = 28
