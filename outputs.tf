@@ -77,19 +77,3 @@ output "private_route_table_ids" {
   value       = aws_route_table.private[*].id
   description = "IDs of the private route tables"
 }
-
-output "sgp_ssm_endpoint_id" {
-  value = aws_security_group.sgp_ssm_endpoint.*.id
-}
-
-output "sgp_ec2messages_endpoint_id" {
-  value = aws_security_group.sgp_ec2messages_endpoint.*.id
-}
-
-output "sgp_ec2_endpoint_id" {
-  value = aws_security_group.sgp_ec2_endpoint.*.id
-}
-
-output "sgp_ssmmessages_endpoint_id" {
-  value = aws_security_group.sgp_ssmmessages_endpoint.*.id
-}
