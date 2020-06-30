@@ -69,9 +69,9 @@ variable "ssm_endpoint" {
     subnet_ids          = list(string)
     private_dns_enabled = bool
   })
-  default     = {security_group_ids = null,
-                 subnet_ids          = [],
-                 private_dns_enabled = false}
+  default = { security_group_ids = [],
+    subnet_ids = [],
+  private_dns_enabled = false }
   description = "Variables to provision an ssm endpoint to the VPC"
 }
 
@@ -81,9 +81,9 @@ variable "ec2messages_endpoint" {
     subnet_ids          = list(string)
     private_dns_enabled = bool
   })
-  default     = {security_group_ids = null,
-                 subnet_ids          = [],
-                 private_dns_enabled = false}
+  default = { security_group_ids = [],
+    subnet_ids = [],
+  private_dns_enabled = false }
   description = "Variables to provision an ec2messages endpoint to the VPC"
 }
 
@@ -93,9 +93,9 @@ variable "ec2_endpoint" {
     subnet_ids          = list(string)
     private_dns_enabled = bool
   })
-  default     = {security_group_ids = null,
-                 subnet_ids          = [],
-                 private_dns_enabled = false}
+  default = { security_group_ids = [],
+    subnet_ids = [],
+  private_dns_enabled = false }
   description = "Variables to provision an ec2 endpoint to the VPC"
 }
 
@@ -105,6 +105,8 @@ variable "ssmmessages_endpoint" {
     subnet_ids          = list(string)
     private_dns_enabled = bool
   })
-  default     = null
+  default = { security_group_ids = [],
+    subnet_ids = [],
+  private_dns_enabled = false }
   description = "Variables to provision an ssmmessages endpoint to the VPC"
 }
