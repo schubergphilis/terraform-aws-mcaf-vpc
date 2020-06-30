@@ -57,3 +57,56 @@ variable "transfer_server" {
   default     = null
   description = "Variables to provision a Transfer Server endpoint to the VPC"
 }
+
+variable "private_s3_endpoint" {
+  default     = false
+  description = "Deploy an s3 endpoint for your private subnets"
+}
+
+variable "ssm_endpoint" {
+  type = object({
+    security_group_ids  = list(string)
+    subnet_ids          = list(string)
+    private_dns_enabled = bool
+  })
+  default = { security_group_ids = [],
+    subnet_ids = [],
+  private_dns_enabled = false }
+  description = "Variables to provision an ssm endpoint to the VPC"
+}
+
+variable "ec2messages_endpoint" {
+  type = object({
+    security_group_ids  = list(string)
+    subnet_ids          = list(string)
+    private_dns_enabled = bool
+  })
+  default = { security_group_ids = [],
+    subnet_ids = [],
+  private_dns_enabled = false }
+  description = "Variables to provision an ec2messages endpoint to the VPC"
+}
+
+variable "ec2_endpoint" {
+  type = object({
+    security_group_ids  = list(string)
+    subnet_ids          = list(string)
+    private_dns_enabled = bool
+  })
+  default = { security_group_ids = [],
+    subnet_ids = [],
+  private_dns_enabled = false }
+  description = "Variables to provision an ec2 endpoint to the VPC"
+}
+
+variable "ssmmessages_endpoint" {
+  type = object({
+    security_group_ids  = list(string)
+    subnet_ids          = list(string)
+    private_dns_enabled = bool
+  })
+  default = { security_group_ids = [],
+    subnet_ids = [],
+  private_dns_enabled = false }
+  description = "Variables to provision an ssmmessages endpoint to the VPC"
+}

@@ -2,7 +2,7 @@ locals {
   az_ids          = [for zone in var.availability_zones : substr(zone, length(zone) - 1, 1)]
   vpc_subnet_bits = parseint(regex("\\/(\\d{1,2})$", var.cidr_block)[0], 10)
 
-  # Determine how much of each type of subnet we want to create.
+  # Determine how many of each type of subnet we want to create.
   public_subnets  = var.public_subnet_bits != null ? length(var.availability_zones) : 0
   private_subnets = var.private_subnet_bits != null ? length(var.availability_zones) : 0
   lambda_subnets  = var.lambda_subnet_bits != null ? length(var.availability_zones) : 0
