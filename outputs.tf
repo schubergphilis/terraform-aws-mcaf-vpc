@@ -79,17 +79,17 @@ output "private_route_table_ids" {
 }
 
 output "ec2_endpoint_security_group_ids" {
-  value = length(var.ec2_endpoint.security_group_ids) == 0 ? aws_security_group.sgp_ec2_endpoint.*.id : var.ec2_endpoint.security_group_ids
+  value = length(var.ec2_endpoint.security_group_ids) == 0 ? aws_security_group.ec2_endpoint.*.id : var.ec2_endpoint.security_group_ids
 }
 
 output "ec2messages_endpoint_security_group_ids" {
-  value = length(var.ec2messages_endpoint.security_group_ids) == 0 ? aws_security_group.sgp_ec2messages_endpoint.*.id : var.ec2messages_endpoint.security_group_ids
+  value = length(var.ec2messages_endpoint.security_group_ids) == 0 ? aws_security_group.ec2messages_endpoint.*.id : var.ec2messages_endpoint.security_group_ids
 }
 
 output "ssm_endpoint_security_group_ids" {
-  value = length(var.ssm_endpoint.security_group_ids) == 0 ? aws_security_group.sgp_ssm_endpoint.*.id : var.ssm_endpoint.security_group_ids
+  value = length(var.ssm_endpoint.security_group_ids) == 0 ? aws_security_group.ssm_endpoint.*.id : var.ssm_endpoint.security_group_ids
 }
 
 output "ssmmessages_endpoint_security_group_ids" {
-  value = length(var.ssmmessages_endpoint.security_group_ids) == 0 ? aws_security_group.sgp_ssmmessages_endpoint.*.id : var.ssmmessages_endpoint.security_group_ids
+  value = length(var.ssmmessages_endpoint.security_group_ids) == 0 ? aws_security_group.ssmmessages_endpoint.*.id : var.ssmmessages_endpoint.security_group_ids
 }
