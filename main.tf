@@ -27,6 +27,8 @@ locals {
   cidr_blocks = cidrsubnets(var.cidr_block, local.newbits...)
 }
 
+data "aws_region" "current" {}
+
 resource "aws_vpc" "default" {
   cidr_block           = var.cidr_block
   enable_dns_support   = true

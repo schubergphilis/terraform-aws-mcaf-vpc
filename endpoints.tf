@@ -14,9 +14,6 @@ resource "aws_vpc_endpoint" "transfer_server" {
   vpc_id              = aws_vpc.default.id
 }
 
-
-data "aws_region" "current" {}
-
 resource "aws_vpc_endpoint" "s3" {
   count             = var.private_s3_endpoint != false ? 1 : 0
   service_name      = "com.amazonaws.${data.aws_region.current.name}.s3"
