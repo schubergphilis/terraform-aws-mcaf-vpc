@@ -8,6 +8,12 @@ variable "cidr_block" {
   description = "The CIDR block for the VPC"
 }
 
+variable "enable_nat_gateway" {
+  type        = bool
+  default     = true
+  description = "Should be true to provision NAT Gateways for each private subnet"
+}
+
 variable "lambda_subnet_bits" {
   type        = number
   default     = null
