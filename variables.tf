@@ -8,6 +8,12 @@ variable "cidr_block" {
   description = "The CIDR block for the VPC"
 }
 
+variable "enable_nat_gateway" {
+  type        = bool
+  default     = true
+  description = "Set to true to provision a NAT Gateway for each private subnet"
+}
+
 variable "ec2_endpoint" {
   type = object({
     private_dns_enabled = bool
