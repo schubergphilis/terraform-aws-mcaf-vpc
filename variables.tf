@@ -15,7 +15,7 @@ variable "ec2_endpoint" {
     subnet_ids          = list(string)
   })
   default     = null
-  description = "Variables to provision an ec2 endpoint to the VPC"
+  description = "Variables to provision an EC2 endpoint to the VPC"
 }
 
 variable "ec2messages_endpoint" {
@@ -25,7 +25,7 @@ variable "ec2messages_endpoint" {
     subnet_ids          = list(string)
   })
   default     = null
-  description = "Variables to provision an ec2messages endpoint to the VPC"
+  description = "Variables to provision an EC2 messages endpoint to the VPC"
 }
 
 variable "enable_nat_gateway" {
@@ -71,7 +71,7 @@ variable "public_subnet_tags" {
 
 variable "private_s3_endpoint" {
   default     = false
-  description = "Deploy an s3 endpoint for your private subnets"
+  description = "Deploy an S3 endpoint for your private subnets"
 }
 
 variable "ssm_endpoint" {
@@ -81,7 +81,7 @@ variable "ssm_endpoint" {
     subnet_ids          = list(string)
   })
   default     = null
-  description = "Variables to provision an ssm endpoint to the VPC"
+  description = "Variables to provision an SSM endpoint to the VPC"
 }
 
 variable "ssmmessages_endpoint" {
@@ -91,7 +91,7 @@ variable "ssmmessages_endpoint" {
     subnet_ids          = list(string)
   })
   default     = null
-  description = "Variables to provision an ssmmessages endpoint to the VPC"
+  description = "Variables to provision an SSM messages endpoint to the VPC"
 }
 
 variable "tags" {

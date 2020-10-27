@@ -10,6 +10,7 @@ module "full_vpc" {
   cidr_block          = "192.168.0.0/24"
   private_subnet_bits = 28
   public_subnet_bits  = 28
+
   tags = {
     environment = "test"
   }
@@ -23,6 +24,7 @@ module "full_vpc_with_lambda" {
   lambda_subnet_bits  = 28
   private_subnet_bits = 28
   public_subnet_bits  = 28
+
   tags = {
     environment = "test"
   }
@@ -36,6 +38,7 @@ module "full_vpc_with_s3_endpoint" {
   private_s3_endpoint = true
   private_subnet_bits = 28
   public_subnet_bits  = 28
+
   tags = {
     environment = "test"
   }
@@ -48,9 +51,6 @@ module "full_vpc_with_ssm_endpoints" {
   cidr_block          = "192.168.1.0/24"
   private_subnet_bits = 28
   public_subnet_bits  = 28
-  tags = {
-    environment = "test"
-  }
 
   ec2_endpoint = {
     subnet_ids          = module.full_vpc_with_ssm_endpoints.private_subnet_ids
@@ -69,10 +69,14 @@ module "full_vpc_with_ssm_endpoints" {
     private_dns_enabled = true
     security_group_ids  = ["sg-09fa74asdf35a9517"]
   }
-  
+
   ssmmessages_endpoint = {
     subnet_ids          = module.full_vpc_with_ssm_endpoints.private_subnet_ids
     private_dns_enabled = true
     security_group_ids  = ["sg-09fa74asdf35a9517"]
+  }
+
+  tags = {
+    environment = "test"
   }
 }
