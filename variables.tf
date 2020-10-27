@@ -36,6 +36,12 @@ variable "ec2messages_endpoint" {
   description = "Variables to provision an ec2messages endpoint to the VPC"
 }
 
+variable "enable_nat_gateway" {
+  type        = bool
+  default     = true
+  description = "Set to true to provision a NAT Gateway for each private subnet"
+}
+
 variable "lambda_subnet_bits" {
   type        = number
   default     = null
