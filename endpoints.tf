@@ -27,31 +27,14 @@ resource "aws_vpc_endpoint" "s3" {
 
 # Resources for the ssm VPC interface endpoint
 data "aws_vpc_endpoint_service" "ssm_endpoint" {
-  count   = length(var.ssm_endpoint.subnet_ids) != 0 ? 1 : 0
+  count   = var.ssm_endpoint.subnet_ids != null ? 1 : 0
   service = "ssm"
 }
 
-resource "aws_security_group" "ssm_endpoint" {
-  count  = length(var.ssm_endpoint.security_group_ids) == 0 ? 1 : 0
-  name   = "sgp-ssm-endpoint-${var.name}"
-  vpc_id = aws_vpc.default.id
-  tags   = { Name = "sgp-ssm-endpoint-${var.name}" }
-}
-
-resource "aws_security_group_rule" "ssm_endpoint" {
-  count             = length(var.ssm_endpoint.security_group_ids) == 0 ? 1 : 0
-  cidr_blocks       = [aws_vpc.default.cidr_block]
-  from_port         = 443
-  protocol          = "tcp"
-  security_group_id = aws_security_group.ssm_endpoint[0].id
-  to_port           = 443
-  type              = "ingress"
-}
-
 resource "aws_vpc_endpoint" "ssm_endpoint" {
-  count               = length(var.ssm_endpoint.subnet_ids) != 0 ? 1 : 0
+  count               = var.ssm_endpoint.subnet_ids != null ? 1 : 0
   private_dns_enabled = var.ssm_endpoint.private_dns_enabled
-  security_group_ids  = length(var.ssm_endpoint.security_group_ids) == 0 ? [aws_security_group.ssm_endpoint[count.index].id] : var.ssm_endpoint.security_group_ids
+  security_group_ids  = var.ssm_endpoint.security_group_ids
   service_name        = data.aws_vpc_endpoint_service.ssm_endpoint[0].service_name
   subnet_ids          = var.ssm_endpoint.subnet_ids
   vpc_endpoint_type   = "Interface"
@@ -61,31 +44,14 @@ resource "aws_vpc_endpoint" "ssm_endpoint" {
 
 # Resources for the ec2messages VPC interface endpoint
 data "aws_vpc_endpoint_service" "ec2messages_endpoint" {
-  count   = length(var.ec2messages_endpoint.subnet_ids) != 0 ? 1 : 0
+  count   = var.ec2messages_endpoint.subnet_ids != null ? 1 : 0
   service = "ec2messages"
 }
 
-resource "aws_security_group" "ec2messages_endpoint" {
-  count  = length(var.ec2messages_endpoint.security_group_ids) == 0 ? 1 : 0
-  name   = "sgp-ec2messages-endpoint-${var.name}"
-  vpc_id = aws_vpc.default.id
-  tags   = { Name = "sgp-ec2messages-endpoint-${var.name}" }
-}
-
-resource "aws_security_group_rule" "ec2messages_endpoint" {
-  count             = length(var.ec2messages_endpoint.security_group_ids) == 0 ? 1 : 0
-  cidr_blocks       = [aws_vpc.default.cidr_block]
-  from_port         = 443
-  protocol          = "tcp"
-  security_group_id = aws_security_group.ec2messages_endpoint[0].id
-  to_port           = 443
-  type              = "ingress"
-}
-
 resource "aws_vpc_endpoint" "ec2messages_endpoint" {
-  count               = length(var.ec2messages_endpoint) != 0 ? 1 : 0
+  count               = var.ec2messages_endpoint != null ? 1 : 0
   private_dns_enabled = var.ec2messages_endpoint.private_dns_enabled
-  security_group_ids  = length(var.ec2messages_endpoint.security_group_ids) == 0 ? [aws_security_group.ec2messages_endpoint[count.index].id] : var.ec2messages_endpoint.security_group_ids
+  security_group_ids  = var.ec2messages_endpoint.security_group_ids
   service_name        = data.aws_vpc_endpoint_service.ec2messages_endpoint[0].service_name
   subnet_ids          = var.ec2messages_endpoint.subnet_ids
   vpc_endpoint_type   = "Interface"
@@ -95,31 +61,14 @@ resource "aws_vpc_endpoint" "ec2messages_endpoint" {
 
 # Resources for the ec2 VPC interface endpoint
 data "aws_vpc_endpoint_service" "ec2_endpoint" {
-  count   = length(var.ec2_endpoint.subnet_ids) != 0 ? 1 : 0
+  count   = var.ec2_endpoint.subnet_ids != null ? 1 : 0
   service = "ec2"
 }
 
-resource "aws_security_group" "ec2_endpoint" {
-  count  = length(var.ec2_endpoint.security_group_ids) == 0 ? 1 : 0
-  name   = "sgp-ec2-endpoint-${var.name}"
-  vpc_id = aws_vpc.default.id
-  tags   = { Name = "sgp-ec2-endpoint-${var.name}" }
-}
-
-resource "aws_security_group_rule" "ec2_endpoint" {
-  count             = length(var.ec2_endpoint.security_group_ids) == 0 ? 1 : 0
-  cidr_blocks       = [aws_vpc.default.cidr_block]
-  from_port         = 443
-  protocol          = "tcp"
-  security_group_id = aws_security_group.ec2_endpoint[0].id
-  to_port           = 443
-  type              = "ingress"
-}
-
 resource "aws_vpc_endpoint" "ec2_endpoint" {
-  count               = length(var.ec2_endpoint.subnet_ids) != 0 ? 1 : 0
+  count               = var.ec2_endpoint.subnet_ids != null ? 1 : 0
   private_dns_enabled = var.ec2_endpoint.private_dns_enabled
-  security_group_ids  = length(var.ec2_endpoint.security_group_ids) == 0 ? [aws_security_group.ec2_endpoint[count.index].id] : var.ec2_endpoint.security_group_ids
+  security_group_ids  = var.ec2_endpoint.security_group_ids
   service_name        = data.aws_vpc_endpoint_service.ec2_endpoint[0].service_name
   subnet_ids          = var.ec2_endpoint.subnet_ids
   vpc_endpoint_type   = "Interface"
@@ -129,31 +78,14 @@ resource "aws_vpc_endpoint" "ec2_endpoint" {
 
 # Resources for the ssmmessages VPC interface endpoint
 data "aws_vpc_endpoint_service" "ssmmessages_endpoint" {
-  count   = length(var.ssmmessages_endpoint.subnet_ids) != 0 ? 1 : 0
+  count   = var.ssmmessages_endpoint != null ? 1 : 0
   service = "ssmmessages"
 }
 
-resource "aws_security_group" "ssmmessages_endpoint" {
-  count  = length(var.ssmmessages_endpoint.security_group_ids) == 0 ? 1 : 0
-  name   = "sgp-ssmmessages-endpoint-${var.name}"
-  vpc_id = aws_vpc.default.id
-  tags   = { Name = "sgp-ssmmessages-endpoint-${var.name}" }
-}
-
-resource "aws_security_group_rule" "ssmmessages_endpoint" {
-  count             = length(var.ssmmessages_endpoint.security_group_ids) == 0 ? 1 : 0
-  cidr_blocks       = [aws_vpc.default.cidr_block]
-  from_port         = 443
-  protocol          = "tcp"
-  security_group_id = aws_security_group.ssmmessages_endpoint[0].id
-  to_port           = 443
-  type              = "ingress"
-}
-
 resource "aws_vpc_endpoint" "ssmmessages_endpoint" {
-  count               = length(var.ssmmessages_endpoint.subnet_ids) != 0 ? 1 : 0
+  count               = var.ssmmessages_endpoint.subnet_ids != null ? 1 : 0
   private_dns_enabled = var.ssmmessages_endpoint.private_dns_enabled
-  security_group_ids  = length(var.ssmmessages_endpoint.security_group_ids) == 0 ? [aws_security_group.ssmmessages_endpoint[count.index].id] : var.ssmmessages_endpoint.security_group_ids
+  security_group_ids  = var.ssmmessages_endpoint.security_group_ids
   service_name        = data.aws_vpc_endpoint_service.ssmmessages_endpoint[0].service_name
   subnet_ids          = var.ssmmessages_endpoint.subnet_ids
   vpc_endpoint_type   = "Interface"
