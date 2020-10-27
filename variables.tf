@@ -28,7 +28,7 @@ variable "name" {
 variable "prepend_resource_type" {
   type        = bool
   default     = false
-  description = "If set it will prepend the recourse type on the name of the recourse."
+  description = "If set it will prepend the resource type on the name of the resource."
 }
 
 variable "private_subnet_bits" {
