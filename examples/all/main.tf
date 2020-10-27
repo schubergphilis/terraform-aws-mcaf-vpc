@@ -55,24 +55,24 @@ module "full_vpc_with_ssm_endpoints" {
   ec2_endpoint = {
     subnet_ids          = module.full_vpc_with_ssm_endpoints.private_subnet_ids
     private_dns_enabled = true
-    security_group_ids  = []
+    security_group_ids  = ["sg-09fa74asdf35a9517"]
   }
 
   ec2messages_endpoint = {
     subnet_ids          = module.full_vpc_with_ssm_endpoints.private_subnet_ids
     private_dns_enabled = true
-    security_group_ids  = []
+    security_group_ids  = ["sg-09fa74asdf35a9517"]
   }
 
   ssm_endpoint = {
     subnet_ids          = module.full_vpc_with_ssm_endpoints.private_subnet_ids
     private_dns_enabled = true
-    security_group_ids  = []
+    security_group_ids  = ["sg-09fa74asdf35a9517"]
   }
   
   ssmmessages_endpoint = {
     subnet_ids          = module.full_vpc_with_ssm_endpoints.private_subnet_ids
     private_dns_enabled = true
-    security_group_ids  = []
+    security_group_ids  = ["sg-09fa74asdf35a9517"]
   }
 }
