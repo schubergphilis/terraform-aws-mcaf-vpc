@@ -98,7 +98,7 @@ resource "aws_subnet" "lambda" {
   vpc_id                  = aws_vpc.default.id
 
   tags = merge(
-    var.tags, { "Name" = "${var.prepend_resource_type ? "subnet-" : ""}lambda-${var.name}-${local.az_ids[count.index]}" }
+    var.tags, { "Name" = "${var.prepend_resource_type ? "subnet-" : ""}${var.name}-lambda-${local.az_ids[count.index]}" }
   )
 }
 
