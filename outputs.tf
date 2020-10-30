@@ -13,6 +13,11 @@ output "igw_id" {
   description = "ID of the Internet Gateway"
 }
 
+output "name" {
+  value       = var.name
+  description = "The name provided for the VPC"
+}
+
 output "nat_gateway_ids" {
   value       = aws_nat_gateway.default[*].id
   description = "IDs of the NAT gateways"
