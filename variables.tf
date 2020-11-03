@@ -102,6 +102,12 @@ variable "share_public_subnets" {
   description = "If set it will share the public subnets through resource access manager"
 }
 
+variable "subnet_sharing_custom_tags" {
+  type        = map
+  default     = {}
+  description = "Custom tags to be set to a resource share for subnets"
+}
+
 variable "ssm_endpoint" {
   type = object({
     private_dns_enabled = bool
