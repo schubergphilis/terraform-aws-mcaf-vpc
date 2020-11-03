@@ -34,6 +34,16 @@ variable "enable_nat_gateway" {
   description = "Set to true to provision a NAT Gateway for each private subnet"
 }
 
+variable "flow_logs" {
+  type = object({
+    retention_in_days = number
+    traffic_type      = string
+    iam_role_name     = string
+  })
+  default     = null
+  description = "Variables to enable flow logs for the VPC"
+}
+
 variable "lambda_subnet_bits" {
   type        = number
   default     = null
@@ -78,6 +88,18 @@ variable "public_subnet_tags" {
 variable "private_s3_endpoint" {
   default     = false
   description = "Deploy an S3 endpoint for your private subnets"
+}
+
+variable "share_private_subnets" {
+  type        = bool
+  default     = false
+  description = "If set it will share the private subnets through resource access manager"
+}
+
+variable "share_public_subnets" {
+  type        = bool
+  default     = false
+  description = "If set it will share the public subnets through resource access manager"
 }
 
 variable "ssm_endpoint" {
