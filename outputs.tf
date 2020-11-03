@@ -84,11 +84,11 @@ output "private_route_table_ids" {
 }
 
 output "subnet_share_id" {
-  value       =  var.share_public_subnets || var.share_private_subnets  ? aws_ram_resource_share.subnet_sharing[0].id : ""
+  value       = var.share_public_subnets || var.share_private_subnets ? aws_ram_resource_share.subnet_sharing[0].id : ""
   description = "The ID of the subnet share in resource access manager if any"
 }
 
 output "subnet_share_arn" {
-  value       =  var.share_public_subnets || var.share_private_subnets  ? aws_ram_resource_share.subnet_sharing[0].arn : ""
+  value       = var.share_public_subnets || var.share_private_subnets ? aws_ram_resource_share.subnet_sharing[0].arn : ""
   description = "The ARN of the subnet share in resource access manager if any"
 }
