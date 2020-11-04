@@ -1,5 +1,5 @@
 module "subnet_sharing" {
-  source                = "git@git@github.com:schubergphilis/terraform-aws-mcaf-subnet-sharing.git?ref=v0.1.0"
+  source                = "git@github.com:schubergphilis/terraform-aws-mcaf-subnet-sharing.git?ref=v0.2.0"
   count                 = var.share_public_subnets || var.share_private_subnets ? 1 : 0
   name                  = var.name
   private_subnet_arns   = var.share_private_subnets ? toset(aws_subnet.private[*].arn) : []
