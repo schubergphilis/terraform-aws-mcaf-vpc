@@ -16,48 +16,28 @@ data "aws_iam_policy_document" "log_stream_action" {
   }
 }
 
-data "aws_iam_policy_document" "log_stream_trust" {
-  statement {
-    effect = "Allow"
-
-    actions = [
-      "sts:AssumeRole",
-    ]
-
-    principals {
-      type = "Service"
-
-      identifiers = [
-        "vpc-flow-logs.amazonaws.com",
-      ]
-    }
-  }
+module "flow_logs_role" {
+  count                 = var.flow_logs != null ? 1 : 0
+  source                = "github.com/schubergphilis/terraform-aws-mcaf-role?ref=v0.3.0"
+  name                  = var.flow_logs.iam_role_name
+  principal_type        = "Service"
+  principal_identifiers = ["vpc-flow-logs.amazonaws.com"]
+  role_policy           = data.aws_iam_policy_document.log_stream_action.json
+  postfix               = var.postfix
+  tags                  = var.tags
 }
 
 resource "aws_cloudwatch_log_group" "flow_logs" {
   count             = var.flow_logs != null ? 1 : 0
   name              = "vpc-flow-logs-${var.name}"
   retention_in_days = var.flow_logs.retention_in_days
-  tags              = {}
+  tags              = var.tags
 }
 
 resource "aws_flow_log" "flow_logs" {
   count           = var.flow_logs != null ? 1 : 0
-  iam_role_arn    = aws_iam_role.flow_logs[count.index].arn
+  iam_role_arn    = module.flow_logs_role[count.index].arn
   log_destination = aws_cloudwatch_log_group.flow_logs[count.index].arn
   traffic_type    = var.flow_logs.traffic_type
   vpc_id          = aws_vpc.default.id
-}
-
-resource "aws_iam_role" "flow_logs" {
-  count              = var.flow_logs != null ? 1 : 0
-  name               = var.flow_logs.iam_role_name
-  assume_role_policy = data.aws_iam_policy_document.log_stream_trust.json
-}
-
-resource "aws_iam_role_policy" "flow_logs" {
-  count  = var.flow_logs != null ? 1 : 0
-  name   = "${var.flow_logs.iam_role_name}-action-policy"
-  policy = data.aws_iam_policy_document.log_stream_action.json
-  role   = aws_iam_role.flow_logs[count.index].id
 }

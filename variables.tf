@@ -36,9 +36,9 @@ variable "enable_nat_gateway" {
 
 variable "flow_logs" {
   type = object({
+    iam_role_name     = string
     retention_in_days = number
     traffic_type      = string
-    iam_role_name     = string
   })
   default     = null
   description = "Variables to enable flow logs for the VPC"
@@ -53,6 +53,12 @@ variable "lambda_subnet_bits" {
 variable "name" {
   type        = string
   description = "Used as part of the resource names to indicate they are created and used within a specific name"
+}
+
+variable "postfix" {
+  type        = bool
+  default     = false
+  description = "Postfix the role and policy names with Role and Policy"
 }
 
 variable "prepend_resource_type" {
@@ -125,7 +131,7 @@ variable "ssmmessages_endpoint" {
 variable "subnet_sharing_custom_tags" {
   type        = map(string)
   default     = {}
-  description = "Custom tags to be set to a resource share for subnets"
+  description = "Custom tags to be added to a resource share for subnets"
 }
 
 variable "tags" {

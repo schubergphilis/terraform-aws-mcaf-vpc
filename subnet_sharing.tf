@@ -5,5 +5,5 @@ module "subnet_sharing" {
   prepend_resource_type = var.prepend_resource_type
   private_subnet_arns   = var.share_private_subnets ? toset(aws_subnet.private[*].arn) : []
   public_subnet_arns    = var.share_public_subnets ? toset(aws_subnet.public[*].arn) : []
-  tags                  = var.subnet_sharing_custom_tags
+  tags                  = merge(var.tags, var.subnet_sharing_custom_tags)
 }
