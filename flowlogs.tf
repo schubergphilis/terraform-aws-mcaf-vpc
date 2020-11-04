@@ -51,8 +51,8 @@ resource "aws_flow_log" "flow_logs" {
 
 resource "aws_iam_role" "flow_logs" {
   count              = var.flow_logs != null ? 1 : 0
-  assume_role_policy = data.aws_iam_policy_document.log_stream_trust.json
   name               = var.flow_logs.iam_role_name
+  assume_role_policy = data.aws_iam_policy_document.log_stream_trust.json
 }
 
 resource "aws_iam_role_policy" "flow_logs" {
