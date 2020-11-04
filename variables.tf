@@ -34,6 +34,16 @@ variable "enable_nat_gateway" {
   description = "Set to true to provision a NAT Gateway for each private subnet"
 }
 
+variable "flow_logs" {
+  type = object({
+    iam_role_name     = string
+    retention_in_days = number
+    traffic_type      = string
+  })
+  default     = null
+  description = "Variables to enable flow logs for the VPC"
+}
+
 variable "lambda_subnet_bits" {
   type        = number
   default     = null
@@ -43,6 +53,12 @@ variable "lambda_subnet_bits" {
 variable "name" {
   type        = string
   description = "Used as part of the resource names to indicate they are created and used within a specific name"
+}
+
+variable "postfix" {
+  type        = bool
+  default     = false
+  description = "Postfix the role and policy names with Role and Policy"
 }
 
 variable "prepend_resource_type" {
@@ -80,6 +96,18 @@ variable "private_s3_endpoint" {
   description = "Deploy an S3 endpoint for your private subnets"
 }
 
+variable "share_private_subnets" {
+  type        = bool
+  default     = false
+  description = "If set it will share the private subnets through resource access manager"
+}
+
+variable "share_public_subnets" {
+  type        = bool
+  default     = false
+  description = "If set it will share the public subnets through resource access manager"
+}
+
 variable "ssm_endpoint" {
   type = object({
     private_dns_enabled = bool
@@ -98,6 +126,12 @@ variable "ssmmessages_endpoint" {
   })
   default     = null
   description = "Variables to provision an SSM messages endpoint to the VPC"
+}
+
+variable "subnet_sharing_custom_tags" {
+  type        = map(string)
+  default     = {}
+  description = "Custom tags to be added to a resource share for subnets"
 }
 
 variable "tags" {
