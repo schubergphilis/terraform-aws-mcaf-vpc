@@ -9,7 +9,7 @@ environment. See the examples directory for reference material.
 
 ```terraform
 module "full_vpc" {
-  source              = "git::git@github.com:schubergphilis/terraform-aws-mcaf-vpc.git"
+  source              = "github.com/schubergphilis/terraform-aws-mcaf-vpc"
   name                = "test"
   cidr_block          = "192.168.0.0/24"
   availability_zones  = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
