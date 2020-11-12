@@ -91,6 +91,11 @@ variable "public_subnet_tags" {
   description = "Additional tags to set on the public subnets"
 }
 
+variable "private_dynamodb_endpoint" {
+  default     = false
+  description = "Deploy a DynamoDB endpoint for your private subnets"
+}
+
 variable "private_s3_endpoint" {
   default     = false
   description = "Deploy an S3 endpoint for your private subnets"

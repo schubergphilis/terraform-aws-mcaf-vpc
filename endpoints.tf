@@ -25,6 +25,16 @@ resource "aws_vpc_endpoint" "s3" {
   tags              = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}s3-${var.name}" })
 }
 
+# Resources for the DynamoDB VPC service endpoint
+resource "aws_vpc_endpoint" "dynamodb" {
+  count             = var.private_dynamodb_endpoint ? 1 : 0
+  route_table_ids   = aws_route_table.private[*].id
+  service_name      = "com.amazonaws.${data.aws_region.current.name}.dynamodb"
+  vpc_endpoint_type = "Gateway"
+  vpc_id            = aws_vpc.default.id
+  tags              = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}dynamodb-${var.name}" })
+}
+
 # Resources for the SSM VPC interface endpoint
 data "aws_vpc_endpoint_service" "ssm_endpoint" {
   count   = var.ssm_endpoint != null ? 1 : 0

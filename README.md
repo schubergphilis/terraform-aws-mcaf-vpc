@@ -50,6 +50,7 @@ module "full_vpc" {
 | lambda\_subnet\_bits | The number of bits used for the subnet mask | `number` | `null` | no |
 | postfix | Postfix the role and policy names with Role and Policy | `bool` | `false` | no |
 | prepend\_resource\_type | If set it will prepend the resource type on the name of the resource. | `bool` | `false` | no |
+| private\_dynamodb\_endpoint | Deploy a DynamoDB endpoint for your private subnets | `bool` | `false` | no |
 | private\_s3\_endpoint | Deploy an S3 endpoint for your private subnets | `bool` | `false` | no |
 | private\_subnet\_bits | The number of bits used for the subnet mask | `number` | `null` | no |
 | private\_subnet\_tags | Additional tags to set on the private subnets | `map(string)` | `{}` | no |
