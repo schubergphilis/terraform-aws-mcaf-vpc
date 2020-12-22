@@ -37,6 +37,11 @@ resource "aws_vpc" "default" {
   tags                 = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "vpc-" : ""}${var.name}" })
 }
 
+resource "aws_default_security_group" "default" {
+  count = var.restrict_default_security_group ? 1 : 0
+  vpc_id = aws_vpc.default.id
+}
+
 resource "aws_internet_gateway" "default" {
   count  = min(local.public_subnets, 1)
   vpc_id = aws_vpc.default.id
