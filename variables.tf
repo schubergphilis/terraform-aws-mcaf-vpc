@@ -103,7 +103,7 @@ variable "private_s3_endpoint" {
 
 variable "restrict_default_security_group" {
   type        = bool
-  default     = true
+  default     = false
   description = "Remove all rules from the default security group"
 }
 
