@@ -103,8 +103,8 @@ variable "private_s3_endpoint" {
 
 variable "restrict_default_security_group" {
   type        = bool
-  default     = false
-  description = "Remove all rules from the default security group"
+  default     = true
+  description = "Set to true to remove all rules from the default security group"
 }
 
 variable "share_private_subnets" {
