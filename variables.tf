@@ -101,6 +101,12 @@ variable "private_s3_endpoint" {
   description = "Deploy an S3 endpoint for your private subnets"
 }
 
+variable "restrict_default_security_group" {
+  type        = bool
+  default     = true
+  description = "Set to true to remove all rules from the default security group"
+}
+
 variable "share_private_subnets" {
   type        = bool
   default     = false
