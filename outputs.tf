@@ -92,3 +92,14 @@ output "subnet_share_arn" {
   value       = try(module.subnet_sharing[0].arn, null)
   description = "The ARN of the subnet share in resource access manager if any"
 }
+
+output "vpc_endpoint_ids" {
+  value = {
+    s3 = aws_vpc_endpoint.s3[*].id
+    dynamodb = aws_vpc_endpoint.dynamodb[*].id
+    ssm = aws_vpc_endpoint.ssm_endpoint[*].id
+    ec2messages = aws_vpc_endpoint.ec2messages_endpoint[*].id
+    ssmmessages = aws_vpc_endpoint.ec2_endpoint[*].id
+    ec2 = aws_vpc_endpoint.ssmmessages_endpoint[*].id
+  }
+}
