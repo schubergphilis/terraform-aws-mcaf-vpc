@@ -102,4 +102,5 @@ output "vpc_endpoint_ids" {
     ssmmessages = try(aws_vpc_endpoint.ec2_endpoint[0].id, null)
     ec2         = try(aws_vpc_endpoint.ssmmessages_endpoint[0].id, null)
   }
+  description = "An object containing the ID of each created VPC endpoint"
 }
