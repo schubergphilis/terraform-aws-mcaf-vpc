@@ -86,6 +86,6 @@ module "full_vpc" {
 | public\_subnet\_ids | IDs of the public subnets |
 | subnet\_share\_arn | The ARN of the subnet share in resource access manager if any |
 | subnet\_share\_id | The ID of the subnet share in resource access manager if any |
-| vpc\_endpoint\_ids | The IDs of the VPC endpoint |
+| vpc\_endpoint\_ids | The IDs of the VPC endpoint | 
 
 <!--- END_TF_DOCS --->
