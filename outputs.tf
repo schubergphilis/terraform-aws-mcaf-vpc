@@ -95,11 +95,11 @@ output "subnet_share_arn" {
 
 output "vpc_endpoint_ids" {
   value = {
-    s3          = try(aws_vpc_endpoint.s3[*].id,null)
-    dynamodb    = try(aws_vpc_endpoint.dynamodb[*].id,null)
-    ssm         = try(aws_vpc_endpoint.ssm_endpoint[*].id,null)
-    ec2messages = try(aws_vpc_endpoint.ec2messages_endpoint[*].id,null)
-    ssmmessages = try(aws_vpc_endpoint.ec2_endpoint[*].id,null)
-    ec2         = try(aws_vpc_endpoint.ssmmessages_endpoint[*].id,null)
+    s3          = try(aws_vpc_endpoint.s3[*].id, null)
+    dynamodb    = try(aws_vpc_endpoint.dynamodb[*].id, null)
+    ssm         = try(aws_vpc_endpoint.ssm_endpoint[*].id, null)
+    ec2messages = try(aws_vpc_endpoint.ec2messages_endpoint[*].id, null)
+    ssmmessages = try(aws_vpc_endpoint.ec2_endpoint[*].id, null)
+    ec2         = try(aws_vpc_endpoint.ssmmessages_endpoint[*].id, null)
   }
 }
