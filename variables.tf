@@ -44,6 +44,12 @@ variable "flow_logs" {
   description = "Variables to enable flow logs for the VPC"
 }
 
+variable "cloudwatch_flow_log_group_name" {
+  type        = string
+  description = "The name of the cloudwatch log group."
+  default     = ""
+}
+
 variable "lambda_subnet_bits" {
   type        = number
   default     = null
@@ -158,4 +164,17 @@ variable "transfer_server" {
   })
   default     = null
   description = "Variables to provision a Transfer Server endpoint to the VPC"
+}
+
+variable "dhcp_options" {
+  type = object ({
+    domain_name          = string
+    domain_name_servers  = list(string)
+    ntp_servers          = list(string)
+    netbios_name_servers = list(string)
+    netbios_node_type    = number
+    tags = map(string)
+  })
+  default = null
+  description = "DHCP options to assign to the VPC"
 }
