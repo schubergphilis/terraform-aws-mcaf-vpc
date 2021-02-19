@@ -3,7 +3,6 @@ data "aws_iam_policy_document" "log_stream_action" {
     effect = "Allow"
 
     actions = [
-      # "logs:CreateLogGroup", https://github.com/hashicorp/terraform/issues/14750
       "logs:CreateLogStream",
       "logs:PutLogEvents",
       "logs:DescribeLogGroups",
