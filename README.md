@@ -44,7 +44,7 @@ module "full_vpc" {
 | name | Used as part of the resource names to indicate they are created and used within a specific name | `string` | n/a | yes |
 | tags | A mapping of tags to assign to the resources | `map(string)` | n/a | yes |
 | cloudwatch\_flow\_log\_group\_name | The name of the cloudwatch log group. | `string` | `""` | no |
-| dhcp\_options | DHCP options to assign to the VPC | <pre>object ({<br>    domain_name          = string<br>    domain_name_servers  = list(string)<br>    ntp_servers          = list(string)<br>    netbios_name_servers = list(string)<br>    netbios_node_type    = number<br>    tags = map(string)<br>  })</pre> | `null` | no |
+| dhcp\_options | DHCP options to assign to the VPC | <pre>object({<br>    domain_name          = string<br>    domain_name_servers  = list(string)<br>    ntp_servers          = list(string)<br>    netbios_name_servers = list(string)<br>    netbios_node_type    = number<br>    tags                 = map(string)<br>  })</pre> | `null` | no |
 | ec2\_endpoint | Variables to provision an EC2 endpoint to the VPC | <pre>object({<br>    private_dns_enabled = bool<br>    security_group_ids  = list(string)<br>    subnet_ids          = list(string)<br>  })</pre> | `null` | no |
 | ec2messages\_endpoint | Variables to provision an EC2 messages endpoint to the VPC | <pre>object({<br>    private_dns_enabled = bool<br>    security_group_ids  = list(string)<br>    subnet_ids          = list(string)<br>  })</pre> | `null` | no |
 | enable\_nat\_gateway | Set to true to provision a NAT Gateway for each private subnet | `bool` | `true` | no |
