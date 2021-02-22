@@ -167,14 +167,14 @@ variable "transfer_server" {
 }
 
 variable "dhcp_options" {
-  type = object ({
+  type = object({
     domain_name          = string
     domain_name_servers  = list(string)
     ntp_servers          = list(string)
     netbios_name_servers = list(string)
     netbios_node_type    = number
-    tags = map(string)
+    tags                 = map(string)
   })
-  default = null
+  default     = null
   description = "DHCP options to assign to the VPC"
 }
