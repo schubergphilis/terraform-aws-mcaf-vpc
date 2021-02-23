@@ -8,6 +8,18 @@ variable "cidr_block" {
   description = "The CIDR block for the VPC"
 }
 
+variable "dhcp_options" {
+  type = object({
+    domain_name          = string
+    domain_name_servers  = list(string)
+    netbios_name_servers = list(string)
+    netbios_node_type    = number
+    ntp_servers          = list(string)
+  })
+  default     = null
+  description = "DHCP options to assign to the VPC"
+}
+
 variable "ec2_endpoint" {
   type = object({
     private_dns_enabled = bool
@@ -37,6 +49,7 @@ variable "enable_nat_gateway" {
 variable "flow_logs" {
   type = object({
     iam_role_name     = string
+    log_group_name    = string
     retention_in_days = number
     traffic_type      = string
   })
