@@ -43,12 +43,11 @@ module "full_vpc" {
 | cidr\_block | The CIDR block for the VPC | `string` | n/a | yes |
 | name | Used as part of the resource names to indicate they are created and used within a specific name | `string` | n/a | yes |
 | tags | A mapping of tags to assign to the resources | `map(string)` | n/a | yes |
-| cloudwatch\_flow\_log\_group\_name | The name of the cloudwatch log group. | `string` | `""` | no |
-| dhcp\_options | DHCP options to assign to the VPC | <pre>object({<br>    domain_name          = string<br>    domain_name_servers  = list(string)<br>    ntp_servers          = list(string)<br>    netbios_name_servers = list(string)<br>    netbios_node_type    = number<br>    tags                 = map(string)<br>  })</pre> | `null` | no |
+| dhcp\_options | DHCP options to assign to the VPC | <pre>object({<br>    domain_name          = string<br>    domain_name_servers  = list(string)<br>    netbios_name_servers = list(string)<br>    netbios_node_type    = number<br>     ntp_servers          = list(string)<br>  })</pre> | `null` | no |
 | ec2\_endpoint | Variables to provision an EC2 endpoint to the VPC | <pre>object({<br>    private_dns_enabled = bool<br>    security_group_ids  = list(string)<br>    subnet_ids          = list(string)<br>  })</pre> | `null` | no |
 | ec2messages\_endpoint | Variables to provision an EC2 messages endpoint to the VPC | <pre>object({<br>    private_dns_enabled = bool<br>    security_group_ids  = list(string)<br>    subnet_ids          = list(string)<br>  })</pre> | `null` | no |
 | enable\_nat\_gateway | Set to true to provision a NAT Gateway for each private subnet | `bool` | `true` | no |
-| flow\_logs | Variables to enable flow logs for the VPC | <pre>object({<br>    iam_role_name     = string<br>    retention_in_days = number<br>    traffic_type      = string<br>  })</pre> | `null` | no |
+| flow\_logs | Variables to enable flow logs for the VPC | <pre>object({<br>    iam_role_name     = string<br>     log_group_name    = string<br>   retention_in_days = number<br>    traffic_type      = string<br>  })</pre> | `null` | no |
 | lambda\_subnet\_bits | The number of bits used for the subnet mask | `number` | `null` | no |
 | postfix | Postfix the role and policy names with Role and Policy | `bool` | `false` | no |
 | prepend\_resource\_type | If set it will prepend the resource type on the name of the resource. | `bool` | `false` | no |
@@ -70,7 +69,6 @@ module "full_vpc" {
 
 | Name | Description |
 |------|-------------|
-| availability\_zones | The availability zones provided |
 | cidr\_block | CIDR block of the VPC |
 | id | ID of the VPC |
 | igw\_id | ID of the Internet Gateway |
@@ -90,7 +88,6 @@ module "full_vpc" {
 | public\_subnet\_ids | IDs of the public subnets |
 | subnet\_share\_arn | The ARN of the subnet share in resource access manager if any |
 | subnet\_share\_id | The ID of the subnet share in resource access manager if any |
-| tags | The tags provided |
 | vpc\_endpoint\_ids | An object containing the ID of each created VPC endpoint |
 
 <!--- END_TF_DOCS --->

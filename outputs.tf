@@ -1,8 +1,3 @@
-output "availability_zones" {
-  value       = var.availability_zones
-  description = "The availability zones provided"
-}
-
 output "id" {
   value       = aws_vpc.default.id
   description = "ID of the VPC"
@@ -98,11 +93,6 @@ output "subnet_share_arn" {
   description = "The ARN of the subnet share in resource access manager if any"
 }
 
-output "tags" {
-  value       = var.tags
-  description = "The tags provided"
-}
-
 output "vpc_endpoint_ids" {
   value = {
     s3          = try(aws_vpc_endpoint.s3[0].id, null)
@@ -114,4 +104,3 @@ output "vpc_endpoint_ids" {
   }
   description = "An object containing the ID of each created VPC endpoint"
 }
-

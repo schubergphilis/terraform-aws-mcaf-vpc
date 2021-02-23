@@ -28,7 +28,7 @@ module "flow_logs_role" {
 
 resource "aws_cloudwatch_log_group" "flow_logs" {
   count             = var.flow_logs != null ? 1 : 0
-  name              = var.cloudwatch_flow_log_group_name != "" ? var.cloudwatch_flow_log_group_name : "vpc-flow-logs-${var.name}"
+  name              = var.flow_logs.log_group_name != null ? var.flow_logs.log_group_name : "vpc-flow-logs-${var.name}"
   retention_in_days = var.flow_logs.retention_in_days
   tags              = var.tags
 }
