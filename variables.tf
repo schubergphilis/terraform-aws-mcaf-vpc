@@ -20,6 +20,16 @@ variable "dhcp_options" {
   description = "DHCP options to assign to the VPC"
 }
 
+variable "ebs_endpoint" {
+  type = object({
+    private_dns_enabled = bool
+    security_group_ids  = list(string)
+    subnet_ids          = list(string)
+  })
+  default     = null
+  description = "Variables to provision an EBS endpoint to the VPC"
+}
+
 variable "ec2_endpoint" {
   type = object({
     private_dns_enabled = bool

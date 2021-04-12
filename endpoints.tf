@@ -35,21 +35,39 @@ resource "aws_vpc_endpoint" "dynamodb" {
   tags              = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}dynamodb-${var.name}" })
 }
 
-# Resources for the SSM VPC interface endpoint
-data "aws_vpc_endpoint_service" "ssm_endpoint" {
-  count   = var.ssm_endpoint != null ? 1 : 0
-  service = "ssm"
+# Resources for the EBS VPC interface endpoint
+data "aws_vpc_endpoint_service" "ebs_endpoint" {
+  count   = var.ebs_endpoint != null ? 1 : 0
+  service = "ebs"
 }
 
-resource "aws_vpc_endpoint" "ssm_endpoint" {
-  count               = var.ssm_endpoint != null ? 1 : 0
-  private_dns_enabled = var.ssm_endpoint.private_dns_enabled
-  security_group_ids  = var.ssm_endpoint.security_group_ids
-  service_name        = data.aws_vpc_endpoint_service.ssm_endpoint[0].service_name
-  subnet_ids          = var.ssm_endpoint.subnet_ids
+resource "aws_vpc_endpoint" "ebs_endpoint" {
+  count               = var.ebs_endpoint != null ? 1 : 0
+  private_dns_enabled = var.ebs_endpoint.private_dns_enabled
+  security_group_ids  = var.ebs_endpoint.security_group_ids
+  service_name        = data.aws_vpc_endpoint_service.ebs_endpoint[0].service_name
+  subnet_ids          = var.ebs_endpoint.subnet_ids
   vpc_endpoint_type   = "Interface"
   vpc_id              = aws_vpc.default.id
-  tags                = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}ssm-${var.name}" })
+  tags                = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}ebs-${var.name}" })
+}
+
+
+# Resources for the EC2 VPC interface endpoint
+data "aws_vpc_endpoint_service" "ec2_endpoint" {
+  count   = var.ec2_endpoint != null ? 1 : 0
+  service = "ec2"
+}
+
+resource "aws_vpc_endpoint" "ec2_endpoint" {
+  count               = var.ec2_endpoint != null ? 1 : 0
+  private_dns_enabled = var.ec2_endpoint.private_dns_enabled
+  security_group_ids  = var.ec2_endpoint.security_group_ids
+  service_name        = data.aws_vpc_endpoint_service.ec2_endpoint[0].service_name
+  subnet_ids          = var.ec2_endpoint.subnet_ids
+  vpc_endpoint_type   = "Interface"
+  vpc_id              = aws_vpc.default.id
+  tags                = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}ec2-${var.name}" })
 }
 
 # Resources for the EC2 messages VPC interface endpoint
@@ -69,21 +87,22 @@ resource "aws_vpc_endpoint" "ec2messages_endpoint" {
   tags                = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}ec2messages-${var.name}" })
 }
 
-# Resources for the EC2 VPC interface endpoint
-data "aws_vpc_endpoint_service" "ec2_endpoint" {
-  count   = var.ec2_endpoint != null ? 1 : 0
-  service = "ec2"
+
+# Resources for the SSM VPC interface endpoint
+data "aws_vpc_endpoint_service" "ssm_endpoint" {
+  count   = var.ssm_endpoint != null ? 1 : 0
+  service = "ssm"
 }
 
-resource "aws_vpc_endpoint" "ec2_endpoint" {
-  count               = var.ec2_endpoint != null ? 1 : 0
-  private_dns_enabled = var.ec2_endpoint.private_dns_enabled
-  security_group_ids  = var.ec2_endpoint.security_group_ids
-  service_name        = data.aws_vpc_endpoint_service.ec2_endpoint[0].service_name
-  subnet_ids          = var.ec2_endpoint.subnet_ids
+resource "aws_vpc_endpoint" "ssm_endpoint" {
+  count               = var.ssm_endpoint != null ? 1 : 0
+  private_dns_enabled = var.ssm_endpoint.private_dns_enabled
+  security_group_ids  = var.ssm_endpoint.security_group_ids
+  service_name        = data.aws_vpc_endpoint_service.ssm_endpoint[0].service_name
+  subnet_ids          = var.ssm_endpoint.subnet_ids
   vpc_endpoint_type   = "Interface"
   vpc_id              = aws_vpc.default.id
-  tags                = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}ec2-${var.name}" })
+  tags                = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}ssm-${var.name}" })
 }
 
 # Resources for the SSM messages VPC interface endpoint
