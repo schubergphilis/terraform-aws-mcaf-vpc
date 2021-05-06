@@ -43,12 +43,14 @@ module "full_vpc" {
 | cidr\_block | The CIDR block for the VPC | `string` | n/a | yes |
 | name | Used as part of the resource names to indicate they are created and used within a specific name | `string` | n/a | yes |
 | tags | A mapping of tags to assign to the resources | `map(string)` | n/a | yes |
+| create\_default\_security\_group | Set to false to not a default security group | `bool` | `true` | no |
 | dhcp\_options | DHCP options to assign to the VPC | <pre>object({<br>    domain_name          = string<br>    domain_name_servers  = list(string)<br>    netbios_name_servers = list(string)<br>    netbios_node_type    = number<br>    ntp_servers          = list(string)<br>  })</pre> | `null` | no |
 | ebs\_endpoint | Variables to provision an EBS endpoint to the VPC | <pre>object({<br>    private_dns_enabled = bool<br>    security_group_ids  = list(string)<br>    subnet_ids          = list(string)<br>  })</pre> | `null` | no |
 | ec2\_endpoint | Variables to provision an EC2 endpoint to the VPC | <pre>object({<br>    private_dns_enabled = bool<br>    security_group_ids  = list(string)<br>    subnet_ids          = list(string)<br>  })</pre> | `null` | no |
 | ec2messages\_endpoint | Variables to provision an EC2 messages endpoint to the VPC | <pre>object({<br>    private_dns_enabled = bool<br>    security_group_ids  = list(string)<br>    subnet_ids          = list(string)<br>  })</pre> | `null` | no |
 | enable\_nat\_gateway | Set to true to provision a NAT Gateway for each private subnet | `bool` | `true` | no |
 | flow\_logs | Variables to enable flow logs for the VPC | <pre>object({<br>    iam_role_name     = string<br>    log_group_name    = string<br>    retention_in_days = number<br>    traffic_type      = string<br>  })</pre> | `null` | no |
+| internet\_gateway\_custom\_tags | Custom tags to be added to the internet_gateway resource, will overwrite generic tags | `map(string)` | `{}` | no |
 | lambda\_subnet\_bits | The number of bits used for the subnet mask | `number` | `null` | no |
 | postfix | Postfix the role and policy names with Role and Policy | `bool` | `false` | no |
 | prepend\_resource\_type | If set it will prepend the resource type on the name of the resource. | `bool` | `false` | no |
@@ -58,12 +60,12 @@ module "full_vpc" {
 | private\_subnet\_tags | Additional tags to set on the private subnets | `map(string)` | `{}` | no |
 | public\_subnet\_bits | The number of bits used for the subnet mask | `number` | `null` | no |
 | public\_subnet\_tags | Additional tags to set on the public subnets | `map(string)` | `{}` | no |
-| restrict\_default\_security\_group | Set to true to remove all rules from the default security group | `bool` | `true` | no |
 | share\_private\_subnets | If set it will share the private subnets through resource access manager | `bool` | `false` | no |
 | share\_public\_subnets | If set it will share the public subnets through resource access manager | `bool` | `false` | no |
 | ssm\_endpoint | Variables to provision an SSM endpoint to the VPC | <pre>object({<br>    private_dns_enabled = bool<br>    security_group_ids  = list(string)<br>    subnet_ids          = list(string)<br>  })</pre> | `null` | no |
 | ssmmessages\_endpoint | Variables to provision an SSM messages endpoint to the VPC | <pre>object({<br>    private_dns_enabled = bool<br>    security_group_ids  = list(string)<br>    subnet_ids          = list(string)<br>  })</pre> | `null` | no |
 | subnet\_sharing\_custom\_tags | Custom tags to be added to a resource share for subnets | `map(string)` | `{}` | no |
+| vpc\_custom\_tags | Custom tags to be added to the VPC-resource, will overwrite generic tags | `map(string)` | `{}` | no |
 | transfer\_server | Variables to provision a Transfer Server endpoint to the VPC | <pre>object({<br>    security_group_ids  = list(string)<br>    subnet_ids          = list(string)<br>    private_dns_enabled = bool<br>  })</pre> | `null` | no |
 
 ## Outputs

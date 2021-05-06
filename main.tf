@@ -34,18 +34,25 @@ resource "aws_vpc" "default" {
   enable_dns_support   = true
   enable_dns_hostnames = true
   instance_tenancy     = "default"
-  tags                 = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "vpc-" : ""}${var.name}" })
+  tags                 = merge(
+    var.tags,
+    { "Name" = "${var.prepend_resource_type ? "vpc-" : ""}${var.name}" },
+    var.vpc_custom_tags
+  )
 }
 
 resource "aws_default_security_group" "default" {
-  count  = var.restrict_default_security_group ? 1 : 0
+  count  = var.create_default_security_group ? 1 : 0
   vpc_id = aws_vpc.default.id
 }
 
 resource "aws_internet_gateway" "default" {
   count  = min(local.public_subnets, 1)
   vpc_id = aws_vpc.default.id
-  tags   = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "igw-" : ""}${var.name}" })
+  tags   = merge(
+    var.tags,
+    { "Name" = "${var.prepend_resource_type ? "igw-" : ""}${var.name}" }
+  )
 }
 
 resource "aws_eip" "nat" {
@@ -65,7 +72,8 @@ resource "aws_nat_gateway" "default" {
   subnet_id     = aws_subnet.public[count.index].id
 
   tags = merge(
-    var.tags, { "Name" = "${var.prepend_resource_type ? "nat-" : ""}${var.name}-${local.az_ids[count.index]}" }
+    var.tags,
+    { "Name" = "${var.prepend_resource_type ? "nat-" : ""}${var.name}-${local.az_ids[count.index]}" }
   )
 }
 
@@ -77,9 +85,9 @@ resource "aws_subnet" "public" {
   vpc_id                  = aws_vpc.default.id
 
   tags = merge(
-    { "Name" = "${var.prepend_resource_type ? "subnet-" : ""}${var.name}-public-${local.az_ids[count.index]}" },
     var.public_subnet_tags,
-    var.tags
+    var.tags,
+    { "Name" = "${var.prepend_resource_type ? "subnet-" : ""}${var.name}-public-${local.az_ids[count.index]}" }
   )
 }
 
@@ -91,9 +99,9 @@ resource "aws_subnet" "private" {
   vpc_id                  = aws_vpc.default.id
 
   tags = merge(
-    { "Name" = "${var.prepend_resource_type ? "subnet-" : ""}${var.name}-private-${local.az_ids[count.index]}" },
     var.private_subnet_tags,
-    var.tags
+    var.tags,
+    { "Name" = "${var.prepend_resource_type ? "subnet-" : ""}${var.name}-private-${local.az_ids[count.index]}" }
   )
 }
 
@@ -105,7 +113,8 @@ resource "aws_subnet" "lambda" {
   vpc_id                  = aws_vpc.default.id
 
   tags = merge(
-    var.tags, { "Name" = "${var.prepend_resource_type ? "subnet-" : ""}${var.name}-lambda-${local.az_ids[count.index]}" }
+    var.tags,
+    { "Name" = "${var.prepend_resource_type ? "subnet-" : ""}${var.name}-lambda-${local.az_ids[count.index]}" }
   )
 }
 
@@ -133,7 +142,8 @@ resource "aws_route_table" "private" {
   vpc_id = aws_vpc.default.id
 
   tags = merge(
-    var.tags, { "Name" = "${var.prepend_resource_type ? "route-table-" : ""}${var.name}-private-${local.az_ids[count.index]}" }
+    var.tags,
+    { "Name" = "${var.prepend_resource_type ? "route-table-" : ""}${var.name}-private-${local.az_ids[count.index]}" }
   )
 }
 
@@ -155,7 +165,8 @@ resource "aws_route_table" "lambda" {
   vpc_id = aws_vpc.default.id
 
   tags = merge(
-    var.tags, { "Name" = "${var.prepend_resource_type ? "route-table-" : ""}${var.name}-lambda-${local.az_ids[count.index]}" }
+    var.tags,
+    { "Name" = "${var.prepend_resource_type ? "route-table-" : ""}${var.name}-lambda-${local.az_ids[count.index]}" }
   )
 }
 

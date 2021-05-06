@@ -8,6 +8,12 @@ variable "cidr_block" {
   description = "The CIDR block for the VPC"
 }
 
+variable "create_default_security_group" {
+  type        = bool
+  default     = true
+  description = "Set to true to remove all rules from the default security group"
+}
+
 variable "dhcp_options" {
   type = object({
     domain_name          = string
@@ -67,6 +73,12 @@ variable "flow_logs" {
   description = "Variables to enable flow logs for the VPC"
 }
 
+variable "internet_gateway_custom_tags" {
+  type        = map(string)
+  default     = {}
+  description = "Custom tags to be added to the internet_gateway resource, will overwrite generic tags"
+}
+
 variable "lambda_subnet_bits" {
   type        = number
   default     = null
@@ -124,12 +136,6 @@ variable "private_s3_endpoint" {
   description = "Deploy an S3 endpoint for your private subnets"
 }
 
-variable "restrict_default_security_group" {
-  type        = bool
-  default     = true
-  description = "Set to true to remove all rules from the default security group"
-}
-
 variable "share_private_subnets" {
   type        = bool
   default     = false
@@ -170,7 +176,13 @@ variable "subnet_sharing_custom_tags" {
 
 variable "tags" {
   type        = map(string)
-  description = "A mapping of tags to assign to the resources"
+  description = "A mapping of tags to assign to all resources"
+}
+
+variable "vpc_custom_tags" {
+  type        = map(string)
+  default     = {}
+  description = "Custom tags to be added to the VPC resource, will overwrite generic tags"
 }
 
 variable "transfer_server" {
