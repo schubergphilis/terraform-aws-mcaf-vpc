@@ -42,7 +42,7 @@ resource "aws_vpc" "default" {
 }
 
 resource "aws_default_security_group" "default" {
-  count  = var.create_default_security_group ? 1 : 0
+  count  = var.restrict_default_security_group ? 1 : 0
   vpc_id = aws_vpc.default.id
 }
 
