@@ -86,8 +86,8 @@ resource "aws_subnet" "public" {
   vpc_id                  = aws_vpc.default.id
 
   tags = merge(
-    var.public_subnet_tags,
     var.tags,
+    var.public_subnet_tags,
     { "Name" = "${var.prepend_resource_type ? "subnet-" : ""}${var.name}-public-${local.az_ids[count.index]}" }
   )
 }
@@ -100,8 +100,8 @@ resource "aws_subnet" "private" {
   vpc_id                  = aws_vpc.default.id
 
   tags = merge(
-    var.private_subnet_tags,
     var.tags,
+    var.private_subnet_tags,
     { "Name" = "${var.prepend_resource_type ? "subnet-" : ""}${var.name}-private-${local.az_ids[count.index]}" }
   )
 }
@@ -122,7 +122,10 @@ resource "aws_subnet" "lambda" {
 resource "aws_route_table" "public" {
   count  = min(local.public_subnets, 1)
   vpc_id = aws_vpc.default.id
-  tags   = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "route-table-" : ""}${var.name}-public" })
+  tags   = merge(
+    var.tags,
+    { "Name" = "${var.prepend_resource_type ? "route-table-" : ""}${var.name}-public" }
+  )
 }
 
 resource "aws_route" "public" {
