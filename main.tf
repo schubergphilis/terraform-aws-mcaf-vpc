@@ -51,7 +51,8 @@ resource "aws_internet_gateway" "default" {
   vpc_id = aws_vpc.default.id
   tags   = merge(
     var.tags,
-    { "Name" = "${var.prepend_resource_type ? "igw-" : ""}${var.name}" }
+    { "Name" = "${var.prepend_resource_type ? "igw-" : ""}${var.name}" },
+    var.internet_gateway_custom_tags
   )
 }
 
