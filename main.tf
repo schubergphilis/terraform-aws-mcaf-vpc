@@ -34,7 +34,7 @@ resource "aws_vpc" "default" {
   enable_dns_support   = true
   enable_dns_hostnames = true
   instance_tenancy     = "default"
-  tags                 = merge(
+  tags = merge(
     var.tags,
     { "Name" = "${var.prepend_resource_type ? "vpc-" : ""}${var.name}" },
     var.vpc_custom_tags
@@ -49,7 +49,7 @@ resource "aws_default_security_group" "default" {
 resource "aws_internet_gateway" "default" {
   count  = min(local.public_subnets, 1)
   vpc_id = aws_vpc.default.id
-  tags   = merge(
+  tags = merge(
     var.tags,
     { "Name" = "${var.prepend_resource_type ? "igw-" : ""}${var.name}" },
     var.internet_gateway_custom_tags
@@ -122,7 +122,7 @@ resource "aws_subnet" "lambda" {
 resource "aws_route_table" "public" {
   count  = min(local.public_subnets, 1)
   vpc_id = aws_vpc.default.id
-  tags   = merge(
+  tags = merge(
     var.tags,
     { "Name" = "${var.prepend_resource_type ? "route-table-" : ""}${var.name}-public" }
   )
