@@ -37,7 +37,7 @@ resource "aws_vpc" "default" {
   tags = merge(
     var.tags,
     { "Name" = "${var.prepend_resource_type ? "vpc-" : ""}${var.name}" },
-    var.vpc_custom_tags
+    var.vpc_tags
   )
 }
 
@@ -52,7 +52,7 @@ resource "aws_internet_gateway" "default" {
   tags = merge(
     var.tags,
     { "Name" = "${var.prepend_resource_type ? "igw-" : ""}${var.name}" },
-    var.internet_gateway_custom_tags
+    var.internet_gateway_tags
   )
 }
 
