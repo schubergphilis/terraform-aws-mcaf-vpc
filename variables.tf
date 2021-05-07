@@ -179,12 +179,6 @@ variable "tags" {
   description = "A mapping of tags to assign to all resources"
 }
 
-variable "vpc_tags" {
-  type        = map(string)
-  default     = {}
-  description = "Additional tags to set on the VPC"
-}
-
 variable "transfer_server" {
   type = object({
     security_group_ids  = list(string)
@@ -193,4 +187,10 @@ variable "transfer_server" {
   })
   default     = null
   description = "Variables to provision a Transfer Server endpoint to the VPC"
+}
+
+variable "vpc_tags" {
+  type        = map(string)
+  default     = {}
+  description = "Additional tags to set on the VPC"
 }

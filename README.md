@@ -49,7 +49,7 @@ module "full_vpc" {
 | ec2messages\_endpoint | Variables to provision an EC2 messages endpoint to the VPC | <pre>object({<br>    private_dns_enabled = bool<br>    security_group_ids  = list(string)<br>    subnet_ids          = list(string)<br>  })</pre> | `null` | no |
 | enable\_nat\_gateway | Set to true to provision a NAT Gateway for each private subnet | `bool` | `true` | no |
 | flow\_logs | Variables to enable flow logs for the VPC | <pre>object({<br>    iam_role_name     = string<br>    log_group_name    = string<br>    retention_in_days = number<br>    traffic_type      = string<br>  })</pre> | `null` | no |
-| internet\_gateway\_custom\_tags | Custom tags to be added to the internet_gateway resource, will overwrite generic tags | `map(string)` | `{}` | no |
+| internet\_gateway\_tags | Additional tags to set on the internet gateway| `map(string)` | `{}` | no |
 | lambda\_subnet\_bits | The number of bits used for the subnet mask | `number` | `null` | no |
 | postfix | Postfix the role and policy names with Role and Policy | `bool` | `false` | no |
 | prepend\_resource\_type | If set it will prepend the resource type on the name of the resource. | `bool` | `false` | no |
@@ -65,8 +65,8 @@ module "full_vpc" {
 | ssm\_endpoint | Variables to provision an SSM endpoint to the VPC | <pre>object({<br>    private_dns_enabled = bool<br>    security_group_ids  = list(string)<br>    subnet_ids          = list(string)<br>  })</pre> | `null` | no |
 | ssmmessages\_endpoint | Variables to provision an SSM messages endpoint to the VPC | <pre>object({<br>    private_dns_enabled = bool<br>    security_group_ids  = list(string)<br>    subnet_ids          = list(string)<br>  })</pre> | `null` | no |
 | subnet\_sharing\_custom\_tags | Custom tags to be added to a resource share for subnets | `map(string)` | `{}` | no |
-| vpc\_custom\_tags | Custom tags to be added to the VPC-resource, will overwrite generic tags | `map(string)` | `{}` | no |
 | transfer\_server | Variables to provision a Transfer Server endpoint to the VPC | <pre>object({<br>    security_group_ids  = list(string)<br>    subnet_ids          = list(string)<br>    private_dns_enabled = bool<br>  })</pre> | `null` | no |
+| vpc\_tags | Additional tags to set on the VPC | `map(string)` | `{}` | no |
 
 ## Outputs
 
