@@ -1,0 +1,25 @@
+---
+name: Terraform
+on:
+  push:
+    branches:
+      - master
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+jobs:
+  terraform-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+      - name: Update module usage docs and push any changes back to PR branch
+        uses: Dirrk/terraform-docs@v1.0.8
+        with:
+          tf_docs_args: '--sort-inputs-by-required'
+          tf_docs_git_commit_message: 'terraform-docs: Update module usage [skip ci]'
+          tf_docs_git_push: 'true'
+          tf_docs_output_file: README.md
+          tf_docs_output_method: inject
+          tf_docs_find_dir: .
