@@ -67,6 +67,12 @@ variable "flow_logs" {
   description = "Variables to enable flow logs for the VPC"
 }
 
+variable "internet_gateway_tags" {
+  type        = map(string)
+  default     = {}
+  description = "Additional tags to set on the internet gateway"
+}
+
 variable "lambda_subnet_bits" {
   type        = number
   default     = null
@@ -170,7 +176,7 @@ variable "subnet_sharing_custom_tags" {
 
 variable "tags" {
   type        = map(string)
-  description = "A mapping of tags to assign to the resources"
+  description = "A mapping of tags to assign to all resources"
 }
 
 variable "transfer_server" {
@@ -181,4 +187,10 @@ variable "transfer_server" {
   })
   default     = null
   description = "Variables to provision a Transfer Server endpoint to the VPC"
+}
+
+variable "vpc_tags" {
+  type        = map(string)
+  default     = {}
+  description = "Additional tags to set on the VPC"
 }
