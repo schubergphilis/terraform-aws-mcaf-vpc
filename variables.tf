@@ -79,6 +79,12 @@ variable "lambda_subnet_bits" {
   description = "The number of bits used for the subnet mask"
 }
 
+variable "map_public_ip_on_launch" {
+  type        = bool
+  default     = false
+  description = "Whether public IP addresses are assigned on instance launch"
+}
+
 variable "name" {
   type        = string
   description = "Used as part of the resource names to indicate they are created and used within a specific name"
