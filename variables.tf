@@ -102,6 +102,12 @@ variable "private_subnet_bits" {
   description = "The number of bits used for the subnet mask"
 }
 
+variable "public_subnet_map_public_ip_on_launch" {
+  type        = bool
+  default     = false
+  description = "If set, network interfaces created in the public subnet automatically receives a public IPV4 address"
+}
+
 variable "private_subnet_tags" {
   type        = map(string)
   default     = {}
