@@ -30,6 +30,12 @@ variable "ebs_endpoint" {
   description = "Variables to provision an EBS endpoint to the VPC"
 }
 
+variable "s3_endpoint" {
+  type        = list(string)
+  default     = null
+  description = "Custom route table IDs for the S3 endpoint"
+}
+
 variable "ec2_endpoint" {
   type = object({
     private_dns_enabled = bool

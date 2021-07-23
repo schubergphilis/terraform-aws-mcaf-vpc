@@ -1,3 +1,7 @@
+locals {
+  s3_route_table_ids = var.s3_endpoint != null ? var.s3_endpoint.route_table_ids : aws_route_table.private[*].id
+}
+
 # Resources for the Transfer Server VPC interface endpoint
 data "aws_vpc_endpoint_service" "transfer_server" {
   count   = var.transfer_server != null ? 1 : 0
@@ -18,7 +22,7 @@ resource "aws_vpc_endpoint" "transfer_server" {
 # Resources for the S3 VPC service endpoint
 resource "aws_vpc_endpoint" "s3" {
   count             = var.private_s3_endpoint ? 1 : 0
-  route_table_ids   = aws_route_table.private[*].id
+  route_table_ids   = local.s3_route_table_ids
   service_name      = "com.amazonaws.${data.aws_region.current.name}.s3"
   vpc_endpoint_type = "Gateway"
   vpc_id            = aws_vpc.default.id
