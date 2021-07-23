@@ -60,6 +60,7 @@ module "full_vpc" {
 | public\_subnet\_bits | The number of bits used for the subnet mask | `number` | `null` | no |
 | public\_subnet\_tags | Additional tags to set on the public subnets | `map(string)` | `{}` | no |
 | restrict\_default\_security\_group | Set to true to remove all rules from the default security group | `bool` | `true` | no |
+| s3\_route\_table\_ids | Custom route table IDs for the S3 endpoint | `list(string)` | `null` | no |
 | share\_private\_subnets | If set it will share the private subnets through resource access manager | `bool` | `false` | no |
 | share\_public\_subnets | If set it will share the public subnets through resource access manager | `bool` | `false` | no |
 | ssm\_endpoint | Variables to provision an SSM endpoint to the VPC | <pre>object({<br>    private_dns_enabled = bool<br>    security_group_ids  = list(string)<br>    subnet_ids          = list(string)<br>  })</pre> | `null` | no |
