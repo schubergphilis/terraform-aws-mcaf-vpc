@@ -46,7 +46,6 @@ module "full_vpc" {
 | dhcp\_options | DHCP options to assign to the VPC | <pre>object({<br>    domain_name          = string<br>    domain_name_servers  = list(string)<br>    netbios_name_servers = list(string)<br>    netbios_node_type    = number<br>    ntp_servers          = list(string)<br>  })</pre> | `null` | no |
 | ebs\_endpoint | Variables to provision an EBS endpoint to the VPC | <pre>object({<br>    private_dns_enabled = bool<br>    security_group_ids  = list(string)<br>    subnet_ids          = list(string)<br>  })</pre> | `null` | no |
 | ec2\_endpoint | Variables to provision an EC2 endpoint to the VPC | <pre>object({<br>    private_dns_enabled = bool<br>    security_group_ids  = list(string)<br>    subnet_ids          = list(string)<br>  })</pre> | `null` | no |
-| s3\_endpoint | Variables to provision an s3 endpoint to support new and existing subnets to the VPC | `list(string)` | `null` | no |
 | ec2messages\_endpoint | Variables to provision an EC2 messages endpoint to the VPC | <pre>object({<br>    private_dns_enabled = bool<br>    security_group_ids  = list(string)<br>    subnet_ids          = list(string)<br>  })</pre> | `null` | no |
 | enable\_nat\_gateway | Set to true to provision a NAT Gateway for each private subnet | `bool` | `true` | no |
 | flow\_logs | Variables to enable flow logs for the VPC | <pre>object({<br>    iam_role_name     = string<br>    log_group_name    = string<br>    retention_in_days = number<br>    traffic_type      = string<br>  })</pre> | `null` | no |
@@ -61,6 +60,7 @@ module "full_vpc" {
 | public\_subnet\_bits | The number of bits used for the subnet mask | `number` | `null` | no |
 | public\_subnet\_tags | Additional tags to set on the public subnets | `map(string)` | `{}` | no |
 | restrict\_default\_security\_group | Set to true to remove all rules from the default security group | `bool` | `true` | no |
+| s3\_route\_table\_ids | Custom route table IDs for the S3 endpoint | `list(string)` | `null` | no |
 | share\_private\_subnets | If set it will share the private subnets through resource access manager | `bool` | `false` | no |
 | share\_public\_subnets | If set it will share the public subnets through resource access manager | `bool` | `false` | no |
 | ssm\_endpoint | Variables to provision an SSM endpoint to the VPC | <pre>object({<br>    private_dns_enabled = bool<br>    security_group_ids  = list(string)<br>    subnet_ids          = list(string)<br>  })</pre> | `null` | no |

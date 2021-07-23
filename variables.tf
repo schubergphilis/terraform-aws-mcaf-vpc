@@ -30,12 +30,6 @@ variable "ebs_endpoint" {
   description = "Variables to provision an EBS endpoint to the VPC"
 }
 
-variable "s3_endpoint" {
-  type        = list(string)
-  default     = null
-  description = "Custom route table IDs for the S3 endpoint"
-}
-
 variable "ec2_endpoint" {
   type = object({
     private_dns_enabled = bool
@@ -146,6 +140,12 @@ variable "restrict_default_security_group" {
   type        = bool
   default     = true
   description = "Set to true to remove all rules from the default security group"
+}
+
+variable "s3_route_table_ids" {
+  type        = list(string)
+  default     = null
+  description = "Custom route table IDs for the S3 endpoint"
 }
 
 variable "share_private_subnets" {

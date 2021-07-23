@@ -1,32 +1,5 @@
 locals {
-  s3_route_table_ids = var.s3_endpoint != null ? var.s3_endpoint.route_table_ids : aws_route_table.private[*].id
-}
-
-# Resources for the Transfer Server VPC interface endpoint
-data "aws_vpc_endpoint_service" "transfer_server" {
-  count   = var.transfer_server != null ? 1 : 0
-  service = "transfer.server"
-}
-
-resource "aws_vpc_endpoint" "transfer_server" {
-  count               = var.transfer_server != null ? 1 : 0
-  private_dns_enabled = var.transfer_server.private_dns_enabled
-  security_group_ids  = var.transfer_server.security_group_ids
-  service_name        = data.aws_vpc_endpoint_service.transfer_server[0].service_name
-  subnet_ids          = var.transfer_server.subnet_ids
-  vpc_endpoint_type   = "Interface"
-  vpc_id              = aws_vpc.default.id
-  tags                = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}transfer-server-${var.name}" })
-}
-
-# Resources for the S3 VPC service endpoint
-resource "aws_vpc_endpoint" "s3" {
-  count             = var.private_s3_endpoint ? 1 : 0
-  route_table_ids   = local.s3_route_table_ids
-  service_name      = "com.amazonaws.${data.aws_region.current.name}.s3"
-  vpc_endpoint_type = "Gateway"
-  vpc_id            = aws_vpc.default.id
-  tags              = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}s3-${var.name}" })
+  s3_route_table_ids = var.s3_route_table_ids != null ? var.s3_route_table_ids : aws_route_table.private[*].id
 }
 
 # Resources for the DynamoDB VPC service endpoint
@@ -91,6 +64,15 @@ resource "aws_vpc_endpoint" "ec2messages_endpoint" {
   tags                = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}ec2messages-${var.name}" })
 }
 
+# Resources for the S3 VPC service endpoint
+resource "aws_vpc_endpoint" "s3" {
+  count             = var.private_s3_endpoint ? 1 : 0
+  route_table_ids   = local.s3_route_table_ids
+  service_name      = "com.amazonaws.${data.aws_region.current.name}.s3"
+  vpc_endpoint_type = "Gateway"
+  vpc_id            = aws_vpc.default.id
+  tags              = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}s3-${var.name}" })
+}
 
 # Resources for the SSM VPC interface endpoint
 data "aws_vpc_endpoint_service" "ssm_endpoint" {
@@ -124,4 +106,21 @@ resource "aws_vpc_endpoint" "ssmmessages_endpoint" {
   vpc_endpoint_type   = "Interface"
   vpc_id              = aws_vpc.default.id
   tags                = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}ssmmessages-${var.name}" })
+}
+
+# Resources for the Transfer Server VPC interface endpoint
+data "aws_vpc_endpoint_service" "transfer_server" {
+  count   = var.transfer_server != null ? 1 : 0
+  service = "transfer.server"
+}
+
+resource "aws_vpc_endpoint" "transfer_server" {
+  count               = var.transfer_server != null ? 1 : 0
+  private_dns_enabled = var.transfer_server.private_dns_enabled
+  security_group_ids  = var.transfer_server.security_group_ids
+  service_name        = data.aws_vpc_endpoint_service.transfer_server[0].service_name
+  subnet_ids          = var.transfer_server.subnet_ids
+  vpc_endpoint_type   = "Interface"
+  vpc_id              = aws_vpc.default.id
+  tags                = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}transfer-server-${var.name}" })
 }
