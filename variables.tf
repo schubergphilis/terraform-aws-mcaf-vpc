@@ -50,6 +50,16 @@ variable "ec2messages_endpoint" {
   description = "Variables to provision an EC2 messages endpoint to the VPC"
 }
 
+variable "ecr_api_endpoint" {
+  type = object({
+    private_dns_enabled = bool
+    security_group_ids  = list(string)
+    subnet_ids          = list(string)
+  })
+  default     = null
+  description = "Variables to provision an ECR endpoint to the VPC"
+}
+
 variable "enable_nat_gateway" {
   type        = bool
   default     = true
