@@ -50,16 +50,6 @@ variable "ec2messages_endpoint" {
   description = "Variables to provision an EC2 messages endpoint to the VPC"
 }
 
-variable "ecr_api_endpoint" {
-  type = object({
-    private_dns_enabled = bool
-    security_group_ids  = list(string)
-    subnet_ids          = list(string)
-  })
-  default     = null
-  description = "Variables to provision an ECR endpoint to the VPC"
-}
-
 variable "enable_nat_gateway" {
   type        = bool
   default     = true
@@ -153,9 +143,11 @@ variable "restrict_default_security_group" {
 }
 
 variable "s3_route_table_ids" {
-  type        = list(string)
+  type = object({
+    route_table_ids = list(string)
+  })
   default     = null
-  description = "Custom route table IDs for the S3 endpoint"
+  description = "Variables to provision an S3 endpoint to the VPC"
 }
 
 variable "share_private_subnets" {
