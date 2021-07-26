@@ -95,12 +95,14 @@ output "subnet_share_arn" {
 
 output "vpc_endpoint_ids" {
   value = {
-    s3          = try(aws_vpc_endpoint.s3[0].id, null)
+    dkr         = try(aws_vpc_endpoint.ecr_dkr_endpoint[0].id, null)
     dynamodb    = try(aws_vpc_endpoint.dynamodb[0].id, null)
-    ssm         = try(aws_vpc_endpoint.ssm_endpoint[0].id, null)
-    ec2messages = try(aws_vpc_endpoint.ec2messages_endpoint[0].id, null)
-    ssmmessages = try(aws_vpc_endpoint.ec2_endpoint[0].id, null)
     ec2         = try(aws_vpc_endpoint.ssmmessages_endpoint[0].id, null)
+    ecr         = try(aws_vpc_endpoint.ecr_api_endpoint[0].id, null)
+    ec2messages = try(aws_vpc_endpoint.ec2messages_endpoint[0].id, null)
+    s3          = try(aws_vpc_endpoint.s3[0].id, null)
+    ssm         = try(aws_vpc_endpoint.ssm_endpoint[0].id, null)
+    ssmmessages = try(aws_vpc_endpoint.ec2_endpoint[0].id, null)
   }
   description = "An object containing the ID of each created VPC endpoint"
 }
