@@ -55,7 +55,15 @@ variable "enable_nat_gateway" {
   default     = true
   description = "Set to true to provision a NAT Gateway for each private subnet"
 }
-
+variable "ecr_api_endpoint" {
+  type = object({
+    private_dns_enabled = bool
+    security_group_ids  = list(string)
+    subnet_ids          = list(string)
+  })
+  default     = null
+  description = "Variables to provision an ECR endpoint to the VPC"
+}
 variable "flow_logs" {
   type = object({
     iam_role_name     = string

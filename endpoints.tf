@@ -64,6 +64,29 @@ resource "aws_vpc_endpoint" "ec2messages_endpoint" {
   tags                = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}ec2messages-${var.name}" })
 }
 
+# Resources for the ECR VPC interface endpoint
+resource "aws_vpc_endpoint" "ecr_api_endpoint" {
+  count               = var.ecr_api_endpoint != null ? 1 : 0
+  private_dns_enabled = var.ecr_api_endpoint.private_dns_enabled
+  security_group_ids  = var.ecr_api_endpoint.security_group_ids
+  service_name        = "com.amazonaws.${data.aws_region.current.name}.ecr.api"
+  subnet_ids          = var.ecr_api_endpoint.subnet_ids
+  vpc_endpoint_type   = "Interface"
+  vpc_id              = aws_vpc.default.id
+  tags                = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}ecr-${var.name}" })
+}
+
+resource "aws_vpc_endpoint" "ecr_dkr_endpoint" {
+  count               = var.ecr_api_endpoint != null ? 1 : 0
+  private_dns_enabled = var.ecr_api_endpoint.private_dns_enabled
+  security_group_ids  = var.ecr_api_endpoint.security_group_ids
+  service_name        = "com.amazonaws.${data.aws_region.current.name}.ecr.dkr"
+  subnet_ids          = var.ecr_api_endpoint.subnet_ids
+  vpc_endpoint_type   = "Interface"
+  vpc_id              = aws_vpc.default.id
+  tags                = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}ecr-${var.name}" })
+}
+
 # Resources for the S3 VPC service endpoint
 resource "aws_vpc_endpoint" "s3" {
   count             = var.private_s3_endpoint ? 1 : 0
