@@ -100,6 +100,7 @@ output "vpc_endpoint_ids" {
     ec2         = try(aws_vpc_endpoint.ssmmessages_endpoint[0].id, null)
     ecr         = try(aws_vpc_endpoint.ecr_api_endpoint[0].id, null)
     ec2messages = try(aws_vpc_endpoint.ec2messages_endpoint[0].id, null)
+    logs        = try(aws_vpc_endpoint.logs_endpoint[0].id, null)
     s3          = try(aws_vpc_endpoint.s3[0].id, null)
     ssm         = try(aws_vpc_endpoint.ssm_endpoint[0].id, null)
     ssmmessages = try(aws_vpc_endpoint.ec2_endpoint[0].id, null)

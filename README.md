@@ -52,6 +52,7 @@ module "full_vpc" {
 | flow\_logs | Variables to enable flow logs for the VPC | <pre>object({<br>    iam_role_name     = string<br>    log_group_name    = string<br>    retention_in_days = number<br>    traffic_type      = string<br>  })</pre> | `null` | no |
 | internet\_gateway\_tags | Additional tags to set on the internet gateway | `map(string)` | `{}` | no |
 | lambda\_subnet\_bits | The number of bits used for the subnet mask | `number` | `null` | no |
+| logs\_endpoint | Variables to provision a Log endpoint to the VPC | <pre>object({<br>    private_dns_enabled = bool<br>    security_group_ids  = list(string)<br>    subnet_ids          = list(string)<br>  })</pre> | `null` | no |
 | postfix | Postfix the role and policy names with Role and Policy | `bool` | `false` | no |
 | prepend\_resource\_type | If set it will prepend the resource type on the name of the resource. | `bool` | `false` | no |
 | private\_dynamodb\_endpoint | Deploy a DynamoDB endpoint for your private subnets | `bool` | `false` | no |
