@@ -89,6 +89,16 @@ variable "lambda_subnet_bits" {
   description = "The number of bits used for the subnet mask"
 }
 
+variable "logs_endpoint" {
+  type = object({
+    private_dns_enabled = bool
+    security_group_ids  = list(string)
+    subnet_ids          = list(string)
+  })
+  default     = null
+  description = "Variables to provision a log endpoint to the VPC"
+}
+
 variable "map_public_ip_on_launch" {
   type        = bool
   default     = false
