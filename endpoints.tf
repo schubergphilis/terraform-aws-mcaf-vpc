@@ -89,7 +89,7 @@ resource "aws_vpc_endpoint" "ecr_dkr_endpoint" {
 
 # Resources for logs VPC interface endpoint
 resource "aws_vpc_endpoint" "logs_endpoint" {
-  count               = var.logs_endpoint ? 1 : 0
+  count               = var.logs_endpoint != null ? 1 : 0
   private_dns_enabled = var.logs_endpoint.private_dns_enabled
   security_group_ids  = var.logs_endpoint.security_group_ids
   service_name        = "com.amazonaws.${data.aws_region.current.name}.logs"
