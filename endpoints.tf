@@ -87,6 +87,18 @@ resource "aws_vpc_endpoint" "ecr_dkr_endpoint" {
   tags                = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}ecr-${var.name}" })
 }
 
+# Resources for logs VPC interface endpoint
+resource "aws_vpc_endpoint" "logs_endpoint" {
+  count               = var.logs_endpoint ? 1 : 0
+  private_dns_enabled = var.logs_endpoint.private_dns_enabled
+  security_group_ids  = var.logs_endpoint.security_group_ids
+  service_name        = "com.amazonaws.${data.aws_region.current.name}.logs"
+  subnet_ids          = var.logs_endpoint.subnet_ids
+  vpc_endpoint_type   = "Interface"
+  vpc_id              = aws_vpc.default.id
+  tags                = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}logs-${var.name}" })
+}
+
 # Resources for the S3 VPC service endpoint
 resource "aws_vpc_endpoint" "s3" {
   count             = var.private_s3_endpoint ? 1 : 0
