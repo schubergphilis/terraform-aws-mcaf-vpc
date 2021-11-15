@@ -1,3 +1,8 @@
+variable "additional_route_tables" {
+  description = "Controls if route table should be added to subnet)"
+  type        = bool
+  default     = false
+}
 variable "availability_zones" {
   type        = list(string)
   description = "A list of availability zones for the subnets"
@@ -50,11 +55,6 @@ variable "ec2messages_endpoint" {
   description = "Variables to provision an EC2 messages endpoint to the VPC"
 }
 
-variable "enable_nat_gateway" {
-  type        = bool
-  default     = true
-  description = "Set to true to provision a NAT Gateway for each private subnet"
-}
 variable "ecr_api_endpoint" {
   type = object({
     private_dns_enabled = bool
@@ -64,6 +64,13 @@ variable "ecr_api_endpoint" {
   default     = null
   description = "Variables to provision an ECR endpoint to the VPC"
 }
+
+variable "enable_nat_gateway" {
+  type        = bool
+  default     = true
+  description = "Set to true to provision a NAT Gateway for each private subnet"
+}
+
 variable "flow_logs" {
   type = object({
     iam_role_name     = string
@@ -85,6 +92,16 @@ variable "lambda_subnet_bits" {
   type        = number
   default     = null
   description = "The number of bits used for the subnet mask"
+}
+
+variable "logs_endpoint" {
+  type = object({
+    private_dns_enabled = bool
+    security_group_ids  = list(string)
+    subnet_ids          = list(string)
+  })
+  default     = null
+  description = "Variables to provision a log endpoint to the VPC"
 }
 
 variable "map_public_ip_on_launch" {
@@ -151,11 +168,9 @@ variable "restrict_default_security_group" {
 }
 
 variable "s3_route_table_ids" {
-  type = object({
-    route_table_ids = list(string)
-  })
+  type        = list(string)
   default     = null
-  description = "Variables to provision an S3 endpoint to the VPC"
+  description = "Custom route table IDs for the S3 endpoint"
 }
 
 variable "share_private_subnets" {

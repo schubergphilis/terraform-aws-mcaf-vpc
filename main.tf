@@ -118,9 +118,8 @@ resource "aws_subnet" "lambda" {
     { "Name" = "${var.prepend_resource_type ? "subnet-" : ""}${var.name}-lambda-${local.az_ids[count.index]}" }
   )
 }
-
 resource "aws_route_table" "public" {
-  count  = min(local.public_subnets, 1)
+  count  = var.additional_route_tables ? local.public_subnets : min(local.public_subnets, 1)
   vpc_id = aws_vpc.default.id
   tags = merge(
     var.tags,
@@ -138,7 +137,7 @@ resource "aws_route" "public" {
 resource "aws_route_table_association" "public" {
   count          = local.public_subnets
   subnet_id      = aws_subnet.public[count.index].id
-  route_table_id = aws_route_table.public[0].id
+  route_table_id = var.additional_route_tables ? element(aws_route_table.public[*].id, count.index) : aws_route_table.public[0].id
 }
 
 resource "aws_route_table" "private" {
