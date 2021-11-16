@@ -175,9 +175,9 @@ variable "share_private_subnets" {
 }
 
 variable "shared_public_route_table" {
-  description = "Controls if public subnet routing will be handled by a shared route table or one table per subnet"
   type        = bool
   default     = true
+  description = "Determines weather to use a single route table for all public networks"
 }
 
 variable "share_public_subnets" {
