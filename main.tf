@@ -121,7 +121,7 @@ resource "aws_subnet" "lambda" {
 }
 
 resource "aws_route_table" "public" {
-  count = var.shared_public_route_table ? min(local.public_subnets, 1): local.public_subnets
+  count  = var.shared_public_route_table ? min(local.public_subnets, 1) : local.public_subnets
   vpc_id = aws_vpc.default.id
   tags = merge(
     var.tags,
