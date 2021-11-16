@@ -174,16 +174,16 @@ variable "share_private_subnets" {
   description = "If set it will share the private subnets through resource access manager"
 }
 
-variable "shared_public_route_table" {
-  type        = bool
-  default     = true
-  description = "Determines weather to use a single route table for all public networks"
-}
-
 variable "share_public_subnets" {
   type        = bool
   default     = false
   description = "If set it will share the public subnets through resource access manager"
+}
+
+variable "shared_public_route_table" {
+  type        = bool
+  default     = true
+  description = "Determines weather to use a single route table for all public networks"
 }
 
 variable "ssm_endpoint" {
