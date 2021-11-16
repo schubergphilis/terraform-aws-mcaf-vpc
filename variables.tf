@@ -180,6 +180,12 @@ variable "share_public_subnets" {
   description = "If set it will share the public subnets through resource access manager"
 }
 
+variable "shared_public_route_table" {
+  type        = bool
+  default     = true
+  description = "Determines weather to use a single route table for all public networks"
+}
+
 variable "ssm_endpoint" {
   type = object({
     private_dns_enabled = bool
