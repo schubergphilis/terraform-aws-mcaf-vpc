@@ -1,3 +1,8 @@
+variable "additional_route_tables" {
+  description = "Controls if route table should be added to subnet)"
+  type        = bool
+  default     = false
+}
 variable "availability_zones" {
   type        = list(string)
   description = "A list of availability zones for the subnets"
