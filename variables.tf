@@ -174,6 +174,12 @@ variable "share_private_subnets" {
   description = "If set it will share the private subnets through resource access manager"
 }
 
+variable "shared_public_route_table" {
+  description = "Controls if public subnet routing will be handled by one shared route table or one per subnet"
+  type        = bool
+  default     = true
+}
+
 variable "share_public_subnets" {
   type        = bool
   default     = false
