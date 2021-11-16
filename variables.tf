@@ -1,8 +1,3 @@
-variable "additional_route_tables" {
-  description = "Controls if route table should be added to subnet)"
-  type        = bool
-  default     = false
-}
 variable "availability_zones" {
   type        = list(string)
   description = "A list of availability zones for the subnets"
@@ -172,7 +167,11 @@ variable "s3_route_table_ids" {
   default     = null
   description = "Custom route table IDs for the S3 endpoint"
 }
-
+variable "shared_public_route_table" {
+  description = "Controls if single route table should be added to subnet"
+  type        = bool
+  default     = true
+}
 variable "share_private_subnets" {
   type        = bool
   default     = false
