@@ -130,8 +130,8 @@ resource "aws_route_table" "public" {
 }
 
 resource "aws_route" "public" {
-  count                  = min(local.public_subnets, 1)
-  route_table_id         = aws_route_table.public[0].id
+  count                  = var.shared_public_route_table ? min(local.public_subnets, 1) : local.public_subnets
+  route_table_id         = aws_route_table.public[count.index].id
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = aws_internet_gateway.default[0].id
 }
