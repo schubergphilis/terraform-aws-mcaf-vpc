@@ -59,8 +59,13 @@ output "public_subnet_cidr_blocks" {
 }
 
 output "public_route_table_id" {
-  value       = try(aws_route_table.public.0.id, null)
-  description = "ID of the public route table"
+  value       = var.shared_public_route_table ? try(aws_route_table.public.0.id, null) : null
+  description = "ID of the single public route table when a shared public route table is used"
+}
+
+output "public_route_table_ids" {
+  value       = var.shared_public_route_table ? null : aws_route_table.public[*].id
+  description = "IDs of the public route tables when a shared public route table is not used"
 }
 
 output "private_subnet_ids" {
