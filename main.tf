@@ -126,7 +126,7 @@ resource "aws_route_table" "public" {
   tags = merge(
     var.tags,
     {
-      "Name" = var.shared_public_route_table ? "${var.prepend_resource_type ? "route-table-" : ""}${var.name}-public" : "${var.prepend_resource_type ? "route-table-" : ""}${var.name}-public-${local.az_ids[count.index]}"
+        "Name" = "${var.prepend_resource_type ? "route-table-" : ""}${var.name}-public${var.shared_public_route_table ?  : "-${local.az_ids[count.index]}"}"
     }
   )
 }
