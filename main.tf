@@ -125,7 +125,9 @@ resource "aws_route_table" "public" {
   vpc_id = aws_vpc.default.id
   tags = merge(
     var.tags,
-    { "Name" = var.shared_public_route_table ? "${var.prepend_resource_type ? "route-table-" : ""}${var.name}-public" : "${var.prepend_resource_type ? "route-table-" : ""}${var.name}-public-${local.az_ids[count.index]}"}
+    {
+      "Name" = var.shared_public_route_table ? "${var.prepend_resource_type ? "route-table-" : ""}${var.name}-public" : "${var.prepend_resource_type ? "route-table-" : ""}${var.name}-public-${local.az_ids[count.index]}"
+    }
   )
 }
 
