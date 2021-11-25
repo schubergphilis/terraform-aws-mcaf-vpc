@@ -156,6 +156,11 @@ variable "private_s3_endpoint" {
   description = "Deploy an S3 endpoint for your private subnets"
 }
 
+variable "private_subnet_default_route" {
+  default     = "0.0.0.0/0"
+  description = "The default route destination of a private subnet"
+}
+
 variable "restrict_default_security_group" {
   type        = bool
   default     = true
