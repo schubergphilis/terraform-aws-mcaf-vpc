@@ -74,12 +74,12 @@ variable "enable_endpoint_egress_routing" {
 
 variable "endpoint_egress_data" {
   type = list(object({
-    route_table_id         = string
     destination_cidr_block = string
+    route_table_id         = string
     vpc_endpoint_id        = string
   }))
   default     = null
-  description = "Data for routing egress traffic to an alternate location than a nat gateway"
+  description = "Data for routing egress traffic to an alternate location other than a nat gateway"
 }
 
 variable "flow_logs" {
