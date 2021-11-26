@@ -66,20 +66,10 @@ variable "enable_nat_gateway" {
   description = "Set to true to provision a NAT Gateway for each private subnet"
 }
 
-variable "enable_endpoint_egress_routing" {
+variable "enable_private_default_route" {
   type        = bool
-  default     = false
-  description = "Set to true to enable alternative egress routing for private subnets"
-}
-
-variable "endpoint_egress_data" {
-  type = list(object({
-    destination_cidr_block = string
-    route_table_id         = string
-    vpc_endpoint_id        = string
-  }))
-  default     = null
-  description = "Data for routing egress traffic to an alternate location other than a nat gateway"
+  default     = true
+  description = "Set to true to provision a default route towards NAT gateway for private subnets"
 }
 
 variable "flow_logs" {
