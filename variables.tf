@@ -66,6 +66,22 @@ variable "enable_nat_gateway" {
   description = "Set to true to provision a NAT Gateway for each private subnet"
 }
 
+variable "enable_endpoint_egress_routing" {
+  type        = bool
+  default     = false
+  description = "Set to true to enable alternative egress routing for private subnets"
+}
+
+variable "endpoint_egress_data" {
+  type = list(object({
+    route_table_id         = string
+    destination_cidr_block = string
+    vpc_endpoint_id        = string
+  }))
+  default     = null
+  description = "Data for routing egress traffic to an alternate location than a nat gateway"
+}
+
 variable "flow_logs" {
   type = object({
     iam_role_name     = string
@@ -154,11 +170,6 @@ variable "private_dynamodb_endpoint" {
 variable "private_s3_endpoint" {
   default     = false
   description = "Deploy an S3 endpoint for your private subnets"
-}
-
-variable "private_subnet_default_route" {
-  default     = "0.0.0.0/0"
-  description = "The default route destination of a private subnet"
 }
 
 variable "restrict_default_security_group" {
