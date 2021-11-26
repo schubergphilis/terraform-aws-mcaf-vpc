@@ -69,7 +69,7 @@ variable "enable_nat_gateway" {
 variable "enable_private_default_route" {
   type        = bool
   default     = true
-  description = "Set to true to provision a default route towards NAT gateway for private subnets"
+  description = "Set to true to add a default route to the NAT gateway for each private subnet"
 }
 
 variable "flow_logs" {
