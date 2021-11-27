@@ -155,7 +155,7 @@ resource "aws_route_table" "private" {
 }
 
 resource "aws_route" "private" {
-  count                  = var.enable_nat_gateway && local.private_subnets > 0 && local.public_subnets > 0 ? local.private_subnets : 0
+  count                  = var.enable_private_default_route && var.enable_nat_gateway && local.private_subnets > 0 && local.public_subnets > 0 ? local.private_subnets : 0
   route_table_id         = aws_route_table.private[count.index].id
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = aws_nat_gateway.default[count.index].id

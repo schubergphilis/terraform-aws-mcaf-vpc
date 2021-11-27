@@ -66,6 +66,12 @@ variable "enable_nat_gateway" {
   description = "Set to true to provision a NAT Gateway for each private subnet"
 }
 
+variable "enable_private_default_route" {
+  type        = bool
+  default     = true
+  description = "Set to true to add a default route to the NAT gateway for each private subnet"
+}
+
 variable "flow_logs" {
   type = object({
     iam_role_name     = string
