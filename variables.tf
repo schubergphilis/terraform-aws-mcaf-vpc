@@ -74,8 +74,8 @@ variable "enable_private_default_route" {
 
 variable "flow_logs" {
   type = object({
-    iam_role_name            = string
     iam_role_boundary_policy = string
+    iam_role_name            = string
     log_group_name           = string
     retention_in_days        = number
     traffic_type             = string
