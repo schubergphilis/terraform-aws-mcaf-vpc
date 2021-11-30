@@ -22,7 +22,7 @@ module "flow_logs_role" {
   principal_type        = "Service"
   principal_identifiers = ["vpc-flow-logs.amazonaws.com"]
   role_policy           = data.aws_iam_policy_document.log_stream_action.json
-  permissions_boundary =  var.flow_logs.iam_role_boundary_policy
+  permissions_boundary  = var.flow_logs.iam_role_boundary_policy
   postfix               = var.postfix
   tags                  = var.tags
 

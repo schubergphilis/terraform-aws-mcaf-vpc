@@ -74,12 +74,11 @@ variable "enable_private_default_route" {
 
 variable "flow_logs" {
   type = object({
-    iam_role_name     = string
+    iam_role_name            = string
     iam_role_boundary_policy = string
-    log_group_name    = string
-    retention_in_days = number
-    traffic_type      = string
-    
+    log_group_name           = string
+    retention_in_days        = number
+    traffic_type             = string
   })
   default     = null
   description = "Variables to enable flow logs for the VPC"
