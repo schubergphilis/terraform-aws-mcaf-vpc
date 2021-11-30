@@ -25,7 +25,6 @@ module "flow_logs_role" {
   permissions_boundary  = var.flow_logs.iam_role_boundary_policy
   postfix               = var.postfix
   tags                  = var.tags
-
 }
 
 resource "aws_cloudwatch_log_group" "flow_logs" {
