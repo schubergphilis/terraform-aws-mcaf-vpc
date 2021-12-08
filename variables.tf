@@ -112,6 +112,16 @@ variable "map_public_ip_on_launch" {
   description = "Whether public IP addresses are assigned on instance launch"
 }
 
+variable "mgn_endpoint" {
+  type = object({
+    private_dns_enabled = bool
+    security_group_ids  = list(string)
+    subnet_ids          = list(string)
+  })
+  default     = null
+  description = "Variables to provision an MGN endpoint to the VPC"
+}
+
 variable "name" {
   type        = string
   description = "Used as part of the resource names to indicate they are created and used within a specific name"
@@ -173,6 +183,16 @@ variable "s3_route_table_ids" {
   type        = list(string)
   default     = null
   description = "Custom route table IDs for the S3 endpoint"
+}
+
+variable "s3_interface_endpoint" {
+  type = object({
+    private_dns_enabled = bool
+    security_group_ids  = list(string)
+    subnet_ids          = list(string)
+  })
+  default     = null
+  description = "Variables to provision an S3 interface endpoint to the VPC"
 }
 
 variable "share_private_subnets" {
