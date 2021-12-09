@@ -179,12 +179,6 @@ variable "restrict_default_security_group" {
   description = "Set to true to remove all rules from the default security group"
 }
 
-variable "s3_route_table_ids" {
-  type        = list(string)
-  default     = null
-  description = "Custom route table IDs for the S3 endpoint"
-}
-
 variable "s3_interface_endpoint" {
   type = object({
     private_dns_enabled = bool
@@ -193,6 +187,12 @@ variable "s3_interface_endpoint" {
   })
   default     = null
   description = "Variables to provision an S3 interface endpoint to the VPC"
+}
+
+variable "s3_route_table_ids" {
+  type        = list(string)
+  default     = null
+  description = "Custom route table IDs for the S3 endpoint"
 }
 
 variable "share_private_subnets" {
