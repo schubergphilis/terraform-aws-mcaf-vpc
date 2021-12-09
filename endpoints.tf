@@ -130,7 +130,7 @@ resource "aws_vpc_endpoint" "s3_interface_endpoint" {
   subnet_ids          = var.s3_interface_endpoint.subnet_ids
   vpc_endpoint_type   = "Interface"
   vpc_id              = aws_vpc.default.id
-  tags                = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}s3-${var.name}" })
+  tags                = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}s3-interface-${var.name}" })
 }
 
 # Resources for the SSM VPC interface endpoint
