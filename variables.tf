@@ -181,7 +181,6 @@ variable "restrict_default_security_group" {
 
 variable "s3_interface_endpoint" {
   type = object({
-    private_dns_enabled = bool
     security_group_ids  = list(string)
     subnet_ids          = list(string)
   })

@@ -1,4 +1,4 @@
-locals {
+iocals {
   s3_route_table_ids = var.s3_route_table_ids != null ? var.s3_route_table_ids : aws_route_table.private[*].id
 }
 
@@ -124,7 +124,7 @@ resource "aws_vpc_endpoint" "s3" {
 # Resources for the S3 VPC interface endpoint
 resource "aws_vpc_endpoint" "s3_interface_endpoint" {
   count               = var.s3_interface_endpoint != null ? 1 : 0
-  private_dns_enabled = var.s3_interface_endpoint.private_dns_enabled
+  private_dns_enabled = false
   security_group_ids  = var.s3_interface_endpoint.security_group_ids
   service_name        = "com.amazonaws.${data.aws_region.current.name}.s3"
   subnet_ids          = var.s3_interface_endpoint.subnet_ids
