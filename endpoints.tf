@@ -1,4 +1,4 @@
-iocals {
+locals {
   s3_route_table_ids = var.s3_route_table_ids != null ? var.s3_route_table_ids : aws_route_table.private[*].id
 }
 
