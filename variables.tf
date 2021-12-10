@@ -181,8 +181,8 @@ variable "restrict_default_security_group" {
 
 variable "s3_interface_endpoint" {
   type = object({
-    security_group_ids  = list(string)
-    subnet_ids          = list(string)
+    security_group_ids = list(string)
+    subnet_ids         = list(string)
   })
   default     = null
   description = "Variables to provision an S3 interface endpoint to the VPC"
