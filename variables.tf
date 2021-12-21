@@ -5,6 +5,7 @@ variable "availability_zones" {
 
 variable "cidr_block" {
   type        = string
+  default     = null
   description = "The CIDR block for the VPC"
 }
 
@@ -88,6 +89,15 @@ variable "internet_gateway_tags" {
   type        = map(string)
   default     = {}
   description = "Additional tags to set on the internet gateway"
+}
+
+variable "ipv4_ipam" {
+  type = object({
+    pool_id        = string
+    netmask_length = number
+  })
+  default     = null
+  description = "The IPv4 IPAM configuration to use for the VPC"
 }
 
 variable "lambda_subnet_bits" {
