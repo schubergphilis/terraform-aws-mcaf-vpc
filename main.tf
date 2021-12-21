@@ -1,6 +1,6 @@
 locals {
   az_ids          = [for zone in var.availability_zones : substr(zone, length(zone) - 1, 1)]
-  vpc_subnet_bits = parseint(regex("\\/(\\d{1,2})$", var.cidr_block)[0], 10)
+  vpc_subnet_bits = parseint(regex("\\/(\\d{1,2})$", aws_vpc.default.cidr_block)[0], 10)
 
   # Determine how many of each type of subnet we want to create.
   public_subnets  = var.public_subnet_bits != null ? length(var.availability_zones) : 0
@@ -24,16 +24,18 @@ locals {
 
   # If you have a crash when calculating the subnets, please refer to:
   # https://github.com/hashicorp/terraform/issues/23841
-  cidr_blocks = cidrsubnets(var.cidr_block, local.newbits...)
+  cidr_blocks = cidrsubnets(aws_vpc.default.cidr_block, local.newbits...)
 }
 
 data "aws_region" "current" {}
 
 resource "aws_vpc" "default" {
   cidr_block           = var.cidr_block
-  enable_dns_support   = true
   enable_dns_hostnames = true
+  enable_dns_support   = true
   instance_tenancy     = "default"
+  ipv4_ipam_pool_id    = var.ipv4_ipam.pool_id
+  ipv4_netmask_length  = var.ipv4_ipam.netmask_length
   tags = merge(
     var.tags,
     { "Name" = "${var.prepend_resource_type ? "vpc-" : ""}${var.name}" },
