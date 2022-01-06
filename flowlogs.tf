@@ -40,4 +40,5 @@ resource "aws_flow_log" "flow_logs" {
   log_destination = aws_cloudwatch_log_group.flow_logs[count.index].arn
   traffic_type    = var.flow_logs.traffic_type
   vpc_id          = aws_vpc.default.id
+  tags            = var.tags
 }
