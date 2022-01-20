@@ -34,8 +34,8 @@ resource "aws_vpc" "default" {
   enable_dns_hostnames = true
   enable_dns_support   = true
   instance_tenancy     = "default"
-  ipv4_ipam_pool_id    = var.ipv4_ipam.pool_id
-  ipv4_netmask_length  = var.ipv4_ipam.netmask_length
+  ipv4_ipam_pool_id    = var.ipv4_ipam != null ? var.ipv4_ipam.pool_id : null
+  ipv4_netmask_length  = var.ipv4_ipam != null ? var.ipv4_ipam.netmask_length : null
   tags = merge(
     var.tags,
     { "Name" = "${var.prepend_resource_type ? "vpc-" : ""}${var.name}" },
