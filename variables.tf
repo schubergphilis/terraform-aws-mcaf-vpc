@@ -9,6 +9,16 @@ variable "cidr_block" {
   description = "The CIDR block for the VPC"
 }
 
+variable "codebuild_interface_endpoint" {
+  type = object({
+    private_dns_enabled = bool
+    security_group_ids  = list(string)
+    subnet_ids          = list(string)
+  })
+  default     = null
+  description = "Variables to provision a CodeBuild endpoint to the VPC"
+}
+
 variable "dhcp_options" {
   type = object({
     domain_name          = string

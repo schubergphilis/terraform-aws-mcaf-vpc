@@ -2,6 +2,18 @@ locals {
   s3_route_table_ids = var.s3_route_table_ids != null ? var.s3_route_table_ids : aws_route_table.private[*].id
 }
 
+# Resources for the CodeBuild VPC interface endpoint
+resource "aws_vpc_endpoint" "codebuild_interface_endpoint" {
+  count               = var.codebuild_interface_endpoint != null ? 1 : 0
+  private_dns_enabled = var.codebuild_interface_endpoint.private_dns_enabled
+  security_group_ids  = var.codebuild_interface_endpoint.security_group_ids
+  service_name        = "com.amazonaws.${data.aws_region.current.name}.codebuild"
+  subnet_ids          = var.codebuild_interface_endpoint.subnet_ids
+  vpc_endpoint_type   = "Interface"
+  vpc_id              = aws_vpc.default.id
+  tags                = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}codebuild-interface-${var.name}" })
+}
+
 # Resources for the DynamoDB VPC service endpoint
 resource "aws_vpc_endpoint" "dynamodb" {
   count             = var.private_dynamodb_endpoint ? 1 : 0
