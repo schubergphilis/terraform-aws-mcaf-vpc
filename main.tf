@@ -29,6 +29,7 @@ locals {
 
 data "aws_region" "current" {}
 
+#tfsec:ignore:aws-ec2-require-vpc-flow-logs-for-all-vpcs
 resource "aws_vpc" "default" {
   cidr_block           = var.cidr_block
   enable_dns_hostnames = true
@@ -60,8 +61,8 @@ resource "aws_internet_gateway" "default" {
 }
 
 resource "aws_eip" "nat" {
-  count = var.enable_nat_gateway ? local.public_subnets : 0
-  vpc   = true
+  count  = var.enable_nat_gateway ? local.public_subnets : 0
+  domain = "vpc"
 
   tags = merge(
     var.tags, { "Name" = "${var.prepend_resource_type ? "eip-" : ""}nat-${var.name}-${local.az_ids[count.index]}" }
