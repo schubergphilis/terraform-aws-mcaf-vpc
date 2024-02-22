@@ -45,7 +45,7 @@ module "log_bucket" {
                     "s3:x-amz-acl": "bucket-owner-full-control"
                 },
                 "ArnLike": {
-                    "aws:SourceArn": "arn:aws:logs:eu-west-1:${data.aws_caller_identity.current.account_id}:*"
+                    "aws:SourceArn": "arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:*"
                 }
             }
         },
@@ -62,7 +62,7 @@ module "log_bucket" {
                     "aws:SourceAccount": "${data.aws_caller_identity.current.account_id}"
                 },
                 "ArnLike": {
-                    "aws:SourceArn": "arn:aws:logs:eu-west-1:${data.aws_caller_identity.current.account_id}:*"
+                    "aws:SourceArn": "arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:*"
                 }
             }
         }
