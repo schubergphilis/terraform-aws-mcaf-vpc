@@ -75,6 +75,7 @@ resource "aws_flow_log" "flow_logs_s3" {
   count                = local.store_logs_in_s3 ? 1 : 0
   log_destination      = local.create_bucket ? module.log_bucket[count.index].arn : var.flow_logs_s3.bucket_arn
   log_destination_type = "s3"
+  log_format           = var.flow_logs_s3.log_format
   traffic_type         = var.flow_logs_s3.traffic_type
   vpc_id               = aws_vpc.default.id
   tags                 = var.tags

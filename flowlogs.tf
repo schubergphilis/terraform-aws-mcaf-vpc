@@ -39,6 +39,7 @@ resource "aws_flow_log" "flow_logs" {
   iam_role_arn         = module.flow_logs_role[count.index].arn
   log_destination      = aws_cloudwatch_log_group.flow_logs[count.index].arn
   log_destination_type = "cloud-watch-logs"
+  log_format           = var.flow_logs.log_format
   traffic_type         = var.flow_logs.traffic_type
   vpc_id               = aws_vpc.default.id
   tags                 = var.tags

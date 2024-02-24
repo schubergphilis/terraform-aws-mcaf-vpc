@@ -87,6 +87,7 @@ variable "flow_logs_s3" {
   type = object({
     bucket_name       = optional(string, null)
     bucket_arn        = optional(string, null)
+    log_format        = optional(string, null)
     retention_in_days = number
     traffic_type      = string
   })
@@ -98,6 +99,7 @@ variable "flow_logs" {
   type = object({
     iam_role_name                = string
     iam_role_permission_boundary = optional(string, null)
+    log_format                   = optional(string, null)
     log_group_name               = string
     retention_in_days            = number
     traffic_type                 = string
