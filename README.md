@@ -49,7 +49,8 @@ module "full_vpc" {
 | ec2messages\_endpoint | Variables to provision an EC2 messages endpoint to the VPC | <pre>object({<br>    private_dns_enabled = bool<br>    security_group_ids  = list(string)<br>    subnet_ids          = list(string)<br>  })</pre> | `null` | no |
 | ecr\_api\_endpoint | Variables to provision a ECR endpoint to the VPC | <pre>object({<br>    private_dns_enabled = bool<br>    security_group_ids  = list(string)<br>    subnet_ids          = list(string)<br>  })</pre> | `null` | no |
 | enable\_nat\_gateway | Set to true to provision a NAT Gateway for each private subnet | `bool` | `true` | no |
-| flow\_logs | Variables to enable flow logs for the VPC | <pre>object({<br>    iam_role_name     = string<br>    log_group_name    = string<br>    retention_in_days = number<br>    traffic_type      = string<br>  })</pre> | `null` | no |
+| flow\_logs\_s3 | Variables to enable flow logs for the VPC stored in an S3 bucket| <pre>object({<br>    bucket_name    = optional(string, true)<br>    create_bucket = optional(bool, true)<br>    retention_in_Days = number<br>    traffic_type      = string<br>  })</pre> | `null` | no |
+| flow\_logs | Variables to enable flow logs for the VPC stored in CloudWatch Logs| <pre>object({<br>    iam_role_name     = string<br>    log_group_name    = string<br>    retention_in_days = number<br>    traffic_type      = string<br>  })</pre> | `null` | no |
 | internet\_gateway\_tags | Additional tags to set on the internet gateway | `map(string)` | `{}` | no |
 | lambda\_subnet\_bits | The number of bits used for the subnet mask | `number` | `null` | no |
 | logs\_endpoint | Variables to provision a Log endpoint to the VPC | <pre>object({<br>    private_dns_enabled = bool<br>    security_group_ids  = list(string)<br>    subnet_ids          = list(string)<br>  })</pre> | `null` | no |

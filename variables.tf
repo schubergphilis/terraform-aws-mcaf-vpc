@@ -83,10 +83,23 @@ variable "enable_private_default_route" {
   description = "Set to true to add a default route to the NAT gateway for each private subnet"
 }
 
+variable "flow_logs_s3" {
+  type = object({
+    bucket_name       = optional(string, null)
+    bucket_arn        = optional(string, null)
+    log_format        = optional(string, null)
+    retention_in_days = number
+    traffic_type      = string
+  })
+  default     = null
+  description = "Variables to enable flow logs stored in S3 for the VPC. When bucket_arn is specified, it will not create a new bucket."
+}
+
 variable "flow_logs" {
   type = object({
     iam_role_name                = string
-    iam_role_permission_boundary = string
+    iam_role_permission_boundary = optional(string, null)
+    log_format                   = optional(string, null)
     log_group_name               = string
     retention_in_days            = number
     traffic_type                 = string
