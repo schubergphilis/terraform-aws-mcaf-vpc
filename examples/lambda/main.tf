@@ -1,6 +1,5 @@
 provider "aws" {
-  version = "~> 2.50"
-  region  = "eu-west-1"
+  region = "eu-west-1"
 }
 
 module "private_vpc" {
