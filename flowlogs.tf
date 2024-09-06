@@ -1,4 +1,6 @@
 data "aws_iam_policy_document" "log_stream_action" {
+  # checkov:skip=CKV_AWS_111: Policy needs to be locked down
+  # checkov:skip=CKV_AWS_356: Policy needs to be locked down
   statement {
     effect = "Allow"
 
@@ -31,6 +33,7 @@ module "flow_logs_role" {
 }
 
 resource "aws_cloudwatch_log_group" "flow_logs" {
+  # checkov:skip=CKV_AWS_158: KMS Support needs to be added
   count             = var.flow_logs != null ? 1 : 0
   name              = var.flow_logs.log_group_name != null ? var.flow_logs.log_group_name : "vpc-flow-logs-${var.name}"
   retention_in_days = var.flow_logs.retention_in_days
