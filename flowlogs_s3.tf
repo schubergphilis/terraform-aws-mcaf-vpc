@@ -4,8 +4,10 @@ locals {
 }
 
 module "log_bucket" {
-  source = "github.com/schubergphilis/terraform-aws-mcaf-s3?ref=v0.12.1"
-  count  = local.create_bucket ? 1 : 0
+  source  = "schubergphilis/mcaf-s3/aws"
+  version = "~> 0.14.1"
+
+  count = local.create_bucket ? 1 : 0
 
   name       = var.flow_logs_s3.bucket_name
   versioning = true
