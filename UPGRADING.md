@@ -8,6 +8,7 @@ This document captures required refactoring on your part when upgrading to a mod
 
 - Enhanced VPC Flow logs features for improved functionality.
 - Bug Fix: The S3 bucket lifecycle configuration for VPC Flow Logs now includes expiration, which was previously missing.
+- Enhance security: require a KMS key to encrypt VPC Flow Logs. These logs contain sensitive network traffic information, such as IP addresses and ports, which could be misused if not properly protected.
 
 #### Variables
 
