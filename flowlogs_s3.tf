@@ -9,8 +9,8 @@ module "log_bucket" {
 
   count = local.create_bucket ? 1 : 0
 
-  name        = var.s3_flow_logs_configuration.bucket_name
-  kms_key_arn = var.s3_flow_logs_configuration.kms_key_arn
+  name        = var.flow_logs_s3.bucket_name
+  kms_key_arn = var.flow_logs_s3.kms_key_arn
   tags        = var.tags
 
   lifecycle_rule = [
@@ -79,7 +79,7 @@ EOF
 resource "aws_flow_log" "flow_logs_s3" {
   count = local.store_logs_in_s3 ? 1 : 0
 
-  log_destination          = local.create_bucket ? module.log_bucket[count.index].arn : var.flow_logs_s3.bucket_arn
+  log_destination          = local.create_bucket ? module.log_bucket[count.index].arn : var.flow_logs_s3.log_destination
   log_destination_type     = "s3"
   log_format               = var.flow_logs_s3.log_format
   max_aggregation_interval = var.flow_logs_s3.max_aggregation_interval
@@ -88,8 +88,8 @@ resource "aws_flow_log" "flow_logs_s3" {
   vpc_id                   = aws_vpc.default.id
 
   destination_options {
-    file_format                = var.s3_flow_logs_configuration.destination_options.file_format
-    hive_compatible_partitions = var.s3_flow_logs_configuration.destination_options.hive_compatible_partitions
-    per_hour_partition         = var.s3_flow_logs_configuration.destination_options.per_hour_partition
+    file_format                = var.flow_logs_s3.destination_options.file_format
+    hive_compatible_partitions = var.flow_logs_s3.destination_options.hive_compatible_partitions
+    per_hour_partition         = var.flow_logs_s3.destination_options.per_hour_partition
   }
 }

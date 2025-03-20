@@ -15,10 +15,10 @@ The following variables have been modified:
 
 - `flow_logs_s3`:
   - `kms_key_arn` has been added as mandatory variable.
+  - `bucket_arn` has been renamed to `log_destination` for clarity, reflecting that both a bucket and bucket keys are accepted, aligning better with the actual resource.
   - `destination_options.per_hour_partition` has been added with `true` as default as is the best practice since this reduces the cost and response time for queries.
 
 - `flow_logs` is renamed to `flow_logs_cloudwatch`:
   - `kms_key_arn` has been added as mandatory variable.
-  - `iam_role_name`  is not the default anymore. `iam_role_name_prefix` is the modules default.
 
 - `postfix` is renamed to `flow_logs_cloudwatch.iam_role_postfix`. Default has been changed to `true`.

@@ -27,20 +27,20 @@ module "full_vpc" {
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12.10 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.0.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.0.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.91.0 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_flow_logs_role"></a> [flow\_logs\_role](#module\_flow\_logs\_role) | schubergphilis/mcaf-role/aws | ~> 0.5.0 |
+| <a name="module_flow_logs_role"></a> [flow\_logs\_role](#module\_flow\_logs\_role) | schubergphilis/mcaf-role/aws | ~> 0.5.1 |
 | <a name="module_log_bucket"></a> [log\_bucket](#module\_log\_bucket) | schubergphilis/mcaf-s3/aws | ~> 1.2.0 |
 | <a name="module_subnet_sharing"></a> [subnet\_sharing](#module\_subnet\_sharing) | github.com/schubergphilis/terraform-aws-mcaf-subnet-sharing | v0.3.0 |
 
@@ -108,8 +108,8 @@ module "full_vpc" {
 | <a name="input_ecr_api_endpoint"></a> [ecr\_api\_endpoint](#input\_ecr\_api\_endpoint) | Variables to provision an ECR endpoint to the VPC | <pre>object({<br/>    private_dns_enabled = bool<br/>    security_group_ids  = list(string)<br/>    subnet_ids          = list(string)<br/>  })</pre> | `null` | no |
 | <a name="input_enable_nat_gateway"></a> [enable\_nat\_gateway](#input\_enable\_nat\_gateway) | Set to true to provision a NAT Gateway for each private subnet | `bool` | `true` | no |
 | <a name="input_enable_private_default_route"></a> [enable\_private\_default\_route](#input\_enable\_private\_default\_route) | Set to true to add a default route to the NAT gateway for each private subnet | `bool` | `true` | no |
-| <a name="input_flow_logs_cloudwatch"></a> [flow\_logs\_cloudwatch](#input\_flow\_logs\_cloudwatch) | Variables to enable flow logs for the VPC | <pre>object({<br/>    iam_role_name                = optional(string)<br/>    iam_role_name_prefix         = optional(string, "VpcFlowLogs")<br/>    iam_role_postfix             = optional(bool, true)<br/>    iam_role_path                = optional(string, "/")<br/>    iam_role_permission_boundary = optional(string)<br/>    kms_key_arn                  = string<br/>    log_format                   = optional(string)<br/>    log_group_name               = optional(string)<br/>    max_aggregation_interval     = optional(number, 60)<br/>    retention_in_days            = optional(number, 90)<br/>    traffic_type                 = optional(string, "ALL")<br/>  })</pre> | `null` | no |
-| <a name="input_flow_logs_s3"></a> [flow\_logs\_s3](#input\_flow\_logs\_s3) | Variables to enable flow logs stored in S3 for the VPC. When bucket\_arn is specified, it will not create a new bucket. | <pre>object({<br/>    bucket_arn               = optional(string)<br/>    bucket_name              = optional(string)<br/>    kms_key_arn              = string<br/>    log_format               = optional(string)<br/>    max_aggregation_interval = optional(number, 60)<br/>    retention_in_days        = optional(number, 90)<br/>    traffic_type             = optional(string, "ALL")<br/><br/>    destination_options = optional(object({<br/>      file_format                = optional(string)<br/>      hive_compatible_partitions = optional(bool)<br/>      per_hour_partition         = optional(bool, true)<br/>    }))<br/>  })</pre> | `null` | no |
+| <a name="input_flow_logs_cloudwatch"></a> [flow\_logs\_cloudwatch](#input\_flow\_logs\_cloudwatch) | Variables to enable flow logs for the VPC | <pre>object({<br/>    iam_role_name                = optional(string, "VpcFlowLogs")<br/>    iam_role_name_prefix         = optional(string)<br/>    iam_role_postfix             = optional(bool, true)<br/>    iam_role_path                = optional(string, "/")<br/>    iam_role_permission_boundary = optional(string)<br/>    kms_key_arn                  = string<br/>    log_format                   = optional(string)<br/>    log_group_name               = optional(string)<br/>    max_aggregation_interval     = optional(number, 60)<br/>    retention_in_days            = optional(number, 90)<br/>    traffic_type                 = optional(string, "ALL")<br/>  })</pre> | `null` | no |
+| <a name="input_flow_logs_s3"></a> [flow\_logs\_s3](#input\_flow\_logs\_s3) | Variables to enable flow logs stored in S3 for the VPC. Use 'bucket\_name' to log to an S3 bucket created by this module. Alternatively, use 'log\_destination' to specify a self-managed S3 bucket. The 'log\_destination' variable accepts full S3 ARNs, optionally including object keys. | <pre>object({<br/>    bucket_name              = optional(string)<br/>    kms_key_arn              = string<br/>    log_destination          = optional(string)<br/>    log_format               = optional(string)<br/>    max_aggregation_interval = optional(number, 60)<br/>    retention_in_days        = optional(number, 90)<br/>    traffic_type             = optional(string, "ALL")<br/><br/>    destination_options = optional(object({<br/>      file_format                = optional(string)<br/>      hive_compatible_partitions = optional(bool)<br/>      per_hour_partition         = optional(bool, true)<br/>    }), {})<br/>  })</pre> | `null` | no |
 | <a name="input_internet_gateway_tags"></a> [internet\_gateway\_tags](#input\_internet\_gateway\_tags) | Additional tags to set on the internet gateway | `map(string)` | `{}` | no |
 | <a name="input_ipv4_ipam"></a> [ipv4\_ipam](#input\_ipv4\_ipam) | The IPv4 IPAM configuration to use for the VPC | <pre>object({<br/>    pool_id        = string<br/>    netmask_length = number<br/>  })</pre> | `null` | no |
 | <a name="input_lambda_subnet_bits"></a> [lambda\_subnet\_bits](#input\_lambda\_subnet\_bits) | The number of bits used for the subnet mask | `number` | `null` | no |
@@ -133,7 +133,7 @@ module "full_vpc" {
 | <a name="input_ssm_endpoint"></a> [ssm\_endpoint](#input\_ssm\_endpoint) | Variables to provision an SSM endpoint to the VPC | <pre>object({<br/>    private_dns_enabled = bool<br/>    security_group_ids  = list(string)<br/>    subnet_ids          = list(string)<br/>  })</pre> | `null` | no |
 | <a name="input_ssmmessages_endpoint"></a> [ssmmessages\_endpoint](#input\_ssmmessages\_endpoint) | Variables to provision an SSM messages endpoint to the VPC | <pre>object({<br/>    private_dns_enabled = bool<br/>    security_group_ids  = list(string)<br/>    subnet_ids          = list(string)<br/>  })</pre> | `null` | no |
 | <a name="input_subnet_sharing_custom_tags"></a> [subnet\_sharing\_custom\_tags](#input\_subnet\_sharing\_custom\_tags) | Custom tags to be added to a resource share for subnets | `map(string)` | `{}` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | A mapping of tags to assign to all resources | `map(string)` | n/a | yes |
+| <a name="input_tags"></a> [tags](#input\_tags) | A mapping of tags to assign to all resources | `map(string)` | `{}` | no |
 | <a name="input_transfer_server"></a> [transfer\_server](#input\_transfer\_server) | Variables to provision a Transfer Server endpoint to the VPC | <pre>object({<br/>    security_group_ids  = list(string)<br/>    subnet_ids          = list(string)<br/>    private_dns_enabled = bool<br/>  })</pre> | `null` | no |
 | <a name="input_vpc_tags"></a> [vpc\_tags](#input\_vpc\_tags) | Additional tags to set on the VPC | `map(string)` | `{}` | no |
 
