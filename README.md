@@ -34,13 +34,13 @@ module "full_vpc" {
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.91.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.0.0 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_flow_logs_role"></a> [flow\_logs\_role](#module\_flow\_logs\_role) | schubergphilis/mcaf-role/aws | ~> 0.5.1 |
+| <a name="module_flow_logs_role"></a> [flow\_logs\_role](#module\_flow\_logs\_role) | schubergphilis/mcaf-role/aws | ~> 0.5.2 |
 | <a name="module_log_bucket"></a> [log\_bucket](#module\_log\_bucket) | schubergphilis/mcaf-s3/aws | ~> 1.2.0 |
 | <a name="module_subnet_sharing"></a> [subnet\_sharing](#module\_subnet\_sharing) | github.com/schubergphilis/terraform-aws-mcaf-subnet-sharing | v0.3.0 |
 
@@ -99,6 +99,7 @@ module "full_vpc" {
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_availability_zones"></a> [availability\_zones](#input\_availability\_zones) | A list of availability zones for the subnets | `list(string)` | n/a | yes |
+| <a name="input_name"></a> [name](#input\_name) | Used as part of the resource names to indicate they are created and used within a specific name | `string` | n/a | yes |
 | <a name="input_cidr_block"></a> [cidr\_block](#input\_cidr\_block) | The CIDR block for the VPC | `string` | `null` | no |
 | <a name="input_codebuild_interface_endpoint"></a> [codebuild\_interface\_endpoint](#input\_codebuild\_interface\_endpoint) | Variables to provision a CodeBuild endpoint to the VPC | <pre>object({<br/>    private_dns_enabled = bool<br/>    security_group_ids  = list(string)<br/>    subnet_ids          = list(string)<br/>  })</pre> | `null` | no |
 | <a name="input_dhcp_options"></a> [dhcp\_options](#input\_dhcp\_options) | DHCP options to assign to the VPC | <pre>object({<br/>    domain_name          = string<br/>    domain_name_servers  = list(string)<br/>    netbios_name_servers = list(string)<br/>    netbios_node_type    = number<br/>    ntp_servers          = list(string)<br/>  })</pre> | `null` | no |
@@ -116,7 +117,6 @@ module "full_vpc" {
 | <a name="input_logs_endpoint"></a> [logs\_endpoint](#input\_logs\_endpoint) | Variables to provision a log endpoint to the VPC | <pre>object({<br/>    private_dns_enabled = bool<br/>    security_group_ids  = list(string)<br/>    subnet_ids          = list(string)<br/>  })</pre> | `null` | no |
 | <a name="input_map_public_ip_on_launch"></a> [map\_public\_ip\_on\_launch](#input\_map\_public\_ip\_on\_launch) | Whether public IP addresses are assigned on instance launch | `bool` | `false` | no |
 | <a name="input_mgn_endpoint"></a> [mgn\_endpoint](#input\_mgn\_endpoint) | Variables to provision an MGN endpoint to the VPC | <pre>object({<br/>    private_dns_enabled = bool<br/>    security_group_ids  = list(string)<br/>    subnet_ids          = list(string)<br/>  })</pre> | `null` | no |
-| <a name="input_name"></a> [name](#input\_name) | Used as part of the resource names to indicate they are created and used within a specific name | `string` | n/a | yes |
 | <a name="input_prepend_resource_type"></a> [prepend\_resource\_type](#input\_prepend\_resource\_type) | If set it will prepend the resource type on the name of the resource. | `bool` | `false` | no |
 | <a name="input_private_dynamodb_endpoint"></a> [private\_dynamodb\_endpoint](#input\_private\_dynamodb\_endpoint) | Deploy a DynamoDB endpoint for your private subnets | `bool` | `false` | no |
 | <a name="input_private_s3_endpoint"></a> [private\_s3\_endpoint](#input\_private\_s3\_endpoint) | Deploy an S3 endpoint for your private subnets | `bool` | `false` | no |
