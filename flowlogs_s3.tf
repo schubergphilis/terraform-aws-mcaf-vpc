@@ -5,14 +5,13 @@ locals {
 
 module "log_bucket" {
   source  = "schubergphilis/mcaf-s3/aws"
-  version = "~> 0.14.1"
+  version = "~> 1.2.0"
 
   count = local.create_bucket ? 1 : 0
 
-  name       = var.flow_logs_s3.bucket_name
-  versioning = true
-
-  tags = var.tags
+  name        = var.flow_logs_s3.bucket_name
+  kms_key_arn = var.flow_logs_s3.kms_key_arn
+  tags        = var.tags
 
   lifecycle_rule = [
     {
@@ -25,6 +24,10 @@ module "log_bucket" {
 
       noncurrent_version_expiration = {
         noncurrent_days = var.flow_logs_s3.retention_in_days
+      }
+
+      expiration = {
+        days = var.flow_logs_s3.retention_in_days
       }
     }
   ]
@@ -74,11 +77,19 @@ EOF
 }
 
 resource "aws_flow_log" "flow_logs_s3" {
-  count                = local.store_logs_in_s3 ? 1 : 0
-  log_destination      = local.create_bucket ? module.log_bucket[count.index].arn : var.flow_logs_s3.bucket_arn
-  log_destination_type = "s3"
-  log_format           = var.flow_logs_s3.log_format
-  traffic_type         = var.flow_logs_s3.traffic_type
-  vpc_id               = aws_vpc.default.id
-  tags                 = var.tags
+  count = local.store_logs_in_s3 ? 1 : 0
+
+  log_destination          = local.create_bucket ? module.log_bucket[count.index].arn : var.flow_logs_s3.log_destination
+  log_destination_type     = "s3"
+  log_format               = var.flow_logs_s3.log_format
+  max_aggregation_interval = var.flow_logs_s3.max_aggregation_interval
+  tags                     = var.tags
+  traffic_type             = var.flow_logs_s3.traffic_type
+  vpc_id                   = aws_vpc.default.id
+
+  destination_options {
+    file_format                = var.flow_logs_s3.destination_options.file_format
+    hive_compatible_partitions = var.flow_logs_s3.destination_options.hive_compatible_partitions
+    per_hour_partition         = var.flow_logs_s3.destination_options.per_hour_partition
+  }
 }

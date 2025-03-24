@@ -85,27 +85,50 @@ variable "enable_private_default_route" {
 
 variable "flow_logs_s3" {
   type = object({
-    bucket_name       = optional(string, null)
-    bucket_arn        = optional(string, null)
-    log_format        = optional(string, null)
-    retention_in_days = number
-    traffic_type      = string
+    bucket_name              = optional(string)
+    kms_key_arn              = string
+    log_destination          = optional(string)
+    log_format               = optional(string)
+    max_aggregation_interval = optional(number, 60)
+    retention_in_days        = optional(number, 90)
+    traffic_type             = optional(string, "ALL")
+
+    destination_options = optional(object({
+      file_format                = optional(string)
+      hive_compatible_partitions = optional(bool)
+      per_hour_partition         = optional(bool, true)
+    }), {})
   })
   default     = null
-  description = "Variables to enable flow logs stored in S3 for the VPC. When bucket_arn is specified, it will not create a new bucket."
+  description = "Variables to enable flow logs stored in S3 for the VPC. Use 'bucket_name' to log to an S3 bucket created by this module. Alternatively, use 'log_destination' to specify a self-managed S3 bucket. The 'log_destination' variable accepts full S3 ARNs, optionally including object keys."
+
+  validation {
+    condition     = var.flow_logs_s3 == null || (try(var.flow_logs_s3.log_destination, null) != null || try(var.flow_logs_s3.bucket_name, null) != null)
+    error_message = "Either log_destination or bucket_name must be specified in flow_logs_s3 if the configuration is provided."
+  }
 }
 
-variable "flow_logs" {
+variable "flow_logs_cloudwatch" {
   type = object({
-    iam_role_name                = string
-    iam_role_permission_boundary = optional(string, null)
-    log_format                   = optional(string, null)
-    log_group_name               = string
-    retention_in_days            = number
-    traffic_type                 = string
+    iam_role_name                = optional(string, "VpcFlowLogs")
+    iam_role_name_prefix         = optional(string)
+    iam_role_postfix             = optional(bool, true)
+    iam_role_path                = optional(string, "/")
+    iam_role_permission_boundary = optional(string)
+    kms_key_arn                  = string
+    log_format                   = optional(string)
+    log_group_name               = optional(string)
+    max_aggregation_interval     = optional(number, 60)
+    retention_in_days            = optional(number, 90)
+    traffic_type                 = optional(string, "ALL")
   })
   default     = null
   description = "Variables to enable flow logs for the VPC"
+
+  validation {
+    condition     = var.flow_logs_cloudwatch == null || !(try(var.flow_logs_cloudwatch.iam_name, null) != null && try(var.flow_logs_cloudwatch.iam_name_prefix, null) != null)
+    error_message = "Only one of iam_name or iam_name_prefix can be defined."
+  }
 }
 
 variable "internet_gateway_tags" {
@@ -158,12 +181,6 @@ variable "mgn_endpoint" {
 variable "name" {
   type        = string
   description = "Used as part of the resource names to indicate they are created and used within a specific name"
-}
-
-variable "postfix" {
-  type        = bool
-  default     = false
-  description = "Postfix the role and policy names with Role and Policy"
 }
 
 variable "prepend_resource_type" {
@@ -275,6 +292,7 @@ variable "subnet_sharing_custom_tags" {
 
 variable "tags" {
   type        = map(string)
+  default     = {}
   description = "A mapping of tags to assign to all resources"
 }
 
