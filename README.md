@@ -42,7 +42,6 @@ module "full_vpc" {
 |------|--------|---------|
 | <a name="module_flow_logs_role"></a> [flow\_logs\_role](#module\_flow\_logs\_role) | schubergphilis/mcaf-role/aws | ~> 0.5.2 |
 | <a name="module_log_bucket"></a> [log\_bucket](#module\_log\_bucket) | schubergphilis/mcaf-s3/aws | ~> 1.2.0 |
-| <a name="module_subnet_sharing"></a> [subnet\_sharing](#module\_subnet\_sharing) | github.com/schubergphilis/terraform-aws-mcaf-subnet-sharing | v0.3.0 |
 
 ## Resources
 
@@ -55,6 +54,9 @@ module "full_vpc" {
 | [aws_flow_log.flow_logs_s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/flow_log) | resource |
 | [aws_internet_gateway.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/internet_gateway) | resource |
 | [aws_nat_gateway.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/nat_gateway) | resource |
+| [aws_ram_resource_association.private_subnets](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ram_resource_association) | resource |
+| [aws_ram_resource_association.public_subnets](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ram_resource_association) | resource |
+| [aws_ram_resource_share.subnet_sharing](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ram_resource_share) | resource |
 | [aws_route.lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route.private](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route.public](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
