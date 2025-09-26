@@ -119,7 +119,6 @@ module "full_vpc" {
 | <a name="input_logs_endpoint"></a> [logs\_endpoint](#input\_logs\_endpoint) | Variables to provision a log endpoint to the VPC | <pre>object({<br/>    private_dns_enabled = bool<br/>    security_group_ids  = list(string)<br/>    subnet_ids          = list(string)<br/>  })</pre> | `null` | no |
 | <a name="input_map_public_ip_on_launch"></a> [map\_public\_ip\_on\_launch](#input\_map\_public\_ip\_on\_launch) | Whether public IP addresses are assigned on instance launch | `bool` | `false` | no |
 | <a name="input_mgn_endpoint"></a> [mgn\_endpoint](#input\_mgn\_endpoint) | Variables to provision an MGN endpoint to the VPC | <pre>object({<br/>    private_dns_enabled = bool<br/>    security_group_ids  = list(string)<br/>    subnet_ids          = list(string)<br/>  })</pre> | `null` | no |
-| <a name="input_prepend_resource_type"></a> [prepend\_resource\_type](#input\_prepend\_resource\_type) | If set it will prepend the resource type on the name of the resource. | `bool` | `false` | no |
 | <a name="input_private_dynamodb_endpoint"></a> [private\_dynamodb\_endpoint](#input\_private\_dynamodb\_endpoint) | Deploy a DynamoDB endpoint for your private subnets | `bool` | `false` | no |
 | <a name="input_private_s3_endpoint"></a> [private\_s3\_endpoint](#input\_private\_s3\_endpoint) | Deploy an S3 endpoint for your private subnets | `bool` | `false` | no |
 | <a name="input_private_subnet_bits"></a> [private\_subnet\_bits](#input\_private\_subnet\_bits) | The number of bits used for the subnet mask | `number` | `null` | no |

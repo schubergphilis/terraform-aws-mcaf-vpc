@@ -9,7 +9,7 @@ resource "aws_ram_resource_share" "subnet_sharing" {
   count = var.share_public_subnets || var.share_private_subnets ? 1 : 0
 
   region                    = var.region
-  name                      = "${var.prepend_resource_type ? "resource-share-" : ""}subnets-${var.name}"
+  name                      = "subnets-${var.name}"
   allow_external_principals = true
   tags                      = local.sharing_tags
 }

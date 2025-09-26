@@ -4,7 +4,7 @@ provider "aws" {
 
 module "kms" {
   source  = "schubergphilis/mcaf-kms/aws"
-  version = "~> 0.3"
+  version = "~> 1.0"
 
   name = "vpc-flow-log"
 }
@@ -39,7 +39,7 @@ module "vpc_flow_log_s3" {
 # VPC with flow logs to S3 bucket created outside of this module
 module "s3" {
   source  = "schubergphilis/mcaf-s3/aws"
-  version = "~> 1.2"
+  version = "~> 2.0"
 
   name_prefix = "vpc-flow-log"
 }
