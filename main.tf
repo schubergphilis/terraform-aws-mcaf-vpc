@@ -44,7 +44,7 @@ resource "aws_vpc" "default" {
   ipv4_netmask_length  = var.ipv4_ipam != null ? var.ipv4_ipam.netmask_length : null
   tags = merge(
     var.tags,
-    { "Name" = "${var.prepend_resource_type ? "vpc-" : ""}${var.name}" },
+    { "Name" = var.name },
     var.vpc_tags
   )
 }
@@ -64,7 +64,7 @@ resource "aws_internet_gateway" "default" {
   vpc_id = aws_vpc.default.id
   tags = merge(
     var.tags,
-    { "Name" = "${var.prepend_resource_type ? "igw-" : ""}${var.name}" },
+    { "Name" = var.name },
     var.internet_gateway_tags
   )
 }
@@ -74,10 +74,7 @@ resource "aws_eip" "nat" {
 
   region = var.region
   domain = "vpc"
-
-  tags = merge(
-    var.tags, { "Name" = "${var.prepend_resource_type ? "eip-" : ""}nat-${var.name}-${local.az_ids[count.index]}" }
-  )
+  tags   = merge(var.tags, { "Name" = "nat-${var.name}-${local.az_ids[count.index]}" })
 
   depends_on = [aws_internet_gateway.default]
 }
@@ -89,10 +86,7 @@ resource "aws_nat_gateway" "default" {
   allocation_id = aws_eip.nat[count.index].id
   subnet_id     = aws_subnet.public[count.index].id
 
-  tags = merge(
-    var.tags,
-    { "Name" = "${var.prepend_resource_type ? "nat-" : ""}${var.name}-${local.az_ids[count.index]}" }
-  )
+  tags = merge(var.tags, { "Name" = "${var.name}-${local.az_ids[count.index]}" })
 }
 
 resource "aws_subnet" "public" {
@@ -107,7 +101,7 @@ resource "aws_subnet" "public" {
   tags = merge(
     var.tags,
     var.public_subnet_tags,
-    { "Name" = "${var.prepend_resource_type ? "subnet-" : ""}${var.name}-public-${local.az_ids[count.index]}" }
+    { "Name" = "${var.name}-public-${local.az_ids[count.index]}" }
   )
 }
 
@@ -123,7 +117,7 @@ resource "aws_subnet" "private" {
   tags = merge(
     var.tags,
     var.private_subnet_tags,
-    { "Name" = "${var.prepend_resource_type ? "subnet-" : ""}${var.name}-private-${local.az_ids[count.index]}" }
+    { "Name" = "${var.name}-private-${local.az_ids[count.index]}" }
   )
 }
 
@@ -136,10 +130,7 @@ resource "aws_subnet" "lambda" {
   map_public_ip_on_launch = false
   vpc_id                  = aws_vpc.default.id
 
-  tags = merge(
-    var.tags,
-    { "Name" = "${var.prepend_resource_type ? "subnet-" : ""}${var.name}-lambda-${local.az_ids[count.index]}" }
-  )
+  tags = merge(var.tags, { "Name" = "${var.name}-lambda-${local.az_ids[count.index]}" })
 }
 
 resource "aws_route_table" "public" {
@@ -147,10 +138,9 @@ resource "aws_route_table" "public" {
 
   region = var.region
   vpc_id = aws_vpc.default.id
-  tags = merge(
-    var.tags,
+  tags = merge(var.tags,
     {
-      "Name" = "${var.prepend_resource_type ? "route-table-" : ""}${var.name}-public${var.shared_public_route_table ? "" : "-${local.az_ids[count.index]}"}"
+      "Name" = "${var.name}-public${var.shared_public_route_table ? "" : "-${local.az_ids[count.index]}"}"
     }
   )
 }
@@ -178,10 +168,7 @@ resource "aws_route_table" "private" {
   region = var.region
   vpc_id = aws_vpc.default.id
 
-  tags = merge(
-    var.tags,
-    { "Name" = "${var.prepend_resource_type ? "route-table-" : ""}${var.name}-private-${local.az_ids[count.index]}" }
-  )
+  tags = merge(var.tags, { "Name" = "${var.name}-private-${local.az_ids[count.index]}" })
 }
 
 resource "aws_route" "private" {
@@ -207,10 +194,7 @@ resource "aws_route_table" "lambda" {
   region = var.region
   vpc_id = aws_vpc.default.id
 
-  tags = merge(
-    var.tags,
-    { "Name" = "${var.prepend_resource_type ? "route-table-" : ""}${var.name}-lambda-${local.az_ids[count.index]}" }
-  )
+  tags = merge(var.tags, { "Name" = "${var.name}-lambda-${local.az_ids[count.index]}" })
 }
 
 resource "aws_route" "lambda" {

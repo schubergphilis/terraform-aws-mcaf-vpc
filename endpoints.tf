@@ -13,7 +13,7 @@ resource "aws_vpc_endpoint" "codebuild_interface_endpoint" {
   subnet_ids          = var.codebuild_interface_endpoint.subnet_ids
   vpc_endpoint_type   = "Interface"
   vpc_id              = aws_vpc.default.id
-  tags                = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}codebuild-interface-${var.name}" })
+  tags                = merge(var.tags, { "Name" = "codebuild-interface-${var.name}" })
 }
 
 # Resources for the DynamoDB VPC service endpoint
@@ -25,7 +25,7 @@ resource "aws_vpc_endpoint" "dynamodb" {
   service_name      = "com.amazonaws.${data.aws_region.current.region}.dynamodb"
   vpc_endpoint_type = "Gateway"
   vpc_id            = aws_vpc.default.id
-  tags              = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}dynamodb-${var.name}" })
+  tags              = merge(var.tags, { "Name" = "dynamodb-${var.name}" })
 }
 
 # Resources for the EBS VPC interface endpoint
@@ -44,7 +44,7 @@ resource "aws_vpc_endpoint" "ebs_endpoint" {
   subnet_ids          = var.ebs_endpoint.subnet_ids
   vpc_endpoint_type   = "Interface"
   vpc_id              = aws_vpc.default.id
-  tags                = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}ebs-${var.name}" })
+  tags                = merge(var.tags, { "Name" = "ebs-${var.name}" })
 }
 
 
@@ -64,7 +64,7 @@ resource "aws_vpc_endpoint" "ec2_endpoint" {
   subnet_ids          = var.ec2_endpoint.subnet_ids
   vpc_endpoint_type   = "Interface"
   vpc_id              = aws_vpc.default.id
-  tags                = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}ec2-${var.name}" })
+  tags                = merge(var.tags, { "Name" = "ec2-${var.name}" })
 }
 
 # Resources for the EC2 messages VPC interface endpoint
@@ -83,7 +83,7 @@ resource "aws_vpc_endpoint" "ec2messages_endpoint" {
   subnet_ids          = var.ec2messages_endpoint.subnet_ids
   vpc_endpoint_type   = "Interface"
   vpc_id              = aws_vpc.default.id
-  tags                = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}ec2messages-${var.name}" })
+  tags                = merge(var.tags, { "Name" = "ec2messages-${var.name}" })
 }
 
 # Resources for the ECR VPC interface endpoint
@@ -97,7 +97,7 @@ resource "aws_vpc_endpoint" "ecr_api_endpoint" {
   subnet_ids          = var.ecr_api_endpoint.subnet_ids
   vpc_endpoint_type   = "Interface"
   vpc_id              = aws_vpc.default.id
-  tags                = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}ecr-${var.name}" })
+  tags                = merge(var.tags, { "Name" = "ecr-${var.name}" })
 }
 
 resource "aws_vpc_endpoint" "ecr_dkr_endpoint" {
@@ -110,7 +110,7 @@ resource "aws_vpc_endpoint" "ecr_dkr_endpoint" {
   subnet_ids          = var.ecr_api_endpoint.subnet_ids
   vpc_endpoint_type   = "Interface"
   vpc_id              = aws_vpc.default.id
-  tags                = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}ecr-${var.name}" })
+  tags                = merge(var.tags, { "Name" = "ecr-${var.name}" })
 }
 
 # Resources for logs VPC interface endpoint
@@ -124,7 +124,7 @@ resource "aws_vpc_endpoint" "logs_endpoint" {
   subnet_ids          = var.logs_endpoint.subnet_ids
   vpc_endpoint_type   = "Interface"
   vpc_id              = aws_vpc.default.id
-  tags                = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}logs-${var.name}" })
+  tags                = merge(var.tags, { "Name" = "logs-${var.name}" })
 }
 
 # Resources for the MGN VPC interface endpoint
@@ -138,7 +138,7 @@ resource "aws_vpc_endpoint" "mgn_endpoint" {
   subnet_ids          = var.mgn_endpoint.subnet_ids
   vpc_endpoint_type   = "Interface"
   vpc_id              = aws_vpc.default.id
-  tags                = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}mgn-${var.name}" })
+  tags                = merge(var.tags, { "Name" = "mgn-${var.name}" })
 }
 
 # Resources for the S3 VPC service endpoint
@@ -150,7 +150,7 @@ resource "aws_vpc_endpoint" "s3" {
   service_name      = "com.amazonaws.${data.aws_region.current.region}.s3"
   vpc_endpoint_type = "Gateway"
   vpc_id            = aws_vpc.default.id
-  tags              = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}s3-${var.name}" })
+  tags              = merge(var.tags, { "Name" = "s3-${var.name}" })
 }
 
 # Resources for the S3 VPC interface endpoint
@@ -164,7 +164,7 @@ resource "aws_vpc_endpoint" "s3_interface_endpoint" {
   subnet_ids          = var.s3_interface_endpoint.subnet_ids
   vpc_endpoint_type   = "Interface"
   vpc_id              = aws_vpc.default.id
-  tags                = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}s3-interface-${var.name}" })
+  tags                = merge(var.tags, { "Name" = "s3-interface-${var.name}" })
 }
 
 # Resources for the SSM VPC interface endpoint
@@ -183,7 +183,7 @@ resource "aws_vpc_endpoint" "ssm_endpoint" {
   subnet_ids          = var.ssm_endpoint.subnet_ids
   vpc_endpoint_type   = "Interface"
   vpc_id              = aws_vpc.default.id
-  tags                = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}ssm-${var.name}" })
+  tags                = merge(var.tags, { "Name" = "ssm-${var.name}" })
 }
 
 # Resources for the SSM messages VPC interface endpoint
@@ -202,7 +202,7 @@ resource "aws_vpc_endpoint" "ssmmessages_endpoint" {
   subnet_ids          = var.ssmmessages_endpoint.subnet_ids
   vpc_endpoint_type   = "Interface"
   vpc_id              = aws_vpc.default.id
-  tags                = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}ssmmessages-${var.name}" })
+  tags                = merge(var.tags, { "Name" = "ssmmessages-${var.name}" })
 }
 
 # Resources for the Transfer Server VPC interface endpoint
@@ -221,5 +221,5 @@ resource "aws_vpc_endpoint" "transfer_server" {
   subnet_ids          = var.transfer_server.subnet_ids
   vpc_endpoint_type   = "Interface"
   vpc_id              = aws_vpc.default.id
-  tags                = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}transfer-server-${var.name}" })
+  tags                = merge(var.tags, { "Name" = "transfer-server-${var.name}" })
 }
