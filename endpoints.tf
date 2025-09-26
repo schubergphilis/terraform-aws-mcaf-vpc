@@ -4,10 +4,12 @@ locals {
 
 # Resources for the CodeBuild VPC interface endpoint
 resource "aws_vpc_endpoint" "codebuild_interface_endpoint" {
-  count               = var.codebuild_interface_endpoint != null ? 1 : 0
+  count = var.codebuild_interface_endpoint != null ? 1 : 0
+
+  region              = var.region
   private_dns_enabled = var.codebuild_interface_endpoint.private_dns_enabled
   security_group_ids  = var.codebuild_interface_endpoint.security_group_ids
-  service_name        = "com.amazonaws.${data.aws_region.current.name}.codebuild"
+  service_name        = "com.amazonaws.${data.aws_region.current.region}.codebuild"
   subnet_ids          = var.codebuild_interface_endpoint.subnet_ids
   vpc_endpoint_type   = "Interface"
   vpc_id              = aws_vpc.default.id
@@ -16,9 +18,11 @@ resource "aws_vpc_endpoint" "codebuild_interface_endpoint" {
 
 # Resources for the DynamoDB VPC service endpoint
 resource "aws_vpc_endpoint" "dynamodb" {
-  count             = var.private_dynamodb_endpoint ? 1 : 0
+  count = var.private_dynamodb_endpoint ? 1 : 0
+
+  region            = var.region
   route_table_ids   = aws_route_table.private[*].id
-  service_name      = "com.amazonaws.${data.aws_region.current.name}.dynamodb"
+  service_name      = "com.amazonaws.${data.aws_region.current.region}.dynamodb"
   vpc_endpoint_type = "Gateway"
   vpc_id            = aws_vpc.default.id
   tags              = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}dynamodb-${var.name}" })
@@ -31,7 +35,9 @@ data "aws_vpc_endpoint_service" "ebs_endpoint" {
 }
 
 resource "aws_vpc_endpoint" "ebs_endpoint" {
-  count               = var.ebs_endpoint != null ? 1 : 0
+  count = var.ebs_endpoint != null ? 1 : 0
+
+  region              = var.region
   private_dns_enabled = var.ebs_endpoint.private_dns_enabled
   security_group_ids  = var.ebs_endpoint.security_group_ids
   service_name        = data.aws_vpc_endpoint_service.ebs_endpoint[0].service_name
@@ -49,7 +55,9 @@ data "aws_vpc_endpoint_service" "ec2_endpoint" {
 }
 
 resource "aws_vpc_endpoint" "ec2_endpoint" {
-  count               = var.ec2_endpoint != null ? 1 : 0
+  count = var.ec2_endpoint != null ? 1 : 0
+
+  region              = var.region
   private_dns_enabled = var.ec2_endpoint.private_dns_enabled
   security_group_ids  = var.ec2_endpoint.security_group_ids
   service_name        = data.aws_vpc_endpoint_service.ec2_endpoint[0].service_name
@@ -66,7 +74,9 @@ data "aws_vpc_endpoint_service" "ec2messages_endpoint" {
 }
 
 resource "aws_vpc_endpoint" "ec2messages_endpoint" {
-  count               = var.ec2messages_endpoint != null ? 1 : 0
+  count = var.ec2messages_endpoint != null ? 1 : 0
+
+  region              = var.region
   private_dns_enabled = var.ec2messages_endpoint.private_dns_enabled
   security_group_ids  = var.ec2messages_endpoint.security_group_ids
   service_name        = data.aws_vpc_endpoint_service.ec2messages_endpoint[0].service_name
@@ -78,10 +88,12 @@ resource "aws_vpc_endpoint" "ec2messages_endpoint" {
 
 # Resources for the ECR VPC interface endpoint
 resource "aws_vpc_endpoint" "ecr_api_endpoint" {
-  count               = var.ecr_api_endpoint != null ? 1 : 0
+  count = var.ecr_api_endpoint != null ? 1 : 0
+
+  region              = var.region
   private_dns_enabled = var.ecr_api_endpoint.private_dns_enabled
   security_group_ids  = var.ecr_api_endpoint.security_group_ids
-  service_name        = "com.amazonaws.${data.aws_region.current.name}.ecr.api"
+  service_name        = "com.amazonaws.${data.aws_region.current.region}.ecr.api"
   subnet_ids          = var.ecr_api_endpoint.subnet_ids
   vpc_endpoint_type   = "Interface"
   vpc_id              = aws_vpc.default.id
@@ -89,10 +101,12 @@ resource "aws_vpc_endpoint" "ecr_api_endpoint" {
 }
 
 resource "aws_vpc_endpoint" "ecr_dkr_endpoint" {
-  count               = var.ecr_api_endpoint != null ? 1 : 0
+  count = var.ecr_api_endpoint != null ? 1 : 0
+
+  region              = var.region
   private_dns_enabled = var.ecr_api_endpoint.private_dns_enabled
   security_group_ids  = var.ecr_api_endpoint.security_group_ids
-  service_name        = "com.amazonaws.${data.aws_region.current.name}.ecr.dkr"
+  service_name        = "com.amazonaws.${data.aws_region.current.region}.ecr.dkr"
   subnet_ids          = var.ecr_api_endpoint.subnet_ids
   vpc_endpoint_type   = "Interface"
   vpc_id              = aws_vpc.default.id
@@ -101,10 +115,12 @@ resource "aws_vpc_endpoint" "ecr_dkr_endpoint" {
 
 # Resources for logs VPC interface endpoint
 resource "aws_vpc_endpoint" "logs_endpoint" {
-  count               = var.logs_endpoint != null ? 1 : 0
+  count = var.logs_endpoint != null ? 1 : 0
+
+  region              = var.region
   private_dns_enabled = var.logs_endpoint.private_dns_enabled
   security_group_ids  = var.logs_endpoint.security_group_ids
-  service_name        = "com.amazonaws.${data.aws_region.current.name}.logs"
+  service_name        = "com.amazonaws.${data.aws_region.current.region}.logs"
   subnet_ids          = var.logs_endpoint.subnet_ids
   vpc_endpoint_type   = "Interface"
   vpc_id              = aws_vpc.default.id
@@ -113,10 +129,12 @@ resource "aws_vpc_endpoint" "logs_endpoint" {
 
 # Resources for the MGN VPC interface endpoint
 resource "aws_vpc_endpoint" "mgn_endpoint" {
-  count               = var.mgn_endpoint != null ? 1 : 0
+  count = var.mgn_endpoint != null ? 1 : 0
+
+  region              = var.region
   private_dns_enabled = var.mgn_endpoint.private_dns_enabled
   security_group_ids  = var.mgn_endpoint.security_group_ids
-  service_name        = "com.amazonaws.${data.aws_region.current.name}.mgn"
+  service_name        = "com.amazonaws.${data.aws_region.current.region}.mgn"
   subnet_ids          = var.mgn_endpoint.subnet_ids
   vpc_endpoint_type   = "Interface"
   vpc_id              = aws_vpc.default.id
@@ -125,9 +143,11 @@ resource "aws_vpc_endpoint" "mgn_endpoint" {
 
 # Resources for the S3 VPC service endpoint
 resource "aws_vpc_endpoint" "s3" {
-  count             = var.private_s3_endpoint ? 1 : 0
+  count = var.private_s3_endpoint ? 1 : 0
+
+  region            = var.region
   route_table_ids   = local.s3_route_table_ids
-  service_name      = "com.amazonaws.${data.aws_region.current.name}.s3"
+  service_name      = "com.amazonaws.${data.aws_region.current.region}.s3"
   vpc_endpoint_type = "Gateway"
   vpc_id            = aws_vpc.default.id
   tags              = merge(var.tags, { "Name" = "${var.prepend_resource_type ? "endpoint-" : ""}s3-${var.name}" })
@@ -135,10 +155,12 @@ resource "aws_vpc_endpoint" "s3" {
 
 # Resources for the S3 VPC interface endpoint
 resource "aws_vpc_endpoint" "s3_interface_endpoint" {
-  count               = var.s3_interface_endpoint != null ? 1 : 0
+  count = var.s3_interface_endpoint != null ? 1 : 0
+
+  region              = var.region
   private_dns_enabled = false
   security_group_ids  = var.s3_interface_endpoint.security_group_ids
-  service_name        = "com.amazonaws.${data.aws_region.current.name}.s3"
+  service_name        = "com.amazonaws.${data.aws_region.current.region}.s3"
   subnet_ids          = var.s3_interface_endpoint.subnet_ids
   vpc_endpoint_type   = "Interface"
   vpc_id              = aws_vpc.default.id
@@ -152,7 +174,9 @@ data "aws_vpc_endpoint_service" "ssm_endpoint" {
 }
 
 resource "aws_vpc_endpoint" "ssm_endpoint" {
-  count               = var.ssm_endpoint != null ? 1 : 0
+  count = var.ssm_endpoint != null ? 1 : 0
+
+  region              = var.region
   private_dns_enabled = var.ssm_endpoint.private_dns_enabled
   security_group_ids  = var.ssm_endpoint.security_group_ids
   service_name        = data.aws_vpc_endpoint_service.ssm_endpoint[0].service_name
@@ -169,7 +193,9 @@ data "aws_vpc_endpoint_service" "ssmmessages_endpoint" {
 }
 
 resource "aws_vpc_endpoint" "ssmmessages_endpoint" {
-  count               = var.ssmmessages_endpoint != null ? 1 : 0
+  count = var.ssmmessages_endpoint != null ? 1 : 0
+
+  region              = var.region
   private_dns_enabled = var.ssmmessages_endpoint.private_dns_enabled
   security_group_ids  = var.ssmmessages_endpoint.security_group_ids
   service_name        = data.aws_vpc_endpoint_service.ssmmessages_endpoint[0].service_name
@@ -186,7 +212,9 @@ data "aws_vpc_endpoint_service" "transfer_server" {
 }
 
 resource "aws_vpc_endpoint" "transfer_server" {
-  count               = var.transfer_server != null ? 1 : 0
+  count = var.transfer_server != null ? 1 : 0
+
+  region              = var.region
   private_dns_enabled = var.transfer_server.private_dns_enabled
   security_group_ids  = var.transfer_server.security_group_ids
   service_name        = data.aws_vpc_endpoint_service.transfer_server[0].service_name
