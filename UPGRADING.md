@@ -2,6 +2,23 @@
 
 This document captures required refactoring on your part when upgrading to a module version that contains breaking changes.
 
+## Upgrading to v3.0.0
+
+## Key Changes
+
+- This module now requires a minimum AWS provider version of 6.0 to support the `region` parameter. If you are using multiple AWS provider blocks, please read [migrating from multiple provider configurations](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/guides/enhanced-region-support#migrating-from-multiple-provider-configurations).
+- Remove the option to prepend resource type to resource names.
+
+#### Variables
+
+The following variable have been removed:
+
+* `prepend_resource_type`. This variable is not deemed necessary anymore and is assumed unused. Prefixing resources with resources is considered unnecessary and can lead to overly long names.
+
+### Behaviour
+
+The subnet sharing features is refactored which could lead to the recreation of the `aws_ram_resource_association` resources of the subnets.
+
 ## Upgrading to v2.0.0
 
 ### Key Changes
