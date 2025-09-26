@@ -10,7 +10,7 @@ data "aws_iam_policy_document" "flow_logs" {
       "logs:DescribeLogStreams",
     ]
 
-    resources = ["arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:*:*"]
+    resources = ["arn:aws:logs:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:log-group:*:*"]
   }
 }
 
@@ -18,7 +18,7 @@ module "flow_logs_role" {
   count = var.flow_logs_cloudwatch != null ? 1 : 0
 
   source  = "schubergphilis/mcaf-role/aws"
-  version = "~> 0.5.2"
+  version = "~> 0.5.3"
 
   name                  = var.flow_logs_cloudwatch.iam_role_name != null ? "${var.flow_logs_cloudwatch.iam_role_name}${title(var.name)}" : null
   name_prefix           = var.flow_logs_cloudwatch.iam_role_name_prefix != null ? "${var.flow_logs_cloudwatch.iam_role_name_prefix}${title(var.name)}" : null
@@ -34,6 +34,7 @@ module "flow_logs_role" {
 resource "aws_cloudwatch_log_group" "flow_logs" {
   count = var.flow_logs_cloudwatch != null ? 1 : 0
 
+  region            = var.region
   kms_key_id        = var.flow_logs_cloudwatch.kms_key_arn
   name              = try(var.flow_logs_cloudwatch.log_group_name, "vpc-flow-logs-${var.name}")
   retention_in_days = var.flow_logs_cloudwatch.retention_in_days
@@ -43,6 +44,7 @@ resource "aws_cloudwatch_log_group" "flow_logs" {
 resource "aws_flow_log" "flow_logs" {
   count = var.flow_logs_cloudwatch != null ? 1 : 0
 
+  region                   = var.region
   iam_role_arn             = module.flow_logs_role[count.index].arn
   log_destination          = aws_cloudwatch_log_group.flow_logs[count.index].arn
   log_destination_type     = "cloud-watch-logs"

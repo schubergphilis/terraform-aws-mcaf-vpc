@@ -225,6 +225,12 @@ variable "private_s3_endpoint" {
   description = "Deploy an S3 endpoint for your private subnets"
 }
 
+variable "region" {
+  type        = string
+  default     = null
+  description = "The AWS region where resources will be created; if omitted the default provider region is used"
+}
+
 variable "restrict_default_security_group" {
   type        = bool
   default     = true

@@ -27,8 +27,15 @@ locals {
   cidr_blocks = cidrsubnets(aws_vpc.default.cidr_block, local.newbits...)
 }
 
+data "aws_region" "current" {
+  region = var.region
+}
+
+data "aws_caller_identity" "current" {}
+
 #tfsec:ignore:aws-ec2-require-vpc-flow-logs-for-all-vpcs
 resource "aws_vpc" "default" {
+  region               = var.region
   cidr_block           = var.cidr_block
   enable_dns_hostnames = true
   enable_dns_support   = true
@@ -43,13 +50,17 @@ resource "aws_vpc" "default" {
 }
 
 resource "aws_default_security_group" "default" {
-  count  = var.restrict_default_security_group ? 1 : 0
+  count = var.restrict_default_security_group ? 1 : 0
+
+  region = var.region
   vpc_id = aws_vpc.default.id
   tags   = var.tags
 }
 
 resource "aws_internet_gateway" "default" {
-  count  = min(local.public_subnets, 1)
+  count = min(local.public_subnets, 1)
+
+  region = var.region
   vpc_id = aws_vpc.default.id
   tags = merge(
     var.tags,
@@ -59,7 +70,9 @@ resource "aws_internet_gateway" "default" {
 }
 
 resource "aws_eip" "nat" {
-  count  = var.enable_nat_gateway ? local.public_subnets : 0
+  count = var.enable_nat_gateway ? local.public_subnets : 0
+
+  region = var.region
   domain = "vpc"
 
   tags = merge(
@@ -70,7 +83,9 @@ resource "aws_eip" "nat" {
 }
 
 resource "aws_nat_gateway" "default" {
-  count         = var.enable_nat_gateway ? local.public_subnets : 0
+  count = var.enable_nat_gateway ? local.public_subnets : 0
+
+  region        = var.region
   allocation_id = aws_eip.nat[count.index].id
   subnet_id     = aws_subnet.public[count.index].id
 
@@ -81,7 +96,9 @@ resource "aws_nat_gateway" "default" {
 }
 
 resource "aws_subnet" "public" {
-  count                   = local.public_subnets
+  count = local.public_subnets
+
+  region                  = var.region
   cidr_block              = local.cidr_blocks[count.index]
   availability_zone       = var.availability_zones[count.index]
   map_public_ip_on_launch = var.map_public_ip_on_launch
@@ -95,7 +112,9 @@ resource "aws_subnet" "public" {
 }
 
 resource "aws_subnet" "private" {
-  count                   = local.private_subnets
+  count = local.private_subnets
+
+  region                  = var.region
   cidr_block              = local.cidr_blocks[local.public_subnets + count.index]
   availability_zone       = var.availability_zones[count.index]
   map_public_ip_on_launch = false
@@ -109,7 +128,9 @@ resource "aws_subnet" "private" {
 }
 
 resource "aws_subnet" "lambda" {
-  count                   = local.lambda_subnets
+  count = local.lambda_subnets
+
+  region                  = var.region
   cidr_block              = local.cidr_blocks[local.public_subnets + local.private_subnets + count.index]
   availability_zone       = var.availability_zones[count.index]
   map_public_ip_on_launch = false
@@ -122,7 +143,9 @@ resource "aws_subnet" "lambda" {
 }
 
 resource "aws_route_table" "public" {
-  count  = var.shared_public_route_table ? min(local.public_subnets, 1) : local.public_subnets
+  count = var.shared_public_route_table ? min(local.public_subnets, 1) : local.public_subnets
+
+  region = var.region
   vpc_id = aws_vpc.default.id
   tags = merge(
     var.tags,
@@ -133,20 +156,26 @@ resource "aws_route_table" "public" {
 }
 
 resource "aws_route" "public" {
-  count                  = var.shared_public_route_table ? min(local.public_subnets, 1) : local.public_subnets
+  count = var.shared_public_route_table ? min(local.public_subnets, 1) : local.public_subnets
+
+  region                 = var.region
   route_table_id         = aws_route_table.public[count.index].id
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = aws_internet_gateway.default[0].id
 }
 
 resource "aws_route_table_association" "public" {
-  count          = local.public_subnets
+  count = local.public_subnets
+
+  region         = var.region
   subnet_id      = aws_subnet.public[count.index].id
   route_table_id = var.shared_public_route_table ? aws_route_table.public[0].id : aws_route_table.public[count.index].id
 }
 
 resource "aws_route_table" "private" {
-  count  = local.private_subnets
+  count = local.private_subnets
+
+  region = var.region
   vpc_id = aws_vpc.default.id
 
   tags = merge(
@@ -156,20 +185,26 @@ resource "aws_route_table" "private" {
 }
 
 resource "aws_route" "private" {
-  count                  = var.enable_private_default_route && var.enable_nat_gateway && local.private_subnets > 0 && local.public_subnets > 0 ? local.private_subnets : 0
+  count = var.enable_private_default_route && var.enable_nat_gateway && local.private_subnets > 0 && local.public_subnets > 0 ? local.private_subnets : 0
+
+  region                 = var.region
   route_table_id         = aws_route_table.private[count.index].id
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = aws_nat_gateway.default[count.index].id
 }
 
 resource "aws_route_table_association" "private" {
-  count          = local.private_subnets
+  count = local.private_subnets
+
+  region         = var.region
   subnet_id      = aws_subnet.private[count.index].id
   route_table_id = aws_route_table.private[count.index].id
 }
 
 resource "aws_route_table" "lambda" {
-  count  = local.lambda_subnets
+  count = local.lambda_subnets
+
+  region = var.region
   vpc_id = aws_vpc.default.id
 
   tags = merge(
@@ -179,14 +214,18 @@ resource "aws_route_table" "lambda" {
 }
 
 resource "aws_route" "lambda" {
-  count                  = var.enable_nat_gateway && local.lambda_subnets > 0 && local.public_subnets > 0 ? local.lambda_subnets : 0
+  count = var.enable_nat_gateway && local.lambda_subnets > 0 && local.public_subnets > 0 ? local.lambda_subnets : 0
+
+  region                 = var.region
   route_table_id         = aws_route_table.lambda[count.index].id
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = aws_nat_gateway.default[count.index].id
 }
 
 resource "aws_route_table_association" "lambda" {
-  count          = local.lambda_subnets
+  count = local.lambda_subnets
+
+  region         = var.region
   subnet_id      = aws_subnet.lambda[count.index].id
   route_table_id = aws_route_table.lambda[count.index].id
 }
