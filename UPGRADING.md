@@ -14,6 +14,11 @@ This document captures required refactoring on your part when upgrading to a mod
 The following variable have been removed:
 
 * `prepend_resource_type`. This variable is not deemed necessary anymore and is assumed unused. Prefixing resources with resources is considered unnecessary and can lead to overly long names.
+* `flow_logs_s3`:
+  - `kms_key_arn` is now optional. Although it is highly recommended to use a KMS key to encrypt VPC Flow Logs, it is no longer enforced.
+* `flow_logs_cloudwatch`:
+  - `kms_key_arn` is now optional. Although it is highly recommended to use a KMS key to encrypt VPC Flow Logs, it is no longer enforced.
+
 
 ### Behaviour
 
