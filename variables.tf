@@ -86,7 +86,7 @@ variable "enable_private_default_route" {
 variable "flow_logs_s3" {
   type = object({
     bucket_name              = optional(string)
-    kms_key_arn              = string
+    kms_key_arn              = optional(string)
     log_destination          = optional(string)
     log_format               = optional(string)
     max_aggregation_interval = optional(number, 60)
@@ -115,7 +115,7 @@ variable "flow_logs_cloudwatch" {
     iam_role_postfix             = optional(bool, true)
     iam_role_path                = optional(string, "/")
     iam_role_permission_boundary = optional(string)
-    kms_key_arn                  = string
+    kms_key_arn                  = optional(string)
     log_format                   = optional(string)
     log_group_name               = optional(string)
     max_aggregation_interval     = optional(number, 60)
