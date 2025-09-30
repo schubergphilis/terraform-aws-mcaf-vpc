@@ -20,8 +20,8 @@ module "flow_logs_role" {
   source  = "schubergphilis/mcaf-role/aws"
   version = "~> 0.5.3"
 
-  name                  = var.flow_logs_cloudwatch.iam_role_name != null ? "${var.flow_logs_cloudwatch.iam_role_name}${title(var.name)}" : null
-  name_prefix           = var.flow_logs_cloudwatch.iam_role_name_prefix != null ? "${var.flow_logs_cloudwatch.iam_role_name_prefix}${title(var.name)}" : null
+  name                  = var.flow_logs_cloudwatch.iam_role_name != null ? var.flow_logs_cloudwatch.iam_role_name : null
+  name_prefix           = var.flow_logs_cloudwatch.iam_role_name_prefix != null ? var.flow_logs_cloudwatch.iam_role_name_prefix : null
   path                  = var.flow_logs_cloudwatch.iam_role_path
   permissions_boundary  = var.flow_logs_cloudwatch.iam_role_permission_boundary
   postfix               = var.flow_logs_cloudwatch.iam_role_postfix
