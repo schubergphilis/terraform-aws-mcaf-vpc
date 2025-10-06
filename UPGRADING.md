@@ -19,6 +19,13 @@ The following variable have been removed:
 * `flow_logs_cloudwatch`:
   - `kms_key_arn` is now optional. Although it is highly recommended to use a KMS key to encrypt VPC Flow Logs, it is no longer enforced.
 
+The following variables have been modified:
+
+- `flow_logs_s3`:
+  - `kms_key_arn` is now optional since [Cloudwatch log groups are encrypted by default]https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/encrypt-log-data-kms.html).
+
+- `flow_logs`:
+  - `kms_key_arn` is now optional since [Cloudwatch log groups are encrypted by default]https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/encrypt-log-data-kms.html).
 
 ### Behaviour
 
