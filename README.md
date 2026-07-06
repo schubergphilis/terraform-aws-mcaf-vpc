@@ -1,3 +1,9 @@
+<!-- migrate-repo:banner -->
+> [!IMPORTANT]
+> **This repository has moved to [`schubergphilis-ep/terraform-aws-mcaf-vpc`](https://github.com/schubergphilis-ep/terraform-aws-mcaf-vpc).**
+> Please update your references and use the new location for issues, PRs, and contributions.
+<!-- migrate-repo:banner -->
+
 # mcaf-terraform-aws-vpc
 
 This module creates a VPC layout with private, public and lambda
